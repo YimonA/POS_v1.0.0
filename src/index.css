@@ -1,0 +1,509 @@
+@import url("https://fonts.googleapis.com/css2?family=Genos:wght@700&family=Montserrat:wght@500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --base-color: #202124;
+  --font-color: #8ab4f8;
+  --sidebar-color: #161618;
+  --secondary-color: #e8eaed;
+  --gray-color: #7e7f80;
+  --border-color: #3f4245;
+  --logo-font: "Genos", sans-serif;
+  --base-font: "Montserrat", serif;
+}
+
+.get-h{
+  min-height: 100vh;
+  background-color: #111827;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--base-color);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  font-family: var(--base-font);
+}
+.sidebar-height {
+  height: calc(100vh - 45px);
+}
+
+.glass-login {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.text-title-logo {
+  font-family: "Genos", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+/* login check */
+.css-8ms9g2-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+  color: var(--font-color);
+}
+
+.mantine-1fholi4 {
+  margin: 0;
+}
+
+.mantine-1k9itrp {
+  margin: auto;
+}
+.mantine-5xkobz {
+  border: none;
+  font-family: var(--base-font);
+  font-size: 18px;
+  font-weight: 500;
+}
+.mantine-1v32taa {
+  color: var(--font-color);
+}
+
+.mantine-15is8t6,
+.mantine-19pz3dh {
+  background-color: var(--base-color);
+  color: var(--secondary-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.mantine-1g34wzq,
+.mantine-1v7s5f8,
+.mantine-gszoqu,
+.mantine-15vtssg {
+  background-color: var(--base-color);
+  border-radius: 5px;
+}
+.mantine-gszoqu,
+.mantine-15vtssg {
+  color: var(--secondary-color);
+}
+.mantine-UnstyledButton-root:hover {
+  background-color: var(--base-color);
+}
+
+.mantine-UnstyledButton-root > svg {
+  color: var(--secondary-color);
+}
+/* for steper
+.mantine-1y0dcw0 {
+  color: #fff;
+}
+.mantine-egbnkr{
+  color: #fff;
+  border: 1px solid var(--border-color);
+  background-color: var(--sidebar-color);
+}
+.mantine-cpetpa {
+  border-color: var(--border-color);
+} */
+
+@layer components {
+  .mb-50 {
+    @apply mb-[50px];
+  }
+
+  .btn-border-table-grid {
+    @apply rounded-[5px] border border-[#7E7F80];
+  }
+  .li-bg {
+    @apply h-[56px] py-2 bg-[var(--sidebar-color)] flex justify-start items-center px-5 select-none border-[1px] border-[--border-color];
+  }
+  .li-bg:hover {
+    background-color: var(--base-color);
+  }
+  /* .li-bg:active > p {
+    color: var(--font-color);
+  }
+  .li-bg > p {
+    color: var(--secondary-color);
+  } */
+
+  .li-text {
+    @apply text-sm bg-[var(--sidebar-color)] text-[var(--secondary-color)] font-medium flex justify-start items-center px-5;
+  }
+  .myBtn:hover .myBtnGroup {
+    opacity: 1;
+  }
+  .myBtnGroup {
+    opacity: 0;
+  }
+  .myBlueBtn {
+    @apply bg-[var(--font-color)] text-[var(--base-color)] border-[1px] border-[var(--border-color)] rounded-[5px];
+  }
+  .accordion-bg {
+    @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)] select-none;
+  }
+
+  .accordion-bg:hover {
+    @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)];
+  }
+
+  .media-img {
+    @apply w-[160px] h-[150px] object-cover object-center rounded-[5px] cursor-pointer;
+  }
+  .breadcrumb-title {
+    @apply font-semibold	text-[22px] text-white mb-2 select-none;
+  }
+
+  /* for myStepper */
+  .step-circle {
+    @apply w-[45px] h-[45px] border-2 rounded-full flex justify-center items-center text-[12px] font-semibold;
+  }
+
+  .current-step {
+    @apply border-[var(--font-color)] bg-[var(--sidebar-color)] text-[var(--font-color)];
+  }
+  .prev-step {
+    @apply border-[var(--font-color)] bg-[var(--font-color)] text-[var(--base-color)];
+  }
+  .next-step {
+    @apply border-[var(--border-color)] bg-[var(--sidebar-color)] text-white;
+  }
+  .step-text {
+    @apply text-white font-medium text-[12px];
+  }
+  .step-line-prev {
+    @apply bg-[var(--font-color)];
+  }
+  .step-line-next {
+    @apply bg-[var(--border-color)];
+  }
+  .brand-dropdown {
+    @apply w-[380px] h-[50px] bg-[var(--base-color)] border border-[var(--border-color)] rounded-[5px] text-[var(--secondary-color)] text-[16px] font-medium px-4 py-1;
+  }
+  .recent-dropdown {
+    @apply w-[100px] h-[30px] bg-[var(--base-color)] border border-[var(--border-color)] text-[var(--secondary-color)] text-[16px] font-medium px-1 py-1;
+  }
+
+  .calculator-btn{
+    @apply basis-1/4 w-[100px] h-[60px] border-[1px] border-[var(--border-color)] text-[16px] font-semibold flex justify-center items-center;
+  }
+}
+
+.li-bg:hover,
+.li-text:hover {
+  cursor: pointer;
+}
+
+.mantine-1xx95jg,
+.mantine-qa5af0 {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 30px;
+  opacity: 0.7;
+  user-select: none;
+}
+
+/* date input */
+.mantine-1fzet7j{
+  display: none;
+height: 30px;
+}
+
+
+/* Sidebar Accordion */
+.mantine-15l0h0l,
+.mantine-15l0h0l,
+.mantine-1h0npq1 {
+  background-color: var(--sidebar-color);
+  border-color: var(--border-color);
+}
+/* recent drop  */
+.recent-dropDrown .mantine-Select-wrapper {
+  display: flex;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border-color);
+}
+
+.recent-dropDrown {
+  position: relative;
+}
+
+.recent-dropDrown .mantine-Select-wrapper .mantine-Select-input {
+  color: var(--secondary-color);
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  width: 80px;
+  text-align: center;
+  padding-left: 4px;
+  outline: none;
+}
+
+.brand-dropDrown .mantine-Select-wrapper .mantine-Select-input {
+  color: var(--secondary-color);
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  width: 320px;
+  text-align: start;
+  padding: 4px 20px;
+  outline: none;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--border-color);
+}
+
+.recent-dropDrown .mantine-Select-dropdown {
+  position: absolute;
+  top: 0px;
+  background-color: rgb(49, 49, 49);
+  color: var(--secondary-color);
+  font-size: 14px;
+  padding: 0;
+  font-weight: 500;
+  border-top: none;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+}
+
+.recent-dropDrown .mantine-Select-dropdown .mantine-Select-item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 4px 0px 4px 10px;
+}
+
+.recent-dropDrown .mantine-Select-dropdown .mantine-Select-itemsWrapper {
+  padding: 0px;
+}
+
+/* MediaTableCell bg */
+.css-quj9j6-MuiTable-root {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--base-color);
+}
+
+/* MediaTableCellFont color */
+.css-1ygcj2i-MuiTableCell-root,
+.css-1azl6jz-MuiTableCell-root,
+.css-1ex1afd-MuiTableCell-root,
+.css-177gid-MuiTableCell-root {
+  color: var(--secondary-color) !important;
+}
+
+.mantine-1xk8bhn {
+  border: 1px solid var(--border-color);
+}
+
+/* .bg-dark-opacity {
+    @apply absolute bg-[--sidebar-color] opacity-5 inset-0;
+  } */
+
+.mantine-Tabs-tabLabel {
+  color: white;
+}
+
+.mantine-UnstyledButton-root {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mantine-Tabs-tabsList {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  padding-left: 70px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(139, 139, 139);
+}
+
+.mantine-Tabs-panel {
+  padding-left: 70px;
+  background-color: #191919;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+button[data-active="true"] {
+  font-weight: 700;
+}
+
+button[data-active="true"] .mlb {
+  color: rgb(212, 212, 212);
+}
+
+.edit {
+  position: absolute;
+  background-color: rgb(233, 234, 234);
+  z-index: 1000;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+}
+
+.myImg {
+  object-fit: cover;
+}
+
+.myfooter {
+  position: fixed;
+  bottom: 0px;
+}
+
+.custom-h {
+  height: calc(100vh + 250px);
+}
+
+.fakeRadio {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgb(95, 95, 95);
+}
+
+.activeR {
+  background-color: rgb(60, 60, 60);
+}
+
+.male:checked ~ span {
+  background-color: rgb(73, 73, 73);
+}
+
+.female:checked ~ span {
+  background-color: rgb(73, 73, 73);
+}
+
+.custom-offcanvas {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -300px;
+  transition: all 0.4s ease-out;
+}
+
+.openAni {
+  transform: translateX(-300px);
+}
+
+.tab-list [type="button"]:hover {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.custom-select .mantine-Select-wrapper {
+  display: flex;
+  width: 70px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(106, 106, 106);
+}
+
+.custom-select {
+  position: relative;
+}
+
+.custom-select .mantine-Select-wrapper .mantine-Select-input {
+  color: rgb(222, 222, 222);
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  width: 45px;
+  text-align: center;
+  padding-left: 4px;
+  outline: none;
+}
+
+.custom-select .mantine-Select-dropdown {
+  position: absolute;
+  top: 0px;
+  background-color: rgb(49, 49, 49);
+  color: rgb(222, 222, 222);
+  font-size: 14px;
+  padding: 0;
+  font-weight: 500;
+  border-top: none;
+  border: 1px solid rgb(106, 106, 106);
+  border-bottom: none;
+}
+
+.custom-select .mantine-Select-dropdown .mantine-Select-item {
+  border-bottom: 1px solid rgb(106, 106, 106);
+  padding-left: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.custom-select .mantine-Select-dropdown .mantine-Select-itemsWrapper {
+  padding: 0px;
+}
+
+.h-brand {
+  min-height: calc(100vh + 180px);
+}
+
+.h-edit-profile {
+  min-height: calc(100vh + 230px);
+}
+
+.h-pEdit {
+  min-height: calc(100vh + 300px);
+}
+
+.myModal .mantine-UnstyledButton-root {
+  padding-left: 0;
+  padding-right: 0;
+  display: block;
+}
+
+.myModal .mantine-UnstyledButton-root .mantine-Button-inner {
+  display: block;
+}
+
+.myModal
+  .mantine-UnstyledButton-root
+  .mantine-Button-inner
+  .mantine-Button-label {
+  height: auto;
+}
+
+.myModal .mantine-Modal-inner .mantine-Modal-header {
+  justify-content: space-between;
+}
+
+.mantine-Modal-inner
+  .mantine-Modal-content
+  .mantine-Modal-header
+  .mantine-Modal-title {
+  margin-left: 20px;
+  font-size: larger;
+}
+
+.mantine-Modal-inner .mantine-Modal-content .mantine-Modal-body {
+  padding: 0;
+}
+
+.keypad button:not(.selected):hover{
+  background-color: #131922;
+}
+
+.selected span{
+  color: rgb(53, 53, 53);
+}
+
+.shop-list li:hover{
+  background-color: #131922;
+}
+
+.active-list{
+  border: 1.5px solid rgb(132, 132, 133);
+}
+
