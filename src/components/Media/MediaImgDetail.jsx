@@ -115,7 +115,7 @@ const MediaImgDetail = ({show, imgIndex, imgDetail, imgs }) => {
               size={"1.5rem"}
             />
             <img
-              src={pictureDetail.url}
+              src={pictureDetail?.url}
               className="w-[320px] h-[300px]"
               alt=""
             />

@@ -10,7 +10,14 @@ export const brandApi = createApi({
   endpoints: (builder) => ({
     getBrands: builder.query({
       query: (token) => ({
-        url: "/brand",
+        url: `/brand`,        
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["brand"],
+    }),
+    getBrandsPerPage: builder.query({
+      query: ({token,pgNum}) => ({
+        url: `/brand?page=${pgNum}`,        
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["brand"],
@@ -18,4 +25,6 @@ export const brandApi = createApi({
   }),
 });
 
-export const { useGetBrandsQuery } = brandApi;
+export const { useGetBrandsQuery,useGetBrandsPerPageQuery } = brandApi;
+
+//        // url: `/brand?page=${}`,

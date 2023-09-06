@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
 
-const AddProductSelectImg = () => {
+const CreateUserSelectImg = () => {
   const { liHandler, setShowModal, setPhoto } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
@@ -22,13 +22,18 @@ const AddProductSelectImg = () => {
     setShowModal(false);
   };
 
+  const selectImgHandler=()=>{
+    liHandler("media");
+    setShowModal(false);
+  }
+
   return (
     <div className="w-[900px] h-[500px] flex flex-col justify-center items-center gap-10 px-5 ">
       <div className="h-[400px] flex flex-wrap gap-5 justify-start items-center 
       ">
          {/* overflow-y-scroll */}
         {/* Upload img start */}
-        <div onClick={() => liHandler("media")} className=" cursor-pointer">
+        <div onClick={selectImgHandler} className=" cursor-pointer">
           <Link to={"/media"}>
             <div className="w-[150px] h-[140px] bg-black flex flex-col justify-center items-center gap-3 border border-[var(--border-color)]">
               <div className=" w-[100px] h-[100px] rounded-full bg-[var(--gray-color)] opacity-5 absolute -top-[25%] -left-[25%]"></div>
@@ -80,4 +85,4 @@ const AddProductSelectImg = () => {
   );
 };
 
-export default AddProductSelectImg;
+export default CreateUserSelectImg;

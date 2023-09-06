@@ -63,7 +63,7 @@ const Daily = () => {
               valueFormat="YYYY-MM-DD"
               label="chose Date"
               placeholder="Date"
-              // value={cDate}FF
+              // value={cDate}
               // onChange={setCDate}
               maw={400}
               mx="auto"

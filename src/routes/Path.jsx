@@ -30,6 +30,7 @@ import Daily from "../components/Finance/Daily";
 import Monthly from "../components/Finance/Monthly";
 import Yearly from "../components/Finance/Yearly";
 import Custom from "../components/Finance/Custom";
+import { useContextCustom } from "../context/stateContext";
 
 // import Products from "../components/Products";
 // import StockControl from "../components/StockControl";
@@ -37,6 +38,9 @@ import Custom from "../components/Finance/Custom";
 // import Cashier from "../components/Cashier";
 
 const Path = () => {
+  const {brandPgNum,setBrandPgNum}=useContextCustom();
+
+
   return (
     <div>
       <Routes>

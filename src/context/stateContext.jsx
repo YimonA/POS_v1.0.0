@@ -39,7 +39,21 @@ export const StateContextProvider = ({ children }) => {
   };
 
   //for profile data
-  const [profileData,setProfileData]=useState(null);
+  const [profileData,setProfileData]=useState({});
+
+  //pagi
+  // const [brandPgNum,setBrandPgNum]=useState(1);
+
+  //for user info
+  const[uName,setUName]=useState();
+  const[uDOB,setUDOB]=useState();
+  const[uGender,setUGender]=useState();
+  const[uAddress,setUAddress]=useState();
+  const[uPosition,setUPosition]=useState();
+  const[uEmail,setUEmail]=useState();
+  const[uPhone,setUPhone]=useState();
+  const[uPassword,setUPassword]=useState();
+  const[uConfirmPassword,setUConfirmPassword]=useState();
 
   const data = {
     productName,
@@ -52,7 +66,11 @@ export const StateContextProvider = ({ children }) => {
     setProductInfo,
     stock,
     setStock,
-    actualPrice,setActualPrice,salePrice,setSalePrice,photo,setPhoto,showModal,setShowModal,nextStepperHandler,current,setCurrent,liHandler,sidebarActived,setSidebarActived
+    actualPrice,setActualPrice,salePrice,setSalePrice,photo,setPhoto,showModal,setShowModal,nextStepperHandler,current,setCurrent,liHandler,sidebarActived,setSidebarActived,
+    profileData,setProfileData,
+
+    uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword
+    // brandPgNum,setBrandPgNum
   };
 
   return <StateContext.Provider value={data}>{children}</StateContext.Provider>;

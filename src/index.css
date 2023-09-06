@@ -99,18 +99,18 @@ body {
 .mantine-UnstyledButton-root > svg {
   color: var(--secondary-color);
 }
-/* for steper
-.mantine-1y0dcw0 {
-  color: #fff;
+
+/* for radio btn */
+.mantine-1svz3tp{
+  color: var(--secondary-color);
 }
-.mantine-egbnkr{
-  color: #fff;
-  border: 1px solid var(--border-color);
-  background-color: var(--sidebar-color);
+
+.mantine-1803iis{
+  color: var(--font-color)
 }
-.mantine-cpetpa {
-  border-color: var(--border-color);
-} */
+.mantine-1cu6yj8:checked{
+  background-color: var(--font-color)
+}
 
 @layer components {
   .mb-50 {

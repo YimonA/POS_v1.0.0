@@ -23,13 +23,14 @@ const UserOverview = () => {
 
   useEffect(() => {
     dispatch(addUsers({users: data}));
-    // console.log("data", data);
+    console.log("data", data);
     // console.log("users", users);
   }, [data]);
 
-  const profileDetailHandler=(userId)=>{
+  const profileDetailHandler=(user)=>{
+    setProfileData(user);
     liHandler("my account");
-    setProfileData(userId);
+    console.log('user',user)
   }
 
   return (
@@ -153,7 +154,7 @@ const UserOverview = () => {
                     </button>
 
                     <Link to={"/user-profile"}>
-                      <button onClick={()=>profileDetailHandler(user?.id)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                      <button onClick={()=>profileDetailHandler(user)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsArrowRight
                           size={"1rem"}
                           className="text-[var(--secondary-color)]"

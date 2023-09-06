@@ -4,10 +4,16 @@ import { BsArrowRightShort } from "react-icons/bs";
 
 const CreateUserContactInfo = () => {
   const {
-    actualPrice,
-    setActualPrice,
-    salePrice,
-    setSalePrice,
+    uPosition,
+    setUPosition,
+    uEmail,
+    setUEmail,
+    uPhone,
+    setUPhone,
+    uPassword,
+    setUPassword,
+    uConfirmPassword,
+    setUConfirmPassword,
     nextStepperHandler,
   } = useContextCustom();
 
@@ -20,12 +26,12 @@ const CreateUserContactInfo = () => {
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Actual Price
+              Position{" "}
             </label>
             <input
               type="text"
-              value={actualPrice}
-              onChange={(e) => setActualPrice(e.target.value)}
+              value={uPosition}
+              onChange={(e) => setUPosition(e.target.value)}
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -35,22 +41,64 @@ const CreateUserContactInfo = () => {
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Sale Price
+              Email{" "}
             </label>
             <input
               type="text"
-              value={salePrice}
-              onChange={(e) => setSalePrice(e.target.value)}
-              placeholder="100000"
+              value={uEmail}
+              onChange={(e) => setUEmail(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
+
+          <div className=" flex justify-start items-start">
+            <label
+              htmlFor=""
+              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
+            >
+Phone            </label>
+            <input
+              type="text"
+              value={uEmail}
+              onChange={(e) => setUPhone(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start">
+            <label
+              htmlFor=""
+              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              value={uEmail}
+              onChange={(e) => setUPassword(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start">
+            <label
+              htmlFor=""
+              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              value={uEmail}
+              onChange={(e) => setUConfirmPassword(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+
         </form>
       </div>
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
         <CreateUserStepper />
         <button
-          onClick={nextStepperHandler}
+          onClick={()=>nextStepperHandler(3)}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />

@@ -4,38 +4,38 @@ import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useState } from "react";
-import { addBrands } from "../../redux/services/brandSlice";
+import { useEffect } from "react";
+import { addUsers } from "../../redux/services/userSlice";
+import { DateInput } from "@mantine/dates";
+import { Group, Radio } from "@mantine/core";
 
 const CreateUserInfo = () => {
   const {
-    productName,
-    setProductName,
-    brand,
-    setBrand,
-    unit,
-    setUnit,
-    productInfo,
-    setProductInfo,
-    stock,
-    setStock,
+    uName,
+    setUName,
+    uDOB,
+    setUDOB,
+    uGender,
+    setUGender,
+    uAddress,
+    setUAddress,
     nextStepperHandler,
   } = useContextCustom();
   const token = Cookies.get("token");
   const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
-  const brands = useSelector((state) => state.brandSlice.brands);
+  const users = useSelector((state) => state.userSlice.users);
   // console.log("brand", data);
   // console.log("bbbrand", brands);
 
   useEffect(() => {
-    dispatch(addBrands({ brands: data?.data }));
+    dispatch(addUsers({ users: data?.data }));
   }, [data]);
 
-  const nextHandler = () => {
+  const nextHandler = (endpoint) => {
     // const ppp=dispatch(addProduct)
-    nextStepperHandler();
+    nextStepperHandler(endpoint);
   };
 
   // useMemo(() => {
@@ -59,84 +59,64 @@ const CreateUserInfo = () => {
             </label>
             <input
               type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              placeholder="Product Name"
-              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />{" "}
-          </div>
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Brand
-            </label>
-            <select
-              name="brand"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              className="brand-dropdown brand-select "
-            >
-              {brands?.map((brand) => {
-                return (
-                  <option
-                    key={brand?.id}
-                    value={brand?.id}
-                    className="brand-dropdown"
-                  >
-                    {brand?.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Stock
-            </label>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              placeholder=""
+              value={uName}
+              onChange={(e) => setUName(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
-          </div>{" "}
+          </div>
           <div className=" flex justify-start items-start">
             <label
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Unit
+              Date of Birth
             </label>
-            <select
-              name="unit"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
-              className="brand-dropdown "
-            >
-              <option value="single" className="brand-dropdown brand-option">
-                single
-              </option>
-              <option value="dozen" className="brand-dropdown brand-option">
-                dozen{" "}
-              </option>
-            </select>
-          </div>{" "}
+            <DateInput
+              valueFormat="DD-MM-YYYY"
+              label="chose Date"
+              placeholder="DOB"
+              value={uDOB}
+              onChange={setUDOB}
+              maw={400}
+              mx="auto"
+              className="w-[380px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
+            />
+          </div>
+
           <div className=" flex justify-start items-start">
             <label
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              More Info
+              Gender
+            </label>
+            <Radio.Group name="gender" withAsterisk>
+              <Group mt="xs">
+                <Radio
+                  checked={uGender}
+                  onChange={(e) => setUGender(e.target.value)}
+                  value="male"
+                  label="Male"
+                />
+                <Radio
+                  checked={uGender}
+                  onChange={(e) => setUGender(e.target.value)}
+                  value="female"
+                  label="Female"
+                />
+              </Group>
+            </Radio.Group>
+          </div>
+          <div className=" flex justify-start items-start">
+            <label
+              htmlFor=""
+              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
+            >
+              Address
             </label>
             <textarea
-              value={productInfo}
-              onChange={(e) => setProductInfo(e.target.value)}
+              value={uAddress}
+              onChange={(e) => setUAddress(e.target.value)}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -146,7 +126,7 @@ const CreateUserInfo = () => {
           <CreateUserStepper />
           <button
             type="submit"
-            // onClick={nextStepperHandler}
+            onClick={()=>nextStepperHandler(3)}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />

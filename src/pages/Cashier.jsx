@@ -51,22 +51,22 @@ const Cashier = () => {
           </div>
           {/* product card start*/}
           <div className=" flex flex-wrap gap-10 p-5">
-            {products?.map((product, index) => {
+            {products?.map((product) => {
               return (
                 <div
                   key={product?.id}
-                  className="w-[200px] h-[300px] flex flex-col  "
+                  className="w-[170px] h-[180px] flex flex-col border-[1px] border-[var(--border-color)] rounded-[5px] "
                 >
                   <img
                     src={product?.photo}
-                    className="w-[200px] h-[200px] object-cover object-center"
+                    className="w-[170px] h-[120px] object-cover object-center"
                     alt=""
                   />
-                  <div className=" border-[1px] border-[var(--border-color)] rounded-[5px] pt-2">
+                  <div className=" pt-2">
                     <p className=" text-[14px] text-[var(--secondary-color)] px-5 font-normal text-right">
                       {product?.name}
                     </p>
-                    <p className=" text-[14px] text-[var(--gray-color)] px-5 font-normal text-right">
+                    <p className=" text-[14px] text-white opacity-70 px-5 font-normal text-right">
                       {product?.sale_price} Ks
                     </p>
                   </div>

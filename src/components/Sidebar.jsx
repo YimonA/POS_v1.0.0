@@ -23,7 +23,7 @@ const Sidebar = () => {
   // const getColor = (color) =>
   //   theme.colors[color][theme.colorScheme === "dark" ? 5 : 7];
 
-  const { setCurrent, liHandler, sidebarActived } = useContextCustom();
+  const { setCurrent, liHandler, sidebarActived,brandPgNum} = useContextCustom();
 
   const token = Cookies.get("token");
   const [logout] = useLogoutMutation();
@@ -36,7 +36,6 @@ const Sidebar = () => {
   };
 
   const logoutHandler = async () => {
-    liHandler("logout");
     const data = await logout(token);
     dispatch(removeUser());
     if (data) {
@@ -171,7 +170,7 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            <Link to={"/brand"} onClick={() => liHandler("brand")}>
+            <Link to={`/brand`} onClick={() => liHandler("brand")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
