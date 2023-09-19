@@ -4,7 +4,7 @@ import {PiPencilSimpleLineBold} from "react-icons/pi";
 
 
 const ProductDetail = () => {
-  const { liHandler } = useContextCustom();
+  const { liHandler ,pdata} = useContextCustom();
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -25,12 +25,15 @@ const ProductDetail = () => {
               Products Overview
             </button>
           </Link>
+          <Link to={`/product-edit/${pdata?.id}`}>
+
           <button
             onClick={() => liHandler("products")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
             Edit Product
-          </button>{" "}
+          </button>          </Link>
+
         </div>
       </div>
             {/* Breadcrumg end */}
@@ -43,18 +46,14 @@ const ProductDetail = () => {
           <div className=" flex justify-between items-center border-b-2 border-b-[var(--border-color)]">
             <div className="relative py-10">
               <img
-                // src={photo}
+                src={pdata?.photo}
                 className="-mt-[70px] w-[140px] h-[140px] rounded-full  flex justify-center items-center object-cover object-center"
               />
-              <div className="absolute bottom-[40px] right-3 w-[30px] h-[30px] rounded-full bg-white flex justify-center items-center">
-                <PiPencilSimpleLineBold />
-              </div>
             </div>
 
             <div>
-              <h1 className=" text-[26px] text-white font-semibold">
-                Water {/* {productName} */}
-              </h1>
+              <h1 className=" text-[26px] text-white font-semibold me-28">
+{pdata?.name}              </h1>
             </div>
           </div>
           
@@ -68,18 +67,19 @@ const ProductDetail = () => {
                 More Information
               </p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Sale Price</p>
-              <p className=" font-medium text-[18px] text-[#B9B9B9]">Actual Price</p>
+              {/* <p className=" font-medium text-[18px] text-[#B9B9B9]">Actual Price</p> */}
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
-              {/* <p className=" font-medium text-[18px] text-white">
-                : {productName}
-              </p>
-              <p className=" font-medium text-[18px] text-white">: {brand}</p>
-              <p className=" font-medium text-[18px] text-white">: {stock}</p>
-              <p className=" font-medium text-[18px] text-white">: {unit}</p>
               <p className=" font-medium text-[18px] text-white">
-                : {productInfo}
-              </p> */}
+                : {pdata?.brand_name}
+              </p>
+              <p className=" font-medium text-[18px] text-white">: {pdata?.total_stock}</p>
+              <p className=" font-medium text-[18px] text-white">: {pdata?.unit}</p>
+              <p className=" font-medium text-[18px] text-white">: {pdata?.more_information}</p>
+              <p className=" font-medium text-[18px] text-white">
+                : {pdata?.sale_price}
+              </p>
+              
             </div>
           </div>
         </div>

@@ -1,25 +1,17 @@
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./EditProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useGetBrandsQuery } from "../redux/api/brandApi";
+import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect} from "react";
-import { addBrands } from "../redux/services/brandSlice";
+import { addBrands } from "../../redux/services/brandSlice";
 
 const EditProductInfo = () => {
   const {
-    productName,
-    setProductName,
-    brand,
-    setBrand,
-    unit,
-    setUnit,
-    productInfo,
-    setProductInfo,
-    stock,
-    setStock,
-    nextStepperHandler,
+    editProduct,
+    setEditUnit,setEditBrand,setEditStock,setEditProductName,setEditProductInfo,
+    nextStepperHandler
   } = useContextCustom();
   const token = Cookies.get("token");
   const { data } = useGetBrandsQuery(token);
@@ -27,7 +19,7 @@ const EditProductInfo = () => {
   const dispatch = useDispatch();
   const brands = useSelector((state) => state.brandSlice.brands);
   // console.log("brand", data);
-  // console.log("bbbrand", brands);
+  console.log("pData", editProduct);
 
   useEffect(() => {
     dispatch(addBrands({ brands: data?.data }));
@@ -35,7 +27,7 @@ const EditProductInfo = () => {
 
   const nextHandler = () => {
     // const ppp=dispatch(addProduct)
-    nextStepperHandler(3);
+    nextStepperHandler(4);
   };
 
   return (
@@ -55,8 +47,8 @@ const EditProductInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={productName}
-              onChange={(e) => setProductName(e.target.value)}
+              defaultValue={editProduct?.name}
+              onChange={(e) => setEditProductName(e.target.value)}
               placeholder="Product Name"
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />{" "}
@@ -70,8 +62,8 @@ const EditProductInfo = () => {
             </label>
             <select
               name="brand"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
+              value={editProduct?.brand_name}
+              onChange={(e) => setEditBrand(e.target.value)}
               className="brand-dropdown brand-select "
             >
               {brands?.map((brand) => {
@@ -96,8 +88,8 @@ const EditProductInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={stock}
-              onChange={(e) => setStock(e.target.value)}
+              defaultValue={editProduct?.total_stock}
+              onChange={(e) => setEditStock(e.target.value)}
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -111,8 +103,8 @@ const EditProductInfo = () => {
             </label>
             <select
               name="unit"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
+              value={editProduct?.unit}
+              onChange={(e) => setEditUnit(e.target.value)}
               className="brand-dropdown "
             >
               <option value="single" className="brand-dropdown brand-option">
@@ -131,8 +123,8 @@ const EditProductInfo = () => {
               More Info
             </label>
             <textarea
-              defaultValue={productInfo}
-              onChange={(e) => setProductInfo(e.target.value)}
+              defaultValue={editProduct?.more_information}
+              onChange={(e) => setEditProductInfo(e.target.value)}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -142,7 +134,7 @@ const EditProductInfo = () => {
           <AddProductStepper />
           <button
             type="submit"
-            // onClick={nextStepperHandler}
+            // onClick={()=>nextStepperHandler(2)}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />

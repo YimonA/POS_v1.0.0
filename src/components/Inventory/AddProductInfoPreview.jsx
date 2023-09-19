@@ -10,21 +10,13 @@ import { useMemo } from "react";
 const AddProductInfoPreview = () => {
   const {
     productName,
-    setProductName,
     brand,
-    setBrand,
     unit,
-    setUnit,
     productInfo,
-    setProductInfo,
     stock,
-    setStock,
     actualPrice,
-    setActualPrice,
     salePrice,
-    setSalePrice,
     photo,
-    setPhoto,
     setShowModal,
   } = useContextCustom();
   const [addProduct] = useAddProductMutation();

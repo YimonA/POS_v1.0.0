@@ -202,7 +202,7 @@ const Sidebar = () => {
                 Report
               </p>
             </Accordion.Control>
-            <Link to={"/stock"} onClick={() => liHandler("stock")}>
+            <Link to={"/report-stock"} onClick={() => liHandler("stock")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
@@ -216,7 +216,7 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            <Link to={"/sale"} onClick={() => liHandler("sale")}>
+            <Link to={"/report-sale"} onClick={() => liHandler("sale")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
@@ -351,7 +351,7 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            <Link to={"/user-edit"} onClick={() => liHandler("edit")}>
+            {/* <Link to={"/user-edit"} onClick={() => liHandler("edit")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
@@ -364,7 +364,7 @@ const Sidebar = () => {
                   Edit User
                 </p>
               </Accordion.Panel>
-            </Link>
+            </Link> */}
             <Link to={"/banned-user"} onClick={() => liHandler("user banned")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
@@ -419,7 +419,7 @@ const Sidebar = () => {
                 Profile
               </p>
             </Accordion.Control>
-            <Link to={"/user-profile"} onClick={() => liHandler("my account")}>
+            <Link to={"/my-profile"} onClick={() => liHandler("my account")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
@@ -433,7 +433,20 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            
+            <Link to={"/profile-edit"} onClick={() => liHandler("edit")}>
+              <Accordion.Panel className="accordion-bg li-text">
+                <p
+                  className={`${
+                    sidebarActived === "edit"
+                      ? "text-[var(--font-color)]"
+                      : "text-[var(--secondary-color)]"
+                  } text-sm font-['Montserrat'] font-medium `}
+                >
+                  <Dot className="z-20" />
+                  Edit
+                </p>
+              </Accordion.Panel>
+            </Link>
           </Accordion.Item>
         </Accordion>
         {/* profile end */}

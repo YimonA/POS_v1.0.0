@@ -59,7 +59,7 @@ const CreateUserContactInfo = () => {
 Phone            </label>
             <input
               type="text"
-              value={uEmail}
+              value={uPhone}
               onChange={(e) => setUPhone(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -73,7 +73,7 @@ Phone            </label>
             </label>
             <input
               type="password"
-              value={uEmail}
+              value={uPassword}
               onChange={(e) => setUPassword(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -87,7 +87,7 @@ Phone            </label>
             </label>
             <input
               type="password"
-              value={uEmail}
+              value={uConfirmPassword}
               onChange={(e) => setUConfirmPassword(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />

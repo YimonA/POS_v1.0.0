@@ -15,23 +15,22 @@ import { useEffect } from "react";
 import { addUsers } from "../../redux/services/userSlice";
 
 const UserOverview = () => {
-  const { liHandler,setProfileData } = useContextCustom();
+  const { liHandler, setProfileData } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetUsersQuery(token);
   const users = useSelector((state) => state.userSlice.users);
 
   useEffect(() => {
-    dispatch(addUsers({users: data}));
+    dispatch(addUsers({ users: data }));
     console.log("data", data);
     // console.log("users", users);
   }, [data]);
 
-  const profileDetailHandler=(user)=>{
+  const profileDetailHandler = (user) => {
     setProfileData(user);
-    liHandler("my account");
-    console.log('user',user)
-  }
+    console.log("user", user);
+  };
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -127,10 +126,7 @@ const UserOverview = () => {
         <tbody className=" text-gray-100">
           {users?.map((user, index) => {
             return (
-              <tr
-                key={user?.id}
-                className=" border-b border-b-gray-700"
-              >
+              <tr key={user?.id} className=" border-b border-b-gray-700">
                 <td className="px-1 text-center  py-4">{index + 1}</td>
                 <td className="px-1 text-end py-4 ">{user?.name}</td>
                 <td className="px-1 text-end py-4">{user?.role}</td>
@@ -140,21 +136,29 @@ const UserOverview = () => {
 
                 <td className="px-1 py-4 text-end">
                   <div className=" pe-20 flex justify-end items-center gap-2 z-20">
-                    <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                      <BiMinus
-                        size={"1.3rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
-                    <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                      <BsPencil
-                        size={"0.8rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
+                    <Link to={"/banned-user"}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
+                        <BiMinus
+                          size={"1.3rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                    </Link>
+
+                    <Link to={"/user-edit"}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                        <BsPencil
+                          size={"0.8rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                    </Link>
 
                     <Link to={"/user-profile"}>
-                      <button onClick={()=>profileDetailHandler(user)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                      <button
+                        onClick={() => profileDetailHandler(user)}
+                        className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                      >
                         <BsArrowRight
                           size={"1rem"}
                           className="text-[var(--secondary-color)]"

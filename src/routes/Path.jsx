@@ -7,12 +7,13 @@ import Error from "../pages/Error";
 import Media from "../components/Media/Media";
 import MediaImgDetail from '../components/Media/MediaImgDetail';
 
-import Account from "../components/Profile/Account";
+import MyAccount from "../components/Profile/MyAccount";
 
 import EditAccount from "../components/User/EditAccount";
 import UserOverview from '../components/User/UserOverview';
 import CreateUser from '../components/User/CreateUser';
 import BannedUser from "../components/User/BannedUser"
+import UserAccount from "../components/User/UserAccount"
 
 import AddProduct from "../components/Inventory/AddProduct";
 import Products from "../components/Inventory/Products";
@@ -30,7 +31,9 @@ import Daily from "../components/Finance/Daily";
 import Monthly from "../components/Finance/Monthly";
 import Yearly from "../components/Finance/Yearly";
 import Custom from "../components/Finance/Custom";
-import { useContextCustom } from "../context/stateContext";
+
+import SaleReport from "../components/Report/SaleReport";
+import StockReport from "../components/Report/StockReport";
 
 // import Products from "../components/Products";
 // import StockControl from "../components/StockControl";
@@ -38,7 +41,6 @@ import { useContextCustom } from "../context/stateContext";
 // import Cashier from "../components/Cashier";
 
 const Path = () => {
-  const {brandPgNum,setBrandPgNum}=useContextCustom();
 
 
   return (
@@ -55,13 +57,14 @@ const Path = () => {
         {/* sale routes start*/}
 
         <Route
-          path="/user-profile"
-          element={<Dashboard view={<Account />} />}
+          path="/my-profile"
+          element={<Dashboard view={<MyAccount />} />}
         />
-        <Route
-          path="/user-edit"
+        {/* <Route
+          path="/profile-edit"
           element={<Dashboard view={<EditAccount />} />}
-        />
+        /> */}
+        
         
         {/* profile routes start*/}
 
@@ -77,6 +80,13 @@ const Path = () => {
           path="/user-overview"
           element={<Dashboard view={<UserOverview />} />}
         />
+        <Route
+          path="/user-edit"
+          element={<Dashboard view={<EditAccount />} />}
+        />
+        <Route
+          path="/user-profile"
+          element={<Dashboard view={<UserAccount />} />}/>
         <Route
           path="/create-user"
           element={<Dashboard view={<CreateUser />} />}
@@ -98,7 +108,7 @@ const Path = () => {
           element={<Dashboard view={<ProductDetail />} />}
         />
         <Route
-          path="/product-edit"
+          path="/product-edit/:id"
           element={<Dashboard view={<ProductEdit />} />}
         />
         <Route path="/stock-control" element={<Dashboard view={<Stock />} />} />
@@ -109,16 +119,17 @@ const Path = () => {
         <Route path="/recent" element={<Dashboard view={<Recent />} />} />
         {/* sale routes start*/}
 
-         {/*
+        
         <Route
-          path="/stock"
-          element={<Dashboard view={<StockList />} />}
+          path="/report-stock"
+          element={<Dashboard view={<StockReport />} />}
         />
+      
         <Route
-          path="/sale"
-          element={<Dashboard view={<Sale />} />}
+          path="/report-sale"
+          element={<Dashboard view={<SaleReport />} />}
         />
-                */}
+
 
         {/* finance routes start*/}
         <Route path="/finance-daily" element={<Dashboard view={<Daily />} />} />

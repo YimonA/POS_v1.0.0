@@ -52,7 +52,7 @@ const Login = () => {
                 console.log(data?.data?.token);
                 console.log(data);
 
-                dispatch(addUser({ token: data?.data?.token }));
+                dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
 
                 if (data?.data?.token) {
                   nav("/");

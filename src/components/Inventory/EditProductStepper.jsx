@@ -1,4 +1,4 @@
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 
 const EditProductStepper = () => {
   const { current } = useContextCustom();

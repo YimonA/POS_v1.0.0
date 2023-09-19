@@ -1,14 +1,28 @@
-import React from "react";
-import {BsSearch} from "react-icons/bs"
-import {BsPlusLg} from "react-icons/bs"
+import React, { useEffect } from "react";
+import { BsSearch } from "react-icons/bs";
+import { BsPlusLg } from "react-icons/bs";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";import { useContextCustom } from "../../context/stateContext";
+import { MdArrowForwardIos } from "react-icons/md";
+import { useContextCustom } from "../../context/stateContext";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { addBannedUsers } from "../../redux/services/userSlice";
+import { useGetBannedUsersQuery } from "../../redux/api/userApi";
 
 const BannedUser = () => {
-    const {liHandler} =useContextCustom();
+  const { liHandler } = useContextCustom();
+  const token = Cookies.get("token");
+  const dispatch = useDispatch();
+  const { data } = useGetBannedUsersQuery(token);
+  const bannedStaff = useSelector((state) => state.userSlice.bannedUsers);
+  console.log("ddd", data);
+  console.log("bannedStaff", bannedStaff);
 
+  useEffect(() => {
+    dispatch(addBannedUsers({ photos: data?.data }));
+  }, [data]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -19,8 +33,7 @@ const BannedUser = () => {
             User / Banned User Overview
           </p>
         </div>
-        <Link
-         to={"/create-user"}>
+        <Link to={"/create-user"}>
           <button
             onClick={() => liHandler("user create")}
             className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex justify-center items-center gap-2"
@@ -115,15 +128,15 @@ const BannedUser = () => {
                 </td>
                 <td className="px-1 text-end py-4">{photo.user_name}</td>
                 
-                <td className="px-1 pe-4 py-4 text-end">{photo?.fileSize}</td> */}
+                <td className="px-1 pe-4 py-4 text-end">{photo?.fileSize}</td>
 
           <td>
-          <button
-              className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px]"
-            >Restore</button>
+            <button className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px]">
+              Restore
+            </button>
           </td>
-          {/* </tr>
-            );
+          </tr>
+            )
           })} */}
         </tbody>
       </table>

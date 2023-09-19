@@ -61,7 +61,7 @@ const MediaGrid = ({ imgs }) => {
         return (
           <Button
             key={photo.id}
-            className={` w-[200px] h-[150px] rounded-[5px] bg-white bg-center bg-cover myBtn`}
+            className={` w-[200px] h-[150px] rounded-[5px] bg-center bg-cover myBtn`}
           >
             <img
               src={photo?.url}

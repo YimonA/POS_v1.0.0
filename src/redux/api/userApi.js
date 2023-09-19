@@ -24,7 +24,22 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    getBannedUsers: builder.query({
+      query: (token) => ({
+        url: "/banned-user",
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["user"],
+    }),
+    restoreUser: builder.mutation({
+      query: ({ id, token }) => ({
+        url: `/restore/${id}`,
+        method: "POST",
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
-export const { useAddUserMutation, useGetUsersQuery } = userApi;
+export const { useAddUserMutation, useGetUsersQuery,useGetBannedUsersQuery,useRestoreUserMutation } = userApi;

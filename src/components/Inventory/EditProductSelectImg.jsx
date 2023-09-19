@@ -2,7 +2,7 @@ import { FiUploadCloud } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 
 const EditProductSelectImg = () => {
   const { liHandler, setShowModal, setPhoto } = useContextCustom();

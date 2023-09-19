@@ -1,11 +1,11 @@
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { MdOutlinePhotoLibrary } from "react-icons/md";
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 
 const EditProductPhotoUpload = () => {
-  const { setShowModal, nextStepperHandler, photo, setPhoto } =
+  const { setShowModal, nextStepperHandler, photo, setPhoto,editProduct } =
     useContextCustom();
 
   const photoUploadHandler = () => {
@@ -18,7 +18,7 @@ const EditProductPhotoUpload = () => {
         <p className=" text-white text-[16px] font-semibold">Upload Photo</p>
         {photo ? (
           <img
-            src={photo}
+            src={editProduct.photo}
             alt=""
             className=" relative w-[180px] h-[180px] border-[3px] rounded-full flex justify-center items-center cursor-pointer"
           />
@@ -45,7 +45,7 @@ const EditProductPhotoUpload = () => {
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
         <AddProductStepper />
         <button
-          onClick={nextStepperHandler}
+          onClick={()=>nextStepperHandler(4)}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />

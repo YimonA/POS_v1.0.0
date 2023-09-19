@@ -13,13 +13,13 @@ export const StateContextProvider = ({ children }) => {
   
   // for add product
 
-  const [productName, setProductName] = useState('table');
-  const [brand, setBrand] = useState('');
-  const [unit, setUnit] = useState('single');
-  const [productInfo, setProductInfo] = useState('ddd');
+  const [productName, setProductName] = useState();
+  const [brand, setBrand] = useState();
+  const [unit, setUnit] = useState();
+  const [productInfo, setProductInfo] = useState();
   const [stock, setStock] = useState(3);
-  const [actualPrice, setActualPrice] = useState(400);
-  const [salePrice, setSalePrice] = useState(600);
+  const [actualPrice, setActualPrice] = useState();
+  const [salePrice, setSalePrice] = useState();
   const [photo,setPhoto]=useState(null);
 
   const nextStepperHandler = (endpoint) => {
@@ -45,16 +45,31 @@ export const StateContextProvider = ({ children }) => {
   // const [brandPgNum,setBrandPgNum]=useState(1);
 
   //for user info
-  const[uName,setUName]=useState();
-  const[uDOB,setUDOB]=useState();
-  const[uGender,setUGender]=useState();
-  const[uAddress,setUAddress]=useState();
-  const[uPosition,setUPosition]=useState();
-  const[uEmail,setUEmail]=useState();
-  const[uPhone,setUPhone]=useState();
-  const[uPassword,setUPassword]=useState();
-  const[uConfirmPassword,setUConfirmPassword]=useState();
+  const[uName,setUName]=useState('ma ma');
+  const[uDOB,setUDOB]=useState('2/2/1990');
+  const[uGender,setUGender]=useState('female');
+  const[uAddress,setUAddress]=useState('ygn');
+  const[uPosition,setUPosition]=useState('sale');
+  const[uEmail,setUEmail]=useState('mama@gmail.com');
+  const[uPhone,setUPhone]=useState('098888889');
+  const[uPassword,setUPassword]=useState('mama1234');
+  const[uConfirmPassword,setUConfirmPassword]=useState('mama1234');
+  const[uPhoto,setUPhoto]=useState('https://h.mmsdev.site/storage/photos/7lmPwtTkHZlfeEsRyzd1e73S0x5LFDoysKWeZifU.jpg');
 
+  //for product detail
+  const[pdata,setPData]=useState();
+
+  const [editProductName, setEditProductName] = useState();
+  const [editBrand, setEditBrand] = useState();
+  const [editUnit, setEditUnit] = useState();
+  const [editProductInfo, setEditProductInfo] = useState();
+  const [editStock, setEditStock] = useState(3);
+  // const [actualPrice, setActualPrice] = useState();
+  const [editSalePrice, setEditSalePrice] = useState();
+  const [editPhoto,setEditPhoto]=useState(null);
+
+
+const[editProduct,setEditProduct]=useState();
   const data = {
     productName,
     setProductName,
@@ -69,7 +84,23 @@ export const StateContextProvider = ({ children }) => {
     actualPrice,setActualPrice,salePrice,setSalePrice,photo,setPhoto,showModal,setShowModal,nextStepperHandler,current,setCurrent,liHandler,sidebarActived,setSidebarActived,
     profileData,setProfileData,
 
-    uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword
+    uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword,uPhoto,setUPhoto,
+
+    pdata,setPData,editProduct,setEditProduct,
+
+    editProductName,
+    setEditProductName,
+    editBrand,
+    setEditBrand,
+    editUnit,
+    setEditUnit,
+    editProductInfo,
+    setEditProductInfo,
+    editStock,
+    setEditStock,
+    // actualPrice,setActualPrice,
+    editSalePrice,
+    setEditSalePrice,editPhoto,setEditPhoto,
     // brandPgNum,setBrandPgNum
   };
 

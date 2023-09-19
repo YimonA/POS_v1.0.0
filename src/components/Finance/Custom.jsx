@@ -2,16 +2,47 @@
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { BsArrowRight } from "react-icons/bs";
 import { DateInput } from "@mantine/dates";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Custom = () => {
+  const token = Cookies.get("token");
   const { liHandler } = useContextCustom();
   const [sortValue, setSortValue] = useState();
+  const [startDate, setStartDate] = useState();
+  const [startDateTag, setStartDateTag] = useState(null);
+  const [endDateTag, setEndDateTag] = useState(null);
+  const [endDate, setEndDate] = useState();
+  const [cRecords, setCRecords] = useState();
+
+  useEffect(() => {
+    const a = startDate?.toISOString().slice(0, 10);
+    const b = endDate?.toISOString().slice(0, 10);
+    setStartDateTag(a);
+    setEndDateTag(b);
+    console.log("start", startDateTag, endDateTag);
+  }, [startDate, endDate]);
+
+  const fetchData = async () => {
+    const data = await axios({
+      method: "get",
+      url: `https://h.mmsdev.site/api/v1/custom_sale_records?start_date=${startDateTag}&end_date=${endDateTag}`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "finance",
+    });
+    const cData = await JSON.parse(data?.data);
+    setCRecords(cData?.data);
+    setStartDate(null);
+    setEndDate(null);
+    console.log("data", cData);
+    console.log("dd", cRecords);
+  };
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -35,8 +66,13 @@ const Custom = () => {
       {/* Breadcrumg end */}
 
       <div className=" flex justify-between items-center py-5">
-      <p className="breadcrumb-title	">Today Sale Overview</p>
-      <div className=" flex items-baseline gap-4">
+        <p className="breadcrumb-title	">
+          {startDateTag && endDateTag
+            ? `From ${startDateTag} to ${endDateTag}`
+            : ""}{" "}
+          Sale Overview
+        </p>
+        <div className=" flex items-baseline gap-4">
           <select
             placeholder="Export"
             name="sort"
@@ -44,7 +80,7 @@ const Custom = () => {
             onChange={(e) => setSortValue(e.target.value)}
             className="recent-dropdown "
           >
-            <option value="" className="hidden">
+            <option value="" className="recent-dropdown hidden">
               Export
             </option>
             <option value="last" className="recent-dropdown">
@@ -60,20 +96,20 @@ const Custom = () => {
           <div className=" flex justify-start items-baseline gap-2">
             <DateInput
               valueFormat="YYYY-MM-DD"
-              label="chose Date"
+              label="choose Date"
               placeholder="Date"
-              // value={cDate}FF
-              // onChange={setCDate}
+              value={startDate}
+              onChange={setStartDate}
               maw={400}
               mx="auto"
               className="w-[120px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
             />
             <DateInput
               valueFormat="YYYY-MM-DD"
-              label="chose Date"
+              label="ch0ose Date"
               placeholder="Date"
-              // value={cDate}FF
-              // onChange={setCDate}
+              value={endDate}
+              onChange={setEndDate}
               maw={400}
               mx="auto"
               className="w-[120px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
@@ -81,7 +117,7 @@ const Custom = () => {
           </div>
 
           <button
-            onClick={() => liHandler("cashier")}
+            onClick={fetchData}
             className="w-[40px] h-[30px] font-semibold text-[16px] myBlueBtn flex justify-center items-center"
           >
             <BsSearch className=" text-[var(--sidebar-color)]" />
@@ -117,30 +153,34 @@ const Custom = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className=" ">
-            <td className="px-1 text-center  py-4">1</td>
-            <td className="px-1 text-end py-4">09465</td>
-            <td className="px-1 text-end py-4">100000</td>
-            <td className="px-1 py-4 text-end">100</td>
-            <td className="px-1 py-4 text-end">100100</td>
-            <td className="px-1 py-4 text-end">12/7/2023</td>
-            <td className=" px-1 py-4 text-end">10:00 AM</td>
-            <td className=" pe-5 py-4 text-end">
-              <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                <BsArrowRight
-                  size={"1rem"}
-                  className="text-[var(--secondary-color)]"
-                />
-              </span>
-            </td>
-          </tr>
+          {cRecords?.map((record, index) => {
+            return (
+              <tr key={record?.id} className=" ">
+                <td className="px-1 text-center  py-4">{index+1}</td>
+                <td className="px-1 text-end py-4">{record?.voucher}</td>
+                <td className="px-1 text-end py-4">{record?.cash}</td>
+                <td className="px-1 py-4 text-end">{record?.tax}</td>
+                <td className="px-1 py-4 text-end">{record?.total}</td>
+                <td className="px-1 py-4 text-end"></td>
+                <td className=" px-1 py-4 text-end">{record?.time}</td>
+                <td className=" pe-5 py-4 text-end">
+                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    <BsArrowRight
+                      size={"1rem"}
+                      className="text-[var(--secondary-color)]"
+                    />
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* showList end */}
 
       <div className="w-full flex justify-between items-end h-[60px] gap-5">
         {/* total calculate start*/}
-        <div className=" flex justify-start items-center basis-2/3">
+        {/* <div className=" flex justify-start items-center basis-2/3">
           <div
             className={`text-[var(--secondary-color)] btn-border-table-grid px-5 py-3 flex flex-col justify-end basis-1/4`}
           >
@@ -182,7 +222,7 @@ const Custom = () => {
               3,100,000
             </p>
           </div>
-        </div>
+        </div> */}
         {/* total calculate end*/}
 
         {/* pagination start */}

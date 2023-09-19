@@ -16,7 +16,9 @@ import { useContextCustom } from "../../context/stateContext";
 import axios from "axios";
 
 const Brand = () => {
-  const { brandPgNum, setBrandPgNum } = useContextCustom();
+  const [prev, setPrev] = useState();
+  const [next, setNext] = useState();
+
   const [brandPageData, setBrandPageData] = useState(null);
   // const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
@@ -38,40 +40,13 @@ const Brand = () => {
       responseType: "stream",
     });
     const bdata = JSON.parse(data?.request?.response);
-    console.log("axios", JSON.parse(data?.request?.response));
+    console.log("jbd", bdata);
+    setPrev(bdata.links.prev);
+    setNext(bdata.links.next);
+
     setBrandPageData(bdata.data);
     console.log("bd", brandPageData);
   };
-
-  // const handleNext = () => {
-  //   if (page === pageCount) return page;
-  //   setPage(page + 1);
-  //   window.scroll(0, 0);
-  // };
-
-  // const handlePrevious = () => {
-  //   if (page === 1) return page;
-  //   setPage(page - 1);
-  //   window.scroll(0, 0);
-  // };
-
-  //for data fetching
-  // useEffect(() => {
-  //   fetchData(url);
-  // }, [currentPage]);
-
-  //for pagination
-  // useEffect(() => {
-  //   const pageDataCount = Math.ceil(clients.length / 10); //    20/10=2
-  //   setPageCount(pageDataCount); // 2pages
-
-  //   if (page) {
-  //     const LIMIT = 10;
-  //     const skip = LIMIT * page; //10*1 10*2
-  //     const dataSkip = clients.slice(page === 1 ? "0" : skip - LIMIT, skip);
-  //     setPageData(dataSkip);
-  //   }
-  // }, [clients]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -258,30 +233,41 @@ const Brand = () => {
 
       {/* pagination start*/}
       <div>
-        <Button.Group className=" border-[--border-color] pt-20 flex justify-end">
-          {data?.meta?.links.map((link) => {
+        <Button.Group className="  pt-20 flex justify-end">
+          <Button
+            onClick={() => fetchData(prev)}
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowBackIosNew />
+          </Button>
+          {data?.meta?.links?.map((link) => {
             return (
               <Button
                 key={link?.label}
                 onClick={() => fetchData(link?.url)}
                 variant="default"
-                className={`
+                className={`${link?.label == "Next &raquo;" ? 'hidden' : ""} ${
+                  link?.label == "&laquo; Previous" ? "hidden" : ""
+                }
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
               >
-                {link?.label === "Next &raquo;" ? <MdArrowForwardIos /> : ""}
-                {link?.label === "&laquo; Previous" ? (
-                  <MdArrowBackIosNew />
-                ) : (
-                  ""
-                )}
                 {link?.label !== "Next &raquo;" &&
                 link?.label !== "&laquo; Previous"
                   ? link?.label
                   : ""}
               </Button>
-              
             );
           })}
+          <Button
+            onClick={() => fetchData(next)}
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowForwardIos />
+          </Button>
         </Button.Group>
       </div>
       {/* pagination end*/}

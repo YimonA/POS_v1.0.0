@@ -2,17 +2,40 @@
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { BsArrowRight } from "react-icons/bs";
 import { DateInput } from "@mantine/dates";
-// import { BiExport } from "react-icons/bi";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Daily = () => {
   const { liHandler } = useContextCustom();
-  const [sortValue, setSortValue] = useState();
+  const token = Cookies.get("token");
+  const [dRecords, setDRecords] = useState();
+  const [date, setDate] = useState(null);
+  const [dateTag, setDateTag] = useState(null);
+
+  useEffect(() => {
+    const a=date?.toISOString().slice(0, 10);
+    setDateTag(a);
+  }, [date]);
+
+  const fetchData = async () => {
+    const data  = await axios({
+      method: "get",
+      url: `https://h.mmsdev.site/api/v1/daily_sale_records?date=${dateTag}`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "finance",
+    });
+    const dData = await JSON.parse(data?.data);
+    setDRecords(dData);
+    setDate(null);
+    console.log("data", data);
+    console.log("dd", dData);
+  };
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -36,16 +59,16 @@ const Daily = () => {
       {/* Breadcrumg end */}
 
       <div className=" flex justify-between items-center py-5">
-        <p className="breadcrumb-title	">Today Sale Overview</p>
+        <p className="breadcrumb-title	">{dateTag? dateTag : 'Today'} Sale Overview</p>
         <div className=" flex items-baseline gap-4">
           <select
             placeholder="Export"
             name="sort"
-            value={sortValue}
-            onChange={(e) => setSortValue(e.target.value)}
+            // value={sortValue}
+            // onChange={(e) => setSortValue(e.target.value)}
             className="recent-dropdown "
           >
-            <option value="" className="hidden">
+            <option value="" className="recent-dropdown hidden">
               Export
             </option>
             <option value="last" className="recent-dropdown">
@@ -58,13 +81,14 @@ const Daily = () => {
               Copy
             </option>
           </select>
+
           <div>
             <DateInput
               valueFormat="YYYY-MM-DD"
-              label="chose Date"
+              label="choose Date"
               placeholder="Date"
-              // value={cDate}
-              // onChange={setCDate}
+              value={date}
+              onChange={setDate}
               maw={400}
               mx="auto"
               className="w-[120px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
@@ -72,7 +96,7 @@ const Daily = () => {
           </div>
 
           <button
-            onClick={() => liHandler("cashier")}
+            onClick={fetchData}
             className="w-[40px] h-[30px] font-semibold text-[16px] myBlueBtn flex justify-center items-center"
           >
             <BsSearch className=" text-[var(--sidebar-color)]" />
@@ -108,23 +132,50 @@ const Daily = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className=" ">
-            <td className="px-1 text-center  py-4">1</td>
-            <td className="px-1 text-end py-4">09465</td>
-            <td className="px-1 text-end py-4">100000</td>
-            <td className="px-1 py-4 text-end">100</td>
-            <td className="px-1 py-4 text-end">100100</td>
-            <td className="px-1 py-4 text-end">12/7/2023</td>
-            <td className=" px-1 py-4 text-end">10:00 AM</td>
-            <td className=" pe-5 py-4 text-end">
-              <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                <BsArrowRight
-                  size={"1rem"}
-                  className="text-[var(--secondary-color)]"
-                />
-              </span>
-            </td>
-          </tr>
+          {/* {dailySaleRecords?
+          dailySaleRecords?.today_sale_overview?.map((record, index) => {
+            return (
+              <tr className=" " key={record?.id}>
+                <td className="px-1 text-center  py-4">{index + 1}</td>
+                <td className="px-1 text-end py-4">{record?.voucher}</td>
+                <td className="px-1 text-end py-4">{record?.item_count}</td>
+                <td className="px-1 py-4 text-end">{record?.tax}</td>
+                <td className="px-1 py-4 text-end">{record?.total}</td>
+                <td className="px-1 py-4 text-end">{12/7/2023}</td>
+                <td className=" px-1 py-4 text-end">{record?.time}</td>
+                <td className=" pe-5 py-4 text-end">
+                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    <BsArrowRight
+                      size={"1rem"}
+                      className="text-[var(--secondary-color)]"
+                    />
+                  </span>
+                </td>
+              </tr>
+            );
+          }):''
+          } */}
+          {dRecords?.today_sale_overview?.map((record, index) => {
+            return (
+              <tr className=" " key={record?.id}>
+                <td className="px-1 text-center  py-4">{index + 1}</td>
+                <td className="px-1 text-end py-4">{record?.voucher}</td>
+                <td className="px-1 text-end py-4">{record?.cash}</td>
+                <td className="px-1 py-4 text-end">{record?.tax}</td>
+                <td className="px-1 py-4 text-end">{record?.total}</td>
+                <td className="px-1 py-4 text-end">{dateTag}</td>
+                <td className=" px-1 py-4 text-end">{record?.time}</td>
+                <td className=" pe-5 py-4 text-end">
+                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    <BsArrowRight
+                      size={"1rem"}
+                      className="text-[var(--secondary-color)]"
+                    />
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* showList end */}
@@ -139,7 +190,7 @@ const Daily = () => {
               Total Voucher
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              20
+              {dRecords?.total_vouchers}
             </p>
           </div>
 
@@ -150,7 +201,7 @@ const Daily = () => {
               Total Cash
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              3,000,000
+              {dRecords?.total_cash}
             </p>
           </div>
           <div
@@ -160,7 +211,7 @@ const Daily = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              100,000
+              {dRecords?.total_tax}
             </p>
           </div>
           <div
@@ -170,10 +221,10 @@ const Daily = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              3,100,000
+              {dRecords?.total}
             </p>
           </div>
-        </div>
+        </div> 
         {/* total calculate end*/}
 
         {/* pagination start */}

@@ -38,9 +38,10 @@ const CreateUserInfo = () => {
     nextStepperHandler(endpoint);
   };
 
-  // useMemo(() => {
-  //   console.log("first", brand);
-  // }, [brand]);
+  useEffect(() => {
+    console.log("dob", uDOB);
+    // console.log("1", uDOB?.toLocalDateString('mm'));
+  }, [uDOB]);
 
   return (
     <div className=" ">
@@ -71,7 +72,7 @@ const CreateUserInfo = () => {
             >
               Date of Birth
             </label>
-            <DateInput
+            {/* <DateInput
               valueFormat="DD-MM-YYYY"
               label="chose Date"
               placeholder="DOB"
@@ -80,7 +81,7 @@ const CreateUserInfo = () => {
               maw={400}
               mx="auto"
               className="w-[380px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
-            />
+            /> */}
           </div>
 
           <div className=" flex justify-start items-start">

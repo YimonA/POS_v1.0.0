@@ -95,7 +95,7 @@ const MediaTable = ({ imgs }) => {
                 </td>
                 <td className="px-1 text-end py-4">{photo.user_name}</td>
                 <td className="px-1 py-4 text-end">{photo?.extension}</td>
-                <td className="px-1 pe-4 py-4 text-end">{photo?.fileSize}</td>
+                <td className="px-1 pe-4 py-4 text-end">{Math.ceil(Number(photo?.fileSize)/1028)} MB</td>
 
                 <td>
                   <div className="w-[60px] mx-auto flex justify-end items-center gap-2 z-20">

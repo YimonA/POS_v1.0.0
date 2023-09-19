@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 
 const initialState = {
   users: null,
+  bannedUsers:null,
+
 };
 
 export const userSlice = createSlice({
@@ -13,8 +15,12 @@ export const userSlice = createSlice({
       (state.users = payload.users),
         Cookies.set("users", JSON.stringify(state.users));
     },
+    addBannedUsers: (state, { payload }) => {
+      (state.bannedUsers = payload.bannedUsers),
+        Cookies.set("bannedUsers", JSON.stringify(state.bannedUsers));
+    },
   },
 });
 
-export const { addUsers } = userSlice.actions;
+export const { addUsers,addBannedUsers } = userSlice.actions;
 export default userSlice.reducer;

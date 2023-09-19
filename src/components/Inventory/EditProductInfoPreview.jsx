@@ -1,41 +1,41 @@
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { PiStorefrontDuotone } from "react-icons/pi";
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useAddProductMutation } from "../redux/api/productApi";
+import { useAddProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
 import { useMemo } from "react";
 
 const EditProductInfoPreview = () => {
   const {
-    productName,
+    editProductName,
     setProductName,
-    brand,
+    editBrand,
     setBrand,
-    unit,setUnit,
-    productInfo,setProductInfo,
-    stock,setStock,
+    editUnit,setUnit,
+    editProductInfo,setProductInfo,
+    editStock,setStock,
     actualPrice,setActualPrice,
-    salePrice,setSalePrice,
-    photo,setPhoto,
-    setShowModal
+    editSalePrice,setSalePrice,
+    editPhoto,setPhoto,
+    setShowModal,
   } = useContextCustom();
-  const [addProduct] = useAddProductMutation();
+  const [editProduct] = useAddProductMutation();
 
   const createProductHandler = async () => {
     const token = Cookies.get("token");
     const product = {
-      name: productName,
-      brand_id: brand,
-      unit: unit,
-      more_information: productInfo,
-      // stock: Number(stock),
+      name: editProductName,
+      brand_id: editBrand,
+      unit: editUnit,
+      more_information: editProductInfo,
+      stock: Number(editStock),
       actual_price: Number(actualPrice),
-      sale_price: Number(salePrice),
-      photo: photo,
+      sale_price: Number(editSalePrice),
+      photo: editPhoto,
     };
-    const data = await addProduct({ product, token });
+    const data = await editProduct({ product, token });
     console.log("dddd", data);
     console.log("pppp", product);
 
@@ -57,7 +57,7 @@ const EditProductInfoPreview = () => {
           <div className=" flex justify-between items-center">
             <div className="relative py-10">
               <img
-                src={photo}
+                src={editPhoto}
                 className="-mt-[70px] w-[140px] h-[140px] rounded-full  flex justify-center items-center object-cover object-center"
               />
               <div className="absolute bottom-[40px] right-3 w-[30px] h-[30px] rounded-full bg-white flex justify-center items-center">
@@ -67,18 +67,18 @@ const EditProductInfoPreview = () => {
 
             <div>
               <h1 className=" text-[26px] text-white font-semibold">
-                {productName}
+                {editProductName}
               </h1>
               <p className=" text-[14px] font-medium text-[#C5C1C1]">
                 Sale price:{" "}
                 <span className=" text-[var(--secondary-color)]">
-                  {salePrice} MMK
+                  {editSalePrice} MMK
                 </span>
               </p>
               <p className=" text-[14px] font-medium text-[#C5C1C1]">
                 Actual price:{" "}
                 <span className=" text-[var(--secondary-color)]">
-                  {actualPrice} MMK
+                  {/* {actualPrice} MMK */}
                 </span>
               </p>
             </div>
@@ -102,13 +102,13 @@ const EditProductInfoPreview = () => {
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
               <p className=" font-medium text-[18px] text-white">
-                : {productName}
+                : {editProductName}
               </p>
-              <p className=" font-medium text-[18px] text-white">: {brand}</p>
-              <p className=" font-medium text-[18px] text-white">: {stock}</p>
-              <p className=" font-medium text-[18px] text-white">: {unit}</p>
+              <p className=" font-medium text-[18px] text-white">: {editBrand}</p>
+              <p className=" font-medium text-[18px] text-white">: {editStock}</p>
+              <p className=" font-medium text-[18px] text-white">: {editUnit}</p>
               <p className=" font-medium text-[18px] text-white">
-                : {productInfo}
+                : {editProductInfo}
               </p>
             </div>
           </div>

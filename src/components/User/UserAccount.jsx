@@ -7,7 +7,7 @@ import {LuMailOpen} from 'react-icons/lu'
 import {LuPhoneCall} from 'react-icons/lu'
 
 
-const Account = () => {
+const UserAccount = () => {
   const { liHandler,profileData } = useContextCustom();
 
   return (
@@ -15,9 +15,9 @@ const Account = () => {
       {/* Breadcrumg start */}
       <div className=" flex justify-between items-center mb-20">
         <div>
-          <p className="breadcrumb-title	">Profile</p>
+          <p className="breadcrumb-title	">User</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-            Profile / My Account / Information
+            User / Information
           </p>{" "}
         </div>
         <Link to={"/profile-edit"}>
@@ -25,7 +25,7 @@ const Account = () => {
             onClick={() => liHandler("edit")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
-            Edit Profile
+            Edit User
           </button>
         </Link>
       </div>
@@ -104,4 +104,4 @@ Address              </p>
   );
 };
 
-export default Account;
+export default UserAccount;
