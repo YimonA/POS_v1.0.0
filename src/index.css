@@ -113,6 +113,10 @@ body {
 }
 
 @layer components {
+  .selected-Item{
+@apply border-2 border-white;
+  }
+
   .mb-50 {
     @apply mb-[50px];
   }

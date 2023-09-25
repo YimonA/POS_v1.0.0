@@ -11,20 +11,41 @@ import {
   useGetProductSaleReportQuery,
   useGetWeekelySaleReportQuery,
   useGetTodaySaleReportQuery,
+  useGetBrandSaleReportQuery,
 } from "../../redux/api/reportSaleApi";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBrandSaleReport,
+  addProductSaleReport,
+  addTodaySaleReport,
+  addWeekelySaleReport,
+} from "../../redux/services/reportSaleSlice";
 
 const SaleReport = () => {
   const [vouchers, setVouchers] = useState();
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
+  const dispatch = useDispatch();
   const { data: pdata } = useGetProductSaleReportQuery(token);
   const { data: wdata } = useGetWeekelySaleReportQuery(token);
   const { data: tdata } = useGetTodaySaleReportQuery(token);
+  const { data: bdata } = useGetBrandSaleReportQuery(token);
+  const productData = useSelector((state) => state.reportSaleSlice.pData);
+  const WeekelyData = useSelector((state) => state.reportSaleSlice.wData);
+  const todayData = useSelector((state) => state.reportSaleSlice.tData);
+  const brandData = useSelector((state) => state.reportSaleSlice.bData);
+
+  // console.log("pdata", productData?.productInfo);
+  // console.log("wdata", WeekelyData);
+  // console.log("tdata", todayData);
+  // console.log("bdata", brandData);
+
   // console.log("pdata", pdata?.productInfo);
-  console.log("wdata", wdata);
-  console.log("tdata", tdata);
+  // console.log("wdata", wdata);
+  // console.log("tdata", tdata);
+  // console.log("bdata", bdata);
 
   useEffect(() => {
     fetchData();
@@ -42,6 +63,19 @@ const SaleReport = () => {
     setVouchers(voucher?.data);
     console.log("data", data);
   };
+
+  useEffect(() => {
+    dispatch(addProductSaleReport({ pdata }));
+  }, [pdata]);
+  useEffect(() => {
+    dispatch(addBrandSaleReport({ bdata }));
+  }, [bdata]);
+  useEffect(() => {
+    dispatch(addTodaySaleReport({ tdata }));
+  }, [tdata]);
+  useEffect(() => {
+    dispatch(addWeekelySaleReport({ wdata }));
+  }, [wdata]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -96,7 +130,7 @@ const SaleReport = () => {
             </span>
           </p>
 
-          {vouchers?.voucher?.map((v, index) => {
+          {vouchers?.voucher?.map((v) => {
             return (
               <div
                 key={v?.id}
@@ -240,7 +274,7 @@ const SaleReport = () => {
               </tr>
             </thead>
             <tbody className=" text-gray-100">
-              {pdata?.productInfo?.map((product, index) => {
+              {productData?.productInfo?.map((product, index) => {
                 return (
                   <tr
                     key={index}
@@ -264,17 +298,8 @@ const SaleReport = () => {
           <p className=" text-[20px] font-medium text-[var(--secondary-color)] pt-5">
             Brand Sales
           </p>
-          <SalePieChart />
-          <div className=" flex justify-center items-center gap-3 mb-3">
-            <span className=" w-3 h-3 rounded-full bg-[#8AB4F8]"></span>
-            <span className=" text-[var(--gray-color)]">Melo</span>
-            <span className=" w-3 h-3 rounded-full bg-[#6a88b8]"></span>
-            <span className=" text-[var(--gray-color)]">City</span>
-            <span className=" w-3 h-3 rounded-full bg-[#404d64]"></span>
-            <span className=" text-[var(--gray-color)]">Pro</span>
-            <span className=" w-3 h-3 rounded-full bg-[#e8eaed]"></span>
-            <span className=" text-[var(--gray-color)]">Dutch</span>
-          </div>
+          <SalePieChart bdata={brandData} />
+          
         </div>
       </div>
       {/* product sale end */}

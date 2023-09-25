@@ -14,12 +14,20 @@ const StockOverview = () => {
   const token = Cookies.get("token");
   const { data } = useGetStocksQuery(token);
   const stocks = useSelector((state) => state.stockSlice.stocks);
+  console.log("data", data);
 
   useEffect(() => {
-    dispatch(addStocks({stocks: data?.data}));
+    dispatch(addStocks({ stocks: data?.data }));
     console.log("data", data);
     console.log("stocks", stocks);
   }, [data]);
+
+  // const editStockHandler=(stock)=>{
+  //   setShowStockAdd(true);
+  //   setStockProductID(stock?.id);
+  //   setStockUserID(1);
+
+  // }
 
   return (
     <div>
@@ -39,7 +47,7 @@ const StockOverview = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Sort:{" "}
+            Sort:
           </label>
           <select
             placeholder="Export"
@@ -119,12 +127,16 @@ const StockOverview = () => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                    <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    <Link to={`/stock-edit/${stock?.id}`}>
+                    <button
+                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                    >
                       <BsPencil
                         size={"0.8rem"}
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
+                    </Link>
 
                     <Link to={"/product-detail"}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">

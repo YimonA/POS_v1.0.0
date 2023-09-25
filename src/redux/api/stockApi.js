@@ -15,16 +15,23 @@ export const stockApi = createApi({
       }),
       providesTags: ["stock"],
     }),
+    getSingleStocks: builder.query({
+      query: ({id,token}) => ({
+        url: `/stock/${id}`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["stock"],
+    }),
     addStock: builder.mutation({
-      query: ({ stock, token }) => ({
+      query: ({ newData, token }) => ({
         url: `/stock`,
         method: "POST",
         headers: { authorization: `Bearer ${token}` },
-        body: stock,
+        body: newData,
       }),
       invalidatesTags: ["stock"],
     }),
   }),
 });
 
-export const { useAddStockMutation, useGetStocksQuery } = stockApi;
+export const {useGetSingleStocksQuery, useAddStockMutation, useGetStocksQuery } = stockApi;

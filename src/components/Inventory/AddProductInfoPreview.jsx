@@ -3,7 +3,7 @@ import { PiStorefrontDuotone } from "react-icons/pi";
 import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useAddProductMutation } from "../../redux/api/productApi";
+import { useCreateProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
 import { useMemo } from "react";
 
@@ -19,7 +19,7 @@ const AddProductInfoPreview = () => {
     photo,
     setShowModal,
   } = useContextCustom();
-  const [addProduct] = useAddProductMutation();
+  const [createProduct] = useCreateProductMutation();
 
   const createProductHandler = async () => {
     const token = Cookies.get("token");
@@ -33,7 +33,7 @@ const AddProductInfoPreview = () => {
       sale_price: Number(salePrice),
       photo: photo,
     };
-    const data = await addProduct({ product, token });
+    const data = await createProduct({ product, token });
     console.log("dddd", data);
     console.log("pppp", product);
 
@@ -110,7 +110,7 @@ const AddProductInfoPreview = () => {
               </p>
             </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
 
       {/* Stepper start */}

@@ -44,7 +44,7 @@ const AddProductSelectImg = () => {
                 />
               </div>
               <p className=" text-white text-[14px]">
-                <span className=" text-[--font-color]	select-none">Upload </span>{" "}
+                <span className=" text-[--font-color]	select-none">Upload </span>
                 Image
               </p>
             </div>

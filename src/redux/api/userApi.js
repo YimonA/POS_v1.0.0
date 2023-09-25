@@ -15,7 +15,14 @@ export const userApi = createApi({
       }),
       providesTags: ["user"],
     }),
-    addUser: builder.mutation({
+    getSingleUsers: builder.query({
+      query: ({ id, token }) => ({
+        url: `/user/${id}`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["user"],
+    }),
+    createUser: builder.mutation({
       query: ({ user, token }) => ({
         url: `/user`,
         method: "POST",
@@ -24,9 +31,26 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    editUser: builder.mutation({
+      query: ({ user, token }) => ({
+        url: `/user/${user?.id}`,
+        method: "PUT",
+        headers: { authorization: `Bearer ${token}` },
+        body: user,
+      }),
+      invalidatesTags: ["user"],
+    }),
     getBannedUsers: builder.query({
       query: (token) => ({
         url: "/banned-user",
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["user"],
+    }),
+    bannedUsers: builder.mutation({
+      query: ({ id, token }) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["user"],
@@ -42,4 +66,12 @@ export const userApi = createApi({
   }),
 });
 
-export const { useAddUserMutation, useGetUsersQuery,useGetBannedUsersQuery,useRestoreUserMutation } = userApi;
+export const {
+  useCreateUserMutation,
+  useEditUserMutation,
+  useGetUsersQuery,
+  useGetSingleUsersQuery,
+  useGetBannedUsersQuery,
+  useBannedUsersMutation,
+  useRestoreUserMutation,
+} = userApi;

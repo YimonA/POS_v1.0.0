@@ -1,4 +1,3 @@
-import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { BsPencil } from "react-icons/bs";
 import { BsPlusLg } from "react-icons/bs";
@@ -6,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 
 const ProductsTable = ({ products }) => {
-  const {setPData,setEditProduct}=useContextCustom();
+  const {setPData}=useContextCustom();
   
   return (
     <div>
@@ -47,8 +46,8 @@ const ProductsTable = ({ products }) => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                    <Link to={`/product-edit/:id`}>
-                    <button onClick={()=>setEditProduct(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    <Link to={`/product-edit/${product?.id}`}>
+                    <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                       <BsPencil
                         size={"0.8rem"}
                         className="text-[var(--secondary-color)]"

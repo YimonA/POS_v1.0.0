@@ -10,7 +10,6 @@ export const StateContextProvider = ({ children }) => {
 
   const [showModal, setShowModal] = useState();
   const [current, setCurrent] = useState(1);
-  
   // for add product
 
   const [productName, setProductName] = useState();
@@ -38,18 +37,18 @@ export const StateContextProvider = ({ children }) => {
     setSidebarActived(liname);
   };
 
-  //for profile data
-  const [profileData,setProfileData]=useState({});
+//brand add
+const [showBrandAdd,setShowBrandAdd]=useState(false);
 
   //pagi
   // const [brandPgNum,setBrandPgNum]=useState(1);
 
   //for user info
-  const[uName,setUName]=useState('ma ma');
+  const[uName,setUName]=useState('Ma Ma');
   const[uDOB,setUDOB]=useState('2/2/1990');
   const[uGender,setUGender]=useState('female');
   const[uAddress,setUAddress]=useState('ygn');
-  const[uPosition,setUPosition]=useState('sale');
+  const[uPosition,setUPosition]=useState('staff');
   const[uEmail,setUEmail]=useState('mama@gmail.com');
   const[uPhone,setUPhone]=useState('098888889');
   const[uPassword,setUPassword]=useState('mama1234');
@@ -68,6 +67,8 @@ export const StateContextProvider = ({ children }) => {
   const [editSalePrice, setEditSalePrice] = useState();
   const [editPhoto,setEditPhoto]=useState(null);
 
+//add stock
+const[stockProductID,setStockProductID]=useState();
 
 const[editProduct,setEditProduct]=useState();
   const data = {
@@ -82,12 +83,11 @@ const[editProduct,setEditProduct]=useState();
     stock,
     setStock,
     actualPrice,setActualPrice,salePrice,setSalePrice,photo,setPhoto,showModal,setShowModal,nextStepperHandler,current,setCurrent,liHandler,sidebarActived,setSidebarActived,
-    profileData,setProfileData,
 
     uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword,uPhoto,setUPhoto,
 
-    pdata,setPData,editProduct,setEditProduct,
-
+    pdata,setPData,
+    // editProduct,setEditProduct,
     editProductName,
     setEditProductName,
     editBrand,
@@ -101,7 +101,10 @@ const[editProduct,setEditProduct]=useState();
     // actualPrice,setActualPrice,
     editSalePrice,
     setEditSalePrice,editPhoto,setEditPhoto,
+    showBrandAdd,setShowBrandAdd,
     // brandPgNum,setBrandPgNum
+
+    stockProductID,setStockProductID,
   };
 
   return <StateContext.Provider value={data}>{children}</StateContext.Provider>;

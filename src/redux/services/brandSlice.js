@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const initialState = {
-  brands: [],
+  brands: null,
+  brandsPerPage:null,
+  singleBrand:null,
 };
 
 export const brandSlice = createSlice({
@@ -10,11 +11,16 @@ export const brandSlice = createSlice({
   initialState,
   reducers: {
     addBrands: (state, { payload }) => {
-      (state.brands = payload.brands),
-        Cookies.set("brands", JSON.stringify(state.brands));
+      state.brands = payload.brands;
+    },
+    addBrandsPerPage: (state, { payload }) => {
+      state.brandsPerPage = payload.brandsPerPage;
+    },
+    addSingleBrand: (state, { payload }) => {
+      state.singleBrand = payload.singleBrand;
     },
   },
 });
 
-export const { addBrands } = brandSlice.actions;
+export const { addBrands,addBrandsPerPage,addSingleBrand } = brandSlice.actions;
 export default brandSlice.reducer;

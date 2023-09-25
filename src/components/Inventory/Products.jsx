@@ -76,7 +76,7 @@ const Products = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Sort:{" "}
+            Sort:
           </label>
           <select
             placeholder="Export"
@@ -96,7 +96,7 @@ const Products = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Filter:{" "}
+            Filter:
           </label>
           <select
             placeholder="Export"

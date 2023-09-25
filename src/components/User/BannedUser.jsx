@@ -16,12 +16,12 @@ const BannedUser = () => {
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const { data } = useGetBannedUsersQuery(token);
-  const bannedStaff = useSelector((state) => state.userSlice.bannedUsers);
+  const bannedUsers = useSelector((state) => state.userSlice.bannedUsers);
   console.log("ddd", data);
-  console.log("bannedStaff", bannedStaff);
+  console.log("bannedUsers", bannedUsers);
 
   useEffect(() => {
-    dispatch(addBannedUsers({ photos: data?.data }));
+    dispatch(addBannedUsers({ bannedUsers: data }));
   }, [data]);
 
   return (
@@ -60,7 +60,7 @@ const BannedUser = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Sort:{" "}
+            Sort:
           </label>
           <select
             placeholder="Export"
@@ -80,7 +80,7 @@ const BannedUser = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Filter:{" "}
+            Filter:
           </label>
           <select
             placeholder="Export"
@@ -111,33 +111,31 @@ const BannedUser = () => {
             <th className=" py-4 pe-4 text-end px-1 uppercase font-medium">
               Created At
             </th>
-
             <th className=" py-4 pe-4 text-end px-1 uppercase font-medium"></th>
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {/* {imgs?.map((photo, index) => {
+          {bannedUsers?.map((bannedUser, index) => {
             return (
-              <tr 
-              key={photo?.id} className=" border-b border-b-gray-700 cursor-pointer">
+              <tr
+                key={bannedUser?.id}
+                className=" border-b border-b-gray-700 cursor-pointer"
+              >
                 <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td
-                  className="px-1 text-end py-4 "
-                >
-                  {photo?.name}
+                <td className="px-1 text-end py-4 ">{bannedUser?.name}</td>
+                <td className="px-1 text-end py-4">{bannedUser.role}</td>
+                <td className="px-1 pe-4 py-4 text-end">{bannedUser?.email}</td>
+                <td className="px-1 pe-4 py-4 text-end">
+                  {bannedUser?.created_at.substring(0,10)}
                 </td>
-                <td className="px-1 text-end py-4">{photo.user_name}</td>
-                
-                <td className="px-1 pe-4 py-4 text-end">{photo?.fileSize}</td>
-
-          <td>
-            <button className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px]">
-              Restore
-            </button>
-          </td>
-          </tr>
-            )
-          })} */}
+                <td className="px-1 pe-4 py-4 text-center">
+                  <button className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px] ">
+                    Restore
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* stock table end */}
