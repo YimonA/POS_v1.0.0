@@ -10,8 +10,19 @@ const initialState = {
   quantity: 0,
   cartItems: [],
   currentItem: null,
-  currentQty: 1,
 };
+
+function calcTotalCost(cartItems) {
+  return cartItems.reduce((pv, cv) => cv.sale_price * cv.quantity, 0);
+}
+
+function calcTax(totalCost) {
+  return totalCost * 0.05;
+}
+
+function calcTaxCost(totalCost, tax) {
+  return totalCost + tax;
+}
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -25,27 +36,22 @@ export const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, { ...payload, quantity: 1 }];
         state.currentItem = state.cartItems[state.cartItems.length - 1];
       }
-      state.totalCost += state.cartItems.reduce(
-        (pv, cv) => (state.totalCost = cv.sale_price * cv.quantity),
-        0
-      );
-      state.tax = state.totalCost * 0.05;
-      state.taxCost = state.totalCost + state.tax;
-      state.quantity++;
+      state.totalCost += calcTotalCost(state.cartItems);
+      state.tax = calcTax(state.totalCost);
+      state.taxCost = calcTaxCost(state.totalCost, state.tax);
     },
     removeFromCart: (state, { payload }) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== payload.id
       );
+      state.totalCost -=
+        state.currentItem.quantity * state.currentItem.sale_price;
+      state.tax = calcTax(state.totalCost);
+      state.taxCost = calcTaxCost(state.totalCost, state.tax);
       state.currentItem = state.cartItems[state.cartItems.length - 1];
-      state.totalCost -= payload.quantity * payload.sale_price;
-      state.tax = state.totalCost * 0.05;
-      state.taxCost = state.totalCost + state.tax;
-      state.quantity--;
     },
     addItemsQuantity: (state, { payload }) => {
       if (state.currentItem.quantity === 1) {
-        state.currentQty = 0;
         state.cartItems = state.cartItems.map((item) => {
           if (item.id === state.currentItem.id) {
             return { ...item, quantity: payload };
@@ -53,31 +59,32 @@ export const cartSlice = createSlice({
             return item;
           }
         });
-        state.currentItem = state.cartItems[state.cartItems.length - 1];
-        state.totalCost += state.cartItems.reduce(
-          (pv, cv) => (state.totalCost = cv.sale_price * cv.quantity),
-          0
-        );
-        state.tax = state.totalCost * 0.05;
-        state.taxCost = state.totalCost + state.tax;
-      }
-      else
-      {
-            state.currentQty = state.currentQty+payload;
-            state.cartItems = state.cartItems.map((item) => {
-              if (item.id === state.currentItem.id) {
-                return { ...item, quantity: state.currentQty };
-              } else {
-                return item;
-              }
-            });
-            state.currentItem = state.cartItems[state.cartItems.length - 1];
-            state.totalCost += state.cartItems.reduce(
-              (pv, cv) => (state.totalCost = cv.sale_price * cv.quantity),
-              0
-            );
-            state.tax = state.totalCost * 0.05;
-            state.taxCost = state.totalCost + state.tax;
+        state.currentItem = {
+          ...state.currentItem,
+          quantity:payload,
+        };
+        state.totalCost +=
+          calcTotalCost(state.cartItems) - state.currentItem.sale_price;
+        state.tax = calcTax(state.totalCost);
+        state.taxCost = calcTaxCost(state.totalCost, state.tax);
+      } else if (state.currentItem.quantity >= 1) {
+        // const currentQty= state.currentItem.quantity+payload;
+        state.cartItems = state.cartItems.map((item) => {
+          if (item.id === state.currentItem.id) {
+            return { ...item, quantity: state.currentItem.quantity + payload };
+          } else {
+            return item;
+          }
+        });
+        
+        state.totalCost += calcTotalCost(state.cartItems)-(state.currentItem.quantity*state.currentItem.sale_price);
+        
+        state.tax = calcTax(state.totalCost);
+        state.taxCost = calcTaxCost(state.totalCost, state.tax);
+        state.currentItem = {
+          ...state.currentItem,
+          quantity: state.currentItem.quantity + payload,
+        };
       }
     },
   },
