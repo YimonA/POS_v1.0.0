@@ -26,7 +26,7 @@ const CreateUserContactInfo = () => {
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Position{" "}
+              Position
             </label>
             <input
               type="text"

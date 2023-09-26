@@ -4,44 +4,52 @@ import { useContextCustom } from "../../context/stateContext";
 import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useAddUserMutation } from "../../redux/api/userApi";
+import { useCreateUserMutation } from "../../redux/api/userApi";
 
 const CreateUserPhotoUpload = () => {
-  const { setShowModal, nextStepperHandler, 
-    setPhoto,uName,uDOB,uGender,uAddress,uPosition,uEmail,uPhone,uPassword,uConfirmPassword,uPhoto } =
-    useContextCustom();
-    const [addUsers] = useAddUserMutation();
-    const token = Cookies.get("token");
+  const {
+    setShowModal,
+    nextStepperHandler,
+    setPhoto,
+    uName,
+    uDOB,
+    uGender,
+    uAddress,
+    uPosition,
+    uEmail,
+    uPhone,
+    uPassword,
+    uConfirmPassword,
+    uPhoto,
+  } = useContextCustom();
+  const [createUser] = useCreateUserMutation();
+  const token = Cookies.get("token");
 
-    const CreateUserHandler = async () => {
-      // nextStepperHandler(3);
-
-      const user = {
-        name: uName,
-        email: uEmail,
-        password: uPassword,
-        phone_number: uPhone,
-        address: uAddress,
-        gender: uGender,
-        date_of_birth: uDOB,
-        role: uPosition,
-        photo: uPhoto,
-        password_confirmation: uConfirmPassword,
-      };
-      const data = await addUsers({ user, token });
-      console.log("dddd", data);
-      console.log("name", user);
-      // console.log("pppp", users);
-  
-      // setShowModal(true);
-      
+  const CreateUserHandler = async(e) => {
+    e.preventDefault();
+    const user = {
+      name: uName,
+      email: uEmail,
+      password: uPassword,
+      phone_number: uPhone,
+      address: uAddress,
+      gender: uGender,
+      date_of_birth: uDOB,
+      role: uPosition,
+      photo: uPhoto,
+      password_confirmation: uConfirmPassword
     };
+    const data =await createUser({ user, token });
+    console.log("dddd", data);
+    console.log("name", user);
+    // console.log("pppp", users);
+
+    // setShowModal(true);
+  };
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-
-  
 
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">

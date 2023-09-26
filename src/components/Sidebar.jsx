@@ -433,7 +433,7 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            <Link to={"/profile-edit"} onClick={() => liHandler("edit")}>
+            {/* <Link to={"/profile-edit"} onClick={() => liHandler("edit")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
@@ -446,7 +446,7 @@ const Sidebar = () => {
                   Edit
                 </p>
               </Accordion.Panel>
-            </Link>
+            </Link> */}
           </Accordion.Item>
         </Accordion>
         {/* profile end */}

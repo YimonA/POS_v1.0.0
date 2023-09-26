@@ -10,21 +10,37 @@ export const brandApi = createApi({
   endpoints: (builder) => ({
     getBrands: builder.query({
       query: (token) => ({
-        url: `/brand`,        
+        url: `/brand`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["brand"],
+    }),
+    getSingleBrand: builder.query({
+      query: ({id,token}) => ({
+        url: `/brand/${id}`,
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["brand"],
     }),
     getBrandsPerPage: builder.query({
-      query: ({token,pgNum}) => ({
-        url: `/brand?page=${pgNum}`,        
+      query: ({currentPage,token}) => ({
+        url: `/brand?page=${currentPage}`,
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["brand"],
     }),
+    createBrand: builder.mutation({
+      query: ({brand, token }) => {
+        return {
+          url: `/brand`,
+          method: "POST",
+          headers: { authorization: `Bearer ${token}` },
+          body: brand,
+        };
+      },
+      invalidatesTags: ["brand"],
+    }),
   }),
 });
 
-export const { useGetBrandsQuery,useGetBrandsPerPageQuery } = brandApi;
-
-//        // url: `/brand?page=${}`,
+export const {useCreateBrandMutation, useGetBrandsQuery, useGetBrandsPerPageQuery,useGetSingleBrandQuery } = brandApi;

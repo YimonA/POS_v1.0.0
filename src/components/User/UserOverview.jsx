@@ -5,21 +5,27 @@ import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsPlusLg } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useGetUsersQuery } from "../../redux/api/userApi";
+import {
+  useBannedUsersMutation,
+  useGetUsersQuery,
+} from "../../redux/api/userApi";
 import { useEffect } from "react";
 import { addUsers } from "../../redux/services/userSlice";
+import Swal from "sweetalert2";
 
 const UserOverview = () => {
-  const { liHandler, setProfileData } = useContextCustom();
+  const { liHandler } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetUsersQuery(token);
   const users = useSelector((state) => state.userSlice.users);
+  const [bannedUsers] = useBannedUsersMutation();
+  const nav = useNavigate();
 
   useEffect(() => {
     dispatch(addUsers({ users: data }));
@@ -27,9 +33,24 @@ const UserOverview = () => {
     // console.log("users", users);
   }, [data]);
 
-  const profileDetailHandler = (user) => {
-    setProfileData(user);
-    console.log("user", user);
+  const bannedHandler = async (e, id) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Are you sure to ban the user?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, ban!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Banned!", "The user has been banned.", "success");
+        const { data } = await bannedUsers({ id, token });
+        console.log("bannedUsers", data);
+        nav("/banned-user");
+      }
+    });
   };
 
   return (
@@ -130,22 +151,23 @@ const UserOverview = () => {
                 <td className="px-1 text-center  py-4">{index + 1}</td>
                 <td className="px-1 text-end py-4 ">{user?.name}</td>
                 <td className="px-1 text-end py-4">{user?.role}</td>
-
                 <td className="px-1 py-4 text-end">{user?.email}</td>
-                <td className="px-1 py-4 text-end">{user?.created_at}</td>
-
+                <td className="px-1 py-4 text-end">
+                  {user?.created_at.substring(0, 10)}
+                </td>
                 <td className="px-1 py-4 text-end">
                   <div className=" pe-20 flex justify-end items-center gap-2 z-20">
-                    <Link to={"/banned-user"}>
-                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                        <BiMinus
-                          size={"1.3rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
-                    </Link>
+                    <button
+                      onClick={(e) => bannedHandler(e,user?.id)}
+                      className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer"
+                    >
+                      <BiMinus
+                        size={"1.3rem"}
+                        className="text-[var(--secondary-color)]"
+                      />
+                    </button>
 
-                    <Link to={"/user-edit"}>
+                    <Link to={`/user-edit/${user?.id}`}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsPencil
                           size={"0.8rem"}
@@ -154,11 +176,8 @@ const UserOverview = () => {
                       </button>
                     </Link>
 
-                    <Link to={"/user-profile"}>
-                      <button
-                        onClick={() => profileDetailHandler(user)}
-                        className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
-                      >
+                    <Link to={`/user-profile/${user?.id}`}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsArrowRight
                           size={"1rem"}
                           className="text-[var(--secondary-color)]"

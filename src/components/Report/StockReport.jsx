@@ -7,9 +7,41 @@ import { IoIosArrowUp } from "react-icons/io";
 import StockPieChart from "./StockPieChart";
 import ProgressBar from "@ramonak/react-progress-bar";
 import StockOverview from "../Inventory/StockOverview";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  addBrandReport,
+  addWeekelyBestBrands,
+} from "../../redux/services/reportStockSlice.js";
+import {
+  useGetBrandsReportQuery,
+  useGetWeekelyBestBrandsQuery,
+} from "../../redux/api/reportStockApi";
 
 const StockReport = () => {
   const { liHandler } = useContextCustom();
+  const token = Cookies.get("token");
+  const dispatch = useDispatch();
+  const { data: bBData } = useGetWeekelyBestBrandsQuery(token);
+  const { data: brandReportData } = useGetBrandsReportQuery(token);
+  const weekelyBestBrands = useSelector(
+    (state) => state.reportStockSlice.weekelyBestBrands
+  );
+  const brandReport = useSelector(
+    (state) => state.reportStockSlice.brandReport
+  );
+
+  console.log("weekelyBestBrands", weekelyBestBrands);
+  console.log("brandReport", brandReport);
+
+  useEffect(() => {
+    dispatch(addWeekelyBestBrands({ bBData }));
+  }, [bBData]);
+
+  useEffect(() => {
+    dispatch(addBrandReport({ brandReportData }));
+  }, [brandReportData]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -58,7 +90,7 @@ const StockReport = () => {
               </div>
               <div>
                 <p className=" font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-                  28,500 k
+                  {brandReport?.totalProducts} k
                 </p>
                 <p className=" font-medium text-[14px] text-[var(--secondary-color)]">
                   Total Products
@@ -76,7 +108,7 @@ const StockReport = () => {
               </div>
               <div>
                 <p className=" font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-                  50
+                  {brandReport?.totalBrands}
                 </p>
                 <p className=" font-medium text-[14px] text-[var(--secondary-color)]">
                   Total Brands
@@ -93,9 +125,9 @@ const StockReport = () => {
                 <ProgressBar completed={100} />
                 <ProgressBar completed={100} /> */}
                 <p className="w-full h-2 ">
-                    <span className="w-[70%] h-2 bg-green-500 inline-block border-l-[1px] rounded-full"></span>
-                    <span className="w-[20%] h-2 bg-[#8AB4F8] inline-block "></span>
-                    <span className="w-[10%] h-2 bg-red-500 inline-block border-r-[1px] rounded-full"></span>
+                  <span className="w-[70%] h-2 bg-green-500 inline-block border-l-[1px] rounded-full"></span>
+                  <span className="w-[20%] h-2 bg-[#8AB4F8] inline-block "></span>
+                  <span className="w-[10%] h-2 bg-red-500 inline-block border-r-[1px] rounded-full"></span>
                 </p>
               </div>
               <div className=" basis-1/3">
@@ -119,7 +151,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  70%
+                  {brandReport?.stocks?.inStock}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -134,7 +166,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  20%
+                  {brandReport?.stocks?.lowStock}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -149,7 +181,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  10%
+                  {brandReport?.stocks?.outOfStock}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -162,44 +194,21 @@ const StockReport = () => {
           <p className="text-[22px] font-semibold text-[var(--secondary-color)] mb-4">
             Best Seller Brands
           </p>
-          <div className="flex ">
-            <StockPieChart />
-            <div className="w-full">
-              <p className=" text-right font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-                28,500 k
-              </p>
-              <p className=" text-right font-medium text-[14px] text-[var(--gray-color)]">
-                Kyats
-              </p>
-              <div
-                // key={v?.id}
-                className=" flex justify-between items-center  py-3"
-              >
-                <p className=" font-semibold text-[14px] text-[var(--secondary-color)] flex justify-between items-center gap-3">
-                  <span className=" w-3 h-3 rounded-full bg-[#8AB4F8]"></span>
-                  {/* {v?.voucher_number} */}
-                  orange
-                </p>
-                <p className=" font-semibold text-[14px] text-[var(--secondary-color)] flex justify-between items-center gap-5">
-                  {/* {Math.ceil(v?.total)}{" "} */}
-                  100
-                  <span className=" flex justify-between items-center gap-3">
-                    85%
-                    <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+          <p className=" text-right font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
+            28,500 k
+          </p>
+          <p className=" text-right font-medium text-[14px] text-[var(--gray-color)]">
+            Kyats
+          </p>
+          <StockPieChart weekelyBrand={weekelyBestBrands} />
         </div>
         {/* Best Seller Brands end */}
       </section>
       {/* overview section end */}
 
       {/* stock overview start */}
-      <StockOverview/>
+      <StockOverview />
       {/* stock overview end */}
-
     </div>
   );
 };

@@ -63,7 +63,7 @@ const AddProductInfo = () => {
               onChange={(e) => setProductName(e.target.value)}
               placeholder="Product Name"
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />{" "}
+            />
           </div>
           <div className=" flex justify-start items-start">
             <label

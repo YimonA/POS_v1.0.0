@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const initialState = {
   stocks: null,
+  singleStock:null,
 };
 
 export const stockSlice = createSlice({
@@ -11,10 +11,12 @@ export const stockSlice = createSlice({
   reducers: {
     addStocks: (state, { payload }) => {
       (state.stocks = payload.stocks)
-        // Cookies.set("stocks", JSON.stringify(state.stocks));
+    },
+    addSingleStocks: (state, { payload }) => {
+      (state.singleStock = payload.singleStock)
     },
   },
 });
 
-export const { addStocks } = stockSlice.actions;
+export const { addStocks,addSingleStocks } = stockSlice.actions;
 export default stockSlice.reducer;

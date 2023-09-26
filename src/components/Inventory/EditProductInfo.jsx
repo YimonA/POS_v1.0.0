@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect} from "react";
 import { addBrands } from "../../redux/services/brandSlice";
 
-const EditProductInfo = () => {
+const EditProductInfo = (props) => {
+  // const {id,name}=props;
+  console.log('props',props);
+
   const {
     editProduct,
     setEditUnit,setEditBrand,setEditStock,setEditProductName,setEditProductInfo,

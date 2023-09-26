@@ -10,46 +10,42 @@ import { BsSearch } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useGetBrandsQuery } from "../../redux/api/brandApi";
+import {
+  useGetBrandsPerPageQuery,
+  useGetBrandsQuery,
+} from "../../redux/api/brandApi";
 import { addBrands } from "../../redux/services/brandSlice";
 import { useContextCustom } from "../../context/stateContext";
 import axios from "axios";
+import BrandAdd from "./BrandAdd";
 
 const Brand = () => {
-  const [prev, setPrev] = useState();
-  const [next, setNext] = useState();
+  // const { showBrandAdd, setShowBrandAdd } = useContextCustom();
+  // const [prev, setPrev] = useState();
+  // const [next, setNext] = useState();
 
-  const [brandPageData, setBrandPageData] = useState(null);
-  // const [currentPage, setCurrentPage] = useState(1);
+  // const [brandPageData, setBrandPageData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const token = Cookies.get("token");
-  const { data } = useGetBrandsQuery(token);
-  const brands = useSelector((state) => state.brandSlice.brands);
+  const { data } = useGetBrandsPerPageQuery({currentPage,token});
+  // const { data } = useGetBrandsPerPageQuery({currentPage,token});
+
+  const userID = useSelector((state) => state.authSlice.user);
+  // const bbrands = useSelector((state) => state.brandSlice.brands);
+
+  console.log("userID", userID);
+  // console.log("bbrands", bbrands);
+  console.log("data", data);
 
   useEffect(() => {
-    dispatch(addBrands({ brands: data?.data }));
-    console.log("data", data);
-    console.log("brands", brands);
+    // dispatch(addBrands({ brands: brands?.data }));
+    // console.log("data", data);
+    console.log("brands", data);
   }, [data]);
 
-  const fetchData = async (url) => {
-    const data = await axios({
-      method: "get",
-      url: url,
-      headers: { authorization: `Bearer ${token}` },
-      responseType: "stream",
-    });
-    const bdata = JSON.parse(data?.request?.response);
-    console.log("jbd", bdata);
-    setPrev(bdata.links.prev);
-    setNext(bdata.links.next);
-
-    setBrandPageData(bdata.data);
-    console.log("bd", brandPageData);
-  };
-
   return (
-    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
+    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 relative">
       <div className=" flex justify-between items-center mb-5">
         <div>
           <p className="breadcrumb-title	">Manage Brand</p>
@@ -58,7 +54,10 @@ const Brand = () => {
           </p>
         </div>
 
-        <button className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex items-center justify-center gap-2">
+        <button
+          onClick={() => setShowBrandAdd(true)}
+          className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex items-center justify-center gap-2"
+        >
           <BsPlusLg size={"1.3rem"} />
           Add Brand
         </button>
@@ -80,7 +79,7 @@ const Brand = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Sort:{" "}
+            Sort:
           </label>
           <select
             placeholder="Export"
@@ -144,95 +143,13 @@ const Brand = () => {
               <th className=" py-4 pe-4 text-end px-1 uppercase font-medium"></th>
             </tr>
           </thead>
-          <tbody className=" text-gray-100">
-            {brandPageData !== null
-              ? brandPageData.map((brand, index) => {
-                  return (
-                    <tr
-                      key={brand?.id}
-                      className=" border-b border-b-gray-700 cursor-pointer"
-                    >
-                      <td className="px-1 text-center  py-4">{index + 1}</td>
-                      <td className="px-1 text-end py-4 ">{brand?.name}</td>
-                      <td className="px-1 text-end py-4">{brand.company}</td>
-                      <td className="px-1 py-4 text-end">{brand?.agent}</td>
-                      <td className="px-1 py-4 text-end">{brand?.phone_no}</td>
-                      <td className="px-1 py-4 text-end"></td>
-                      <td>
-                        <div className="px-20 flex justify-end items-center gap-2 z-20">
-                          <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                            <BsPlusLg
-                              size={"1.3rem"}
-                              className="text-[var(--secondary-color)]"
-                            />
-                          </button>
-                          {/* <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-       <BsPencil
-         size={"0.8rem"}
-         className="text-[var(--secondary-color)]"
-       />
-     </button>
-
-     <Link to={"/product-detail"}>
-       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-         <BiMinus
-           size={"1rem"}
-           className="text-[var(--secondary-color)]"
-         />
-       </button>
-     </Link> */}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              : brands?.map((brand, index) => {
-                  return (
-                    <tr
-                      key={brand?.id}
-                      className=" border-b border-b-gray-700 cursor-pointer"
-                    >
-                      <td className="px-1 text-center  py-4">{index + 1}</td>
-                      <td className="px-1 text-end py-4 ">{brand?.name}</td>
-                      <td className="px-1 text-end py-4">{brand.company}</td>
-                      <td className="px-1 py-4 text-end">{brand?.agent}</td>
-                      <td className="px-1 py-4 text-end">{brand?.phone_no}</td>
-                      <td className="px-1 py-4 text-end"></td>
-                      <td>
-                        <div className="px-20 flex justify-end items-center gap-2 z-20">
-                          <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                            <BsPlusLg
-                              size={"1.3rem"}
-                              className="text-[var(--secondary-color)]"
-                            />
-                          </button>
-                          {/* <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-       <BsPencil
-         size={"0.8rem"}
-         className="text-[var(--secondary-color)]"
-       />
-     </button>
-
-     <Link to={"/product-detail"}>
-       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-         <BiMinus
-           size={"1rem"}
-           className="text-[var(--secondary-color)]"
-         />
-       </button>
-     </Link> */}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-          </tbody>
+          <tbody className=" text-gray-100"></tbody>
         </table>
         {/* brand table end */}
       </div>
 
       {/* pagination start*/}
-      <div>
+      {/* <div>
         <Button.Group className="  pt-20 flex justify-end">
           <Button
             onClick={() => fetchData(prev)}
@@ -248,7 +165,7 @@ const Brand = () => {
                 key={link?.label}
                 onClick={() => fetchData(link?.url)}
                 variant="default"
-                className={`${link?.label == "Next &raquo;" ? 'hidden' : ""} ${
+                className={`${link?.label == "Next &raquo;" ? "hidden" : ""} ${
                   link?.label == "&laquo; Previous" ? "hidden" : ""
                 }
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
@@ -269,8 +186,12 @@ const Brand = () => {
             <MdArrowForwardIos />
           </Button>
         </Button.Group>
-      </div>
+      </div> */}
       {/* pagination end*/}
+
+      {/* add brand start */}
+      <BrandAdd />
+      {/* add brand end */}
     </div>
   );
 };

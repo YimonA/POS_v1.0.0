@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const initialState = {
   products: null,
+  singleProduct:null
 };
 
 export const productSlice = createSlice({
@@ -13,8 +14,11 @@ export const productSlice = createSlice({
       (state.products = payload.products)
         // Cookies.set("products", JSON.stringify(state.products));
     },
+    addSingleProduct: (state, { payload }) => {
+      (state.singleProduct = payload.singleProduct)
+    },
   },
 });
 
-export const { addProducts } = productSlice.actions;
+export const { addProducts,addSingleProduct } = productSlice.actions;
 export default productSlice.reducer;

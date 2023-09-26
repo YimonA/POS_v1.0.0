@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { useGetPhotoQuery } from "../redux/api/mediaApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addPhotos } from "../redux/services/mediaSlice";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -16,17 +16,28 @@ import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import TodaySaleOverview from "./TodaySaleOverview";
+import { useGetOverviewQuery } from "../redux/api/overviewApi";
+import { addOverview } from "../redux/services/overviewSlice";
 
 const Home = () => {
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
-  const data = useGetPhotoQuery(token);
-  // console.log('photos',data)
+  const { data: overviewData } = useGetOverviewQuery(token);
+  const { data } = useGetPhotoQuery(token);
+  const oData = useSelector((state) => state?.overviewSlice.oData);
+
+  console.log("photos", data);
+  console.log("overviewData", overviewData);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(addPhotos({ photos: data?.data }));
   }, [data]);
+
+  useEffect(() => {
+    dispatch(addOverview({ oData: overviewData }));
+    console.log("oData", oData);
+  }, [overviewData]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -53,7 +64,7 @@ const Home = () => {
             </div>
             <div>
               <p className=" font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-                28,500 k
+                {oData?.total_stocks} k
               </p>
               <p className=" font-medium text-[14px] text-[var(--secondary-color)]">
                 Total Stocks
@@ -71,7 +82,7 @@ const Home = () => {
             </div>
             <div>
               <p className=" font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-                50
+                {oData?.total_staff}
               </p>
               <p className=" font-medium text-[14px] text-[var(--secondary-color)]">
                 Total Staffs
@@ -131,7 +142,7 @@ const Home = () => {
       {/* overview section end */}
       <section className=" flex items-stretch gap-5 p-5 border-[1px] border-[var(--border-color)]">
         <div className=" basis-2/3 ">
-          {/* Breadcrumg start */}
+          {/* Breadcrumb start */}
           <div className="flex justify-between items-center  mb-10 rounded-[3px]">
             <p className="breadcrumb-title w-fit">Monthly Sales</p>
 
@@ -158,9 +169,9 @@ const Home = () => {
             </Button.Group>
             {/* btn group end */}
           </div>
-          {/* Breadcrumg end */}
+          {/* Breadcrumgbend */}
 
-          <SaleLineChart />
+          <SaleLineChart oData={oData} />
         </div>
         <div className=" basis-1/3 px-5">
           <p className=" text-[24px] text-[var(--secondary-color)] mb-3">
@@ -220,7 +231,7 @@ const Home = () => {
           </Link>
         </div>
       </section>
-      <TodaySaleOverview/>
+      <TodaySaleOverview />
     </div>
   );
 };

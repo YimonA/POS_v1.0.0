@@ -11,20 +11,41 @@ import {
   useGetProductSaleReportQuery,
   useGetWeekelySaleReportQuery,
   useGetTodaySaleReportQuery,
+  useGetBrandSaleReportQuery,
 } from "../../redux/api/reportSaleApi";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBrandSaleReport,
+  addProductSaleReport,
+  addTodaySaleReport,
+  addWeekelySaleReport,
+} from "../../redux/services/reportSaleSlice";
 
 const SaleReport = () => {
   const [vouchers, setVouchers] = useState();
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
+  const dispatch = useDispatch();
   const { data: pdata } = useGetProductSaleReportQuery(token);
   const { data: wdata } = useGetWeekelySaleReportQuery(token);
   const { data: tdata } = useGetTodaySaleReportQuery(token);
+  const { data: bdata } = useGetBrandSaleReportQuery(token);
+  const productData = useSelector((state) => state.reportSaleSlice.pData);
+  const WeekelyData = useSelector((state) => state.reportSaleSlice.wData);
+  const todayData = useSelector((state) => state.reportSaleSlice.tData);
+  const brandData = useSelector((state) => state.reportSaleSlice.bData);
+
+  // console.log("pdata", productData?.productInfo);
+  console.log("wdata", WeekelyData);
+  // console.log("tdata", todayData);
+  // console.log("bdata", brandData);
+
   // console.log("pdata", pdata?.productInfo);
-  console.log("wdata", wdata);
-  console.log("tdata", tdata);
+  // console.log("wdata", wdata);
+  // console.log("tdata", tdata);
+  // console.log("bdata", bdata);
 
   useEffect(() => {
     fetchData();
@@ -43,6 +64,19 @@ const SaleReport = () => {
     console.log("data", data);
   };
 
+  useEffect(() => {
+    dispatch(addProductSaleReport({ pdata }));
+  }, [pdata]);
+  useEffect(() => {
+    dispatch(addBrandSaleReport({ bdata }));
+  }, [bdata]);
+  useEffect(() => {
+    dispatch(addTodaySaleReport({ tdata }));
+  }, [tdata]);
+  useEffect(() => {
+    dispatch(addWeekelySaleReport({ wdata }));
+  }, [wdata]);
+
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
@@ -51,7 +85,7 @@ const SaleReport = () => {
           <p className="breadcrumb-title	">Sale</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Report / Sale
-          </p>{" "}
+          </p>
         </div>
 
         {/* btn group start */}
@@ -96,7 +130,7 @@ const SaleReport = () => {
             </span>
           </p>
 
-          {vouchers?.voucher?.map((v, index) => {
+          {vouchers?.voucher?.map((v) => {
             return (
               <div
                 key={v?.id}
@@ -125,7 +159,7 @@ const SaleReport = () => {
               className="w-[150px] h-[40px] font-medium text-[14px] bg-transparent text-[var(--secondary-color)] border-[var(--secondary-color)] rounded border px-2 py-1 "
             >
               RECENT SALES
-            </button>{" "}
+            </button>
           </Link>
         </div>
         <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
@@ -133,30 +167,30 @@ const SaleReport = () => {
             Weekly Sales
           </p>
           <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
-            Total {Math.floor(wdata?.totalWeeklySale)} k Sales
+            Total {wdata?.total_weekely_sale_amount.toFixed(2)} k Sales
           </p>
           <div className="flex items-stretch gap-3">
             <div className="basis-3/5">
-              <SaleTinyBarChart />
+              <SaleTinyBarChart wdata={wdata?.weekely_sales}/>
             </div>
             <div className="basis-2/5 flex flex-col gap-5">
               <div className=" flex justify-center gap-2">
                 <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
-                  T
+                {wdata?.weekely_highest_sale[0]?.dayName.substring(0,1)}
                 </p>
                 <div className="px-3">
                   <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Highest</span>{" "}
+                    <span className="w-[55px]">Highest</span>
                     <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                     <span className=" text-green-500">35.5%</span>
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    12/6/2023
+                    {wdata?.weekely_highest_sale[0]?.highest_sale_date}
                   </p>
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.maxSale)} k
+                    {wdata?.weekely_highest_sale[0]?.highest_sale} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -178,7 +212,7 @@ const SaleReport = () => {
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.avgSale)} k
+                    {wdata?.weekely_average_amount.toFixed(2)} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -187,21 +221,21 @@ const SaleReport = () => {
               </div>
               <div className=" flex justify-center gap-2">
                 <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                  S
+                {wdata?.weekely_lowest_sale[0]?.dayName.substring(0,1)}
                 </p>
                 <div className="px-3">
                   <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Lowest</span>{" "}
+                    <span className="w-[55px]">Lowest</span>
                     <IoIosArrowDown className=" text-red-500" size={"1.3rem"} />
                     <span className=" text-red-500">3%</span>
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    12/6/2023
+                    {wdata?.weekely_lowest_sale[0]?.lowest_sale_date}
                   </p>
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.minSale)} k
+                  {wdata?.weekely_lowest_sale[0]?.lowest_sale} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -240,7 +274,7 @@ const SaleReport = () => {
               </tr>
             </thead>
             <tbody className=" text-gray-100">
-              {pdata?.productInfo?.map((product, index) => {
+              {productData?.productInfo?.map((product, index) => {
                 return (
                   <tr
                     key={index}
@@ -264,17 +298,7 @@ const SaleReport = () => {
           <p className=" text-[20px] font-medium text-[var(--secondary-color)] pt-5">
             Brand Sales
           </p>
-          <SalePieChart />
-          <div className=" flex justify-center items-center gap-3 mb-3">
-            <span className=" w-3 h-3 rounded-full bg-[#8AB4F8]"></span>
-            <span className=" text-[var(--gray-color)]">Melo</span>
-            <span className=" w-3 h-3 rounded-full bg-[#6a88b8]"></span>
-            <span className=" text-[var(--gray-color)]">City</span>
-            <span className=" w-3 h-3 rounded-full bg-[#404d64]"></span>
-            <span className=" text-[var(--gray-color)]">Pro</span>
-            <span className=" w-3 h-3 rounded-full bg-[#e8eaed]"></span>
-            <span className=" text-[var(--gray-color)]">Dutch</span>
-          </div>
+          <SalePieChart bdata={brandData} />
         </div>
       </div>
       {/* product sale end */}

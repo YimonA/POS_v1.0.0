@@ -3,7 +3,7 @@ import { PiStorefrontDuotone } from "react-icons/pi";
 import { useContextCustom } from "../../context/stateContext";
 import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useAddProductMutation } from "../../redux/api/productApi";
+import { useCreateProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
 import { useMemo } from "react";
 
@@ -27,7 +27,7 @@ const CreateUserPreview = () => {
     setPhoto,
     setShowModal,
   } = useContextCustom();
-  const [addProduct] = useAddProductMutation();
+  const [addProduct] = useCreateProductMutation();
 
   const createProductHandler = async () => {
     const token = Cookies.get("token");

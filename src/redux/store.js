@@ -1,5 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import {  configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./api/authApi";
 import authSlice from "./services/authSlice";
 
@@ -17,19 +16,29 @@ import brandSlice from "./services/brandSlice";
 import { userApi } from "./api/userApi";
 import userSlice from "./services/userSlice";
 
+import { overviewApi } from "./api/overviewApi";
+import overviewSlice from "./services/overviewSlice";
 import { reportSaleApi } from "./api/reportSaleApi";
 import reportSaleSlice from "./services/reportSaleSlice";
+import { reportStockApi } from "./api/reportStockApi";
+import reportStockSlice from "./services/reportStockSlice";
+
+import { profileApi } from "./api/profileApi";
+import profileSlice from "./services/profileSlice";
+import cashierSlice from "./services/cashierSlice";
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
-
     [mediaApi.reducerPath]: mediaApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [brandApi.reducerPath]: brandApi.reducer,
     [stockApi.reducerPath]: stockApi.reducer,
+    [profileApi.reducerPath]:profileApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [reportSaleApi.reducerPath]: reportSaleApi.reducer,
+    [overviewApi.reducerPath]:overviewApi.reducer,
+    [reportStockApi.reducerPath] : reportStockApi.reducer,
 
     authSlice: authSlice,
     mediaSlice: mediaSlice,
@@ -38,7 +47,11 @@ export const store = configureStore({
     shop: shopSlice,
     stockSlice: stockSlice,
     userSlice: userSlice,
+    profileSlice:profileSlice,
+    overviewSlice:overviewSlice,
     reportSaleSlice: reportSaleSlice,
+    reportStockSlice:reportStockSlice,
+    cashierSlice:cashierSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -47,9 +60,10 @@ export const store = configureStore({
       productApi.middleware,
       brandApi.middleware,
       stockApi.middleware,
+      profileApi.middleware,
       userApi.middleware,
-      reportSaleApi.middleware
+      overviewApi.middleware,
+      reportSaleApi.middleware,
+      reportStockApi.middleware,
     ),
 });
-
-// setupListeners(store.dispatch);

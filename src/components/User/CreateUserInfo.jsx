@@ -22,19 +22,9 @@ const CreateUserInfo = () => {
     nextStepperHandler,
   } = useContextCustom();
   const token = Cookies.get("token");
-  const { data } = useGetBrandsQuery(token);
-
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.userSlice.users);
-  // console.log("brand", data);
-  // console.log("bbbrand", brands);
-
-  useEffect(() => {
-    dispatch(addUsers({ users: data?.data }));
-  }, [data]);
+ 
 
   const nextHandler = (endpoint) => {
-    // const ppp=dispatch(addProduct)
     nextStepperHandler(endpoint);
   };
 

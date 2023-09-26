@@ -34,6 +34,7 @@ import Custom from "../components/Finance/Custom";
 
 import SaleReport from "../components/Report/SaleReport";
 import StockReport from "../components/Report/StockReport";
+import StockEdit from "../components/Inventory/StockEdit";
 
 // import Products from "../components/Products";
 // import StockControl from "../components/StockControl";
@@ -60,10 +61,6 @@ const Path = () => {
           path="/my-profile"
           element={<Dashboard view={<MyAccount />} />}
         />
-        {/* <Route
-          path="/profile-edit"
-          element={<Dashboard view={<EditAccount />} />}
-        /> */}
         
         
         {/* profile routes start*/}
@@ -81,11 +78,11 @@ const Path = () => {
           element={<Dashboard view={<UserOverview />} />}
         />
         <Route
-          path="/user-edit"
+          path="/user-edit/:id"
           element={<Dashboard view={<EditAccount />} />}
         />
         <Route
-          path="/user-profile"
+          path="/user-profile/:id"
           element={<Dashboard view={<UserAccount />} />}/>
         <Route
           path="/create-user"
@@ -112,7 +109,9 @@ const Path = () => {
           element={<Dashboard view={<ProductEdit />} />}
         />
         <Route path="/stock-control" element={<Dashboard view={<Stock />} />} />
+        <Route path="/stock-edit/:id" element={<Dashboard view={<StockEdit />} />} />
         <Route path="/brand" element={<Dashboard view={<Brand />} />} />
+        {/* <Route path="/brand-edit/:id" element={<Dashboard view={<BrandEdit />} />} /> */}
         {/* inventory routes start*/}
         {/* sale routes start*/}
 

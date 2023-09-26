@@ -6,28 +6,28 @@ import EditProductInfoPreview from "./EditProductInfoPreview";
 import Modal from "../Modal";
 import EditProductSelectImg from "./EditProductSelectImg";
 import { useContextCustom } from "../../context/stateContext";
-import { useGetProductsQuery } from "../../redux/api/productApi";
+import { useGetSingleProductQuery } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { addProducts } from "../../redux/services/productSlice";
+import { addSingleProduct } from "../../redux/services/productSlice";
 
 
 const ProductEdit = () => {
   const { showModal, current, liHandler,pData } = useContextCustom();
   const token = Cookies.get("token");
-  const { data } = useGetProductsQuery(token);
+  const { data } = useGetSingleProductQuery(token);
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.productSlice.products);
+  const singleProduct = useSelector((state) => state.productSlice.singleProduct);
   // console.log('ddd',data?.data);
   // console.log("cu", current);
-  // console.log('products',products);
-
+  
   useEffect(() => {
-    dispatch(addProducts({ products: data?.data }));
+    dispatch(addSingleProduct({ products: data }));
   }, [data]);
+  console.log('singleProduct',singleProduct);
 
   return (
 <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -51,9 +51,9 @@ const ProductEdit = () => {
       {/* Breadcrumg end */}
 
       <div className=" flex gap-20 justify-start items-stretch">
-        {current === 1 ? <EditProductInfo /> : ""}
-        {current === 2 ? <EditProductPrice /> : ""}
-        {current === 3 ? <EditProductPhotoUpload /> : ""}
+        {current === 1 ? <EditProductInfo {...singleProduct}/> : ""}
+        {current === 2 ? <EditProductPrice {...singleProduct} /> : ""}
+        {current === 3 ? <EditProductPhotoUpload {...singleProduct} /> : ""}
         {current === 3 && showModal ? (
           <Modal
             title={"Select an image"}

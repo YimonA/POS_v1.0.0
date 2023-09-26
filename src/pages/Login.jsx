@@ -49,11 +49,10 @@ const Login = () => {
               console.log("value", values);
               try {
                 const data = await login(values);
-                console.log(data?.data?.token);
+                console.log(data?.data?.user?.id);
                 console.log(data);
 
                 dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
-
                 if (data?.data?.token) {
                   nav("/");
                 }
