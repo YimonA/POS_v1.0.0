@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addProducts } from "../redux/services/productSlice";
-import { addToCart,removeFromCart,addItemsQuantity } from "../redux/services/cashierSlice";
+import { addToCart,removeFromCart,addItemsQuantity,addCurrentItem } from "../redux/services/cashierSlice";
 import { Link } from "react-router-dom";
 
 const Cashier = () => {
@@ -32,6 +32,10 @@ const Cashier = () => {
 
   const cartItemsHandler=(product)=>{
     dispatch(addToCart(product));
+  }
+  const addCurrentItemHandler=(item)=>{
+    dispatch(addCurrentItem(item));
+
   }
   
   return (
@@ -103,7 +107,7 @@ const Cashier = () => {
           {/* right calculate section start*/}
 
           <div className="bg-[var(--sidebar-color)] h-full p-1">
-            <p className=" font-medium text-[27px] text-[var(--secondary-color)] mt-5 ps-5">
+            <p className=" font-medium text-[27px] text-[var(--secondary-color)] my-3 ps-5">
               Receive
             </p>
             {/* cart items start */}
@@ -111,7 +115,8 @@ const Cashier = () => {
               return (
                 <div
                   key={item?.id}
-                  className={`flex flex-col w-full py-5 ${
+                  onClick={()=>addCurrentItemHandler(item)}
+                  className={`flex flex-col w-full py-2 cursor-pointer ${
                     item?.id === currentItem?.id ? "selected-Item" : ""
                   }`}
                 >

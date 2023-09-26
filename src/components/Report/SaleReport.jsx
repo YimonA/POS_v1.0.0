@@ -38,7 +38,7 @@ const SaleReport = () => {
   const brandData = useSelector((state) => state.reportSaleSlice.bData);
 
   // console.log("pdata", productData?.productInfo);
-  // console.log("wdata", WeekelyData);
+  console.log("wdata", WeekelyData);
   // console.log("tdata", todayData);
   // console.log("bdata", brandData);
 
@@ -85,7 +85,7 @@ const SaleReport = () => {
           <p className="breadcrumb-title	">Sale</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Report / Sale
-          </p>{" "}
+          </p>
         </div>
 
         {/* btn group start */}
@@ -159,7 +159,7 @@ const SaleReport = () => {
               className="w-[150px] h-[40px] font-medium text-[14px] bg-transparent text-[var(--secondary-color)] border-[var(--secondary-color)] rounded border px-2 py-1 "
             >
               RECENT SALES
-            </button>{" "}
+            </button>
           </Link>
         </div>
         <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
@@ -167,30 +167,30 @@ const SaleReport = () => {
             Weekly Sales
           </p>
           <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
-            Total {Math.floor(wdata?.totalWeeklySale)} k Sales
+            Total {wdata?.total_weekely_sale_amount.toFixed(2)} k Sales
           </p>
           <div className="flex items-stretch gap-3">
             <div className="basis-3/5">
-              <SaleTinyBarChart />
+              <SaleTinyBarChart wdata={wdata?.weekely_sales}/>
             </div>
             <div className="basis-2/5 flex flex-col gap-5">
               <div className=" flex justify-center gap-2">
                 <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
-                  T
+                {wdata?.weekely_highest_sale[0]?.dayName.substring(0,1)}
                 </p>
                 <div className="px-3">
                   <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Highest</span>{" "}
+                    <span className="w-[55px]">Highest</span>
                     <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                     <span className=" text-green-500">35.5%</span>
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    12/6/2023
+                    {wdata?.weekely_highest_sale[0]?.highest_sale_date}
                   </p>
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.maxSale)} k
+                    {wdata?.weekely_highest_sale[0]?.highest_sale} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -212,7 +212,7 @@ const SaleReport = () => {
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.avgSale)} k
+                    {wdata?.weekely_average_amount.toFixed(2)} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -221,21 +221,21 @@ const SaleReport = () => {
               </div>
               <div className=" flex justify-center gap-2">
                 <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                  S
+                {wdata?.weekely_lowest_sale[0]?.dayName.substring(0,1)}
                 </p>
                 <div className="px-3">
                   <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Lowest</span>{" "}
+                    <span className="w-[55px]">Lowest</span>
                     <IoIosArrowDown className=" text-red-500" size={"1.3rem"} />
                     <span className=" text-red-500">3%</span>
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    12/6/2023
+                    {wdata?.weekely_lowest_sale[0]?.lowest_sale_date}
                   </p>
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                    {Math.floor(wdata?.minSale)} k
+                  {wdata?.weekely_lowest_sale[0]?.lowest_sale} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -299,7 +299,6 @@ const SaleReport = () => {
             Brand Sales
           </p>
           <SalePieChart bdata={brandData} />
-          
         </div>
       </div>
       {/* product sale end */}
