@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
 
 const EditProductSelectImg = () => {
-  const { liHandler, setShowModal, setPhoto } = useContextCustom();
+  const { liHandler, setShowModal, setEditPhoto } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
@@ -18,7 +18,7 @@ const EditProductSelectImg = () => {
   };
 
   const insertHandler = () => {
-    setPhoto(picture);
+    setEditPhoto(picture);
     setShowModal(false);
   };
 

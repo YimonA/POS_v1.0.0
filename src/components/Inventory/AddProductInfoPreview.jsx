@@ -38,14 +38,6 @@ const AddProductInfoPreview = () => {
     console.log("pppp", product);
 
     setShowModal(true);
-    // setProductName();
-    // setUnit();
-    // setBrand();
-    // setProductInfo();
-    // setStock();
-    // setActualPrice();
-    // setSalePrice();
-    // setPhoto();
   };
 
   return (

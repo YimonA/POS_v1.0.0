@@ -5,7 +5,7 @@ import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 
 const EditProductPhotoUpload = () => {
-  const { setShowModal, nextStepperHandler, photo, setPhoto,editProduct } =
+  const { setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
     useContextCustom();
 
   const photoUploadHandler = () => {
@@ -16,9 +16,9 @@ const EditProductPhotoUpload = () => {
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
         <p className=" text-white text-[16px] font-semibold">Upload Photo</p>
-        {photo ? (
+        {editPhoto ? (
           <img
-            src={editProduct.photo}
+            src={editPhoto}
             alt=""
             className=" relative w-[180px] h-[180px] border-[3px] rounded-full flex justify-center items-center cursor-pointer"
           />
@@ -36,7 +36,7 @@ const EditProductPhotoUpload = () => {
         )}
 
         <button
-          onClick={() => setPhoto(null)}
+          onClick={() => setEditPhoto(null)}
           className=" w-[110px] h-[40px] text-[var(--secondary-color)] border rounded-[5px] border-[var(--secondary-color)] font-medium text-[12px]"
         >
           Clear Photo

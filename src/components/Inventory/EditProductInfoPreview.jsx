@@ -9,16 +9,15 @@ import { useMemo } from "react";
 
 const EditProductInfoPreview = () => {
   const {
-    editProductName,
-    setProductName,
+    editName,
     editBrand,
-    setBrand,
-    editUnit,setUnit,
-    editProductInfo,setProductInfo,
-    editStock,setStock,
-    actualPrice,setActualPrice,
-    editSalePrice,setSalePrice,
-    editPhoto,setPhoto,
+    editUnit,
+    editProductInfo,
+    editStock,
+    actualPrice,
+    editSalePrice,
+    editActualPrice,
+    editPhoto,
     setShowModal,
   } = useContextCustom();
   const [editProduct] = useEditProductMutation();
@@ -26,12 +25,12 @@ const EditProductInfoPreview = () => {
   const createProductHandler = async () => {
     const token = Cookies.get("token");
     const product = {
-      name: editProductName,
-      brand_id: editBrand,
+      name: editName,
+      brand_name: editBrand,
       unit: editUnit,
       more_information: editProductInfo,
-      stock: Number(editStock),
-      actual_price: Number(actualPrice),
+      total_stock: Number(editStock),
+      actual_price: Number(editActualPrice),
       sale_price: Number(editSalePrice),
       photo: editPhoto,
     };
@@ -40,14 +39,6 @@ const EditProductInfoPreview = () => {
     console.log("pppp", product);
 
     setShowModal(true);
-    // setProductName();
-    // setUnit();
-    // setBrand();
-    // setProductInfo();
-    // setStock();
-    // setActualPrice();
-    // setSalePrice();
-    // setPhoto();
   };
 
   return (
@@ -67,18 +58,18 @@ const EditProductInfoPreview = () => {
 
             <div>
               <h1 className=" text-[26px] text-white font-semibold">
-                {editProductName}
+                {editName}
               </h1>
               <p className=" text-[14px] font-medium text-[#C5C1C1]">
-                Sale price:{" "}
+                Sale price:
                 <span className=" text-[var(--secondary-color)]">
                   {editSalePrice} MMK
                 </span>
               </p>
               <p className=" text-[14px] font-medium text-[#C5C1C1]">
-                Actual price:{" "}
+                Actual price:
                 <span className=" text-[var(--secondary-color)]">
-                  {/* {actualPrice} MMK */}
+                  {editActualPrice} MMK
                 </span>
               </p>
             </div>
@@ -90,7 +81,7 @@ const EditProductInfoPreview = () => {
             />
             <p className="text-white text-[16px]">Information</p>
           </div>
-          <div className=" flex justify-between items-center py-10">
+          <div className=" flex justify-between items-stretch py-10">
             <div className="w-fit flex flex-col gap-5 basis-1/2">
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Name</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Brand</p>
@@ -102,7 +93,7 @@ const EditProductInfoPreview = () => {
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
               <p className=" font-medium text-[18px] text-white">
-                : {editProductName}
+                : {editName}
               </p>
               <p className=" font-medium text-[18px] text-white">: {editBrand}</p>
               <p className=" font-medium text-[18px] text-white">: {editStock}</p>
@@ -112,7 +103,7 @@ const EditProductInfoPreview = () => {
               </p>
             </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
 
       {/* Stepper start */}
@@ -123,7 +114,7 @@ const EditProductInfoPreview = () => {
           onClick={createProductHandler}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
-          Create <BsArrowRightShort size={"1.5rem"} />
+          Edit <BsArrowRightShort size={"1.5rem"} />
         </button>
       </div>
 

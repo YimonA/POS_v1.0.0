@@ -1,11 +1,19 @@
 import Navbar from "../components/Navbar";
+import { BsArrowLeft } from "react-icons/bs";
+import { RiDeleteBackLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 import { useGetProductsQuery } from "../redux/api/productApi";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addProducts } from "../redux/services/productSlice";
-import { addToCart,removeFromCart,addItemsQuantity,addCurrentItem } from "../redux/services/cashierSlice";
+import {
+  addToCart,
+  removeFromCart,
+  addItemsQuantity,
+  subtractItemsQuantity,
+  addCurrentItem,removeStrQty
+} from "../redux/services/cashierSlice";
 import { Link } from "react-router-dom";
 
 const Cashier = () => {
@@ -13,14 +21,13 @@ const Cashier = () => {
   const token = Cookies.get("token");
   const { data } = useGetProductsQuery(token);
   const products = useSelector((state) => state.productSlice.products);
-  const { cartItems, currentItem,currentQty, cost, tax, totalCost,taxCost } = useSelector(
-    (state) => state.cashierSlice
-  );
+  const { cartItems, currentItem, currentQty, cost, tax, totalCost, taxCost } =
+    useSelector((state) => state.cashierSlice);
 
   console.log("cartItems", cartItems);
   console.log("currentItem", currentItem);
-  console.log('currentQty',currentQty);
-  console.log('totalCost',totalCost);
+  console.log("currentQty", currentQty);
+  console.log("totalCost", totalCost);
   // console.log('cartItems',cartItems);
   // console.log('cartItems',cartItems);
 
@@ -30,14 +37,25 @@ const Cashier = () => {
     console.log("products", products);
   }, [data]);
 
-  const cartItemsHandler=(product)=>{
-    dispatch(addToCart(product));
-  }
-  const addCurrentItemHandler=(item)=>{
+  const cartItemsHandler = (product) => {
+    if (product.total_stock >= 1) {
+      dispatch(addToCart(product));
+    }
+  };
+  const addCurrentItemHandler = (item) => {
     dispatch(addCurrentItem(item));
+  };
+  const zeroBtnHandler = () => {
+    const str = new String(currentItem.quantity);
+    if (str.length > 1 || str[0] !== "1") {
+      dispatch(addItemsQuantity("0"));
+    }
+  };
+const subtractQuantityHandler=(currentItem)=>{
+  dispatch(removeStrQty());
+  dispatch(subtractItemsQuantity(currentItem));
+}
 
-  }
-  
   return (
     <div className="w-full min-h-screen">
       <div className=" flex justify-center items-stretch sidebar-height">
@@ -50,7 +68,7 @@ const Cashier = () => {
               <div className="basis-1/3 flex justify-start items-center gap-5">
                 <Link to={"/"}>
                   <h2 className="text-[16px] text-[var(--secondary-color)] font-medium">
-                    Back
+                    <BsArrowLeft size={"1.3rem"} />
                   </h2>
                 </Link>
                 <h2 className="text-[16px] text-[var(--font-color)] font-medium">
@@ -79,8 +97,8 @@ const Cashier = () => {
               return (
                 <div
                   key={product?.id}
-                  onClick={()=>cartItemsHandler(product)}
-                  className="w-[170px] h-[180px] flex flex-col border-[1px] border-[var(--border-color)] rounded-[5px] cursor-pointer"
+                  onClick={() => cartItemsHandler(product)}
+                  className="w-[170px] h-[200px] flex flex-col border-[1px] border-[var(--border-color)] rounded-[5px] cursor-pointer"
                 >
                   <img
                     src={product?.photo}
@@ -93,6 +111,9 @@ const Cashier = () => {
                     </p>
                     <p className=" text-[14px] text-white opacity-70 px-5 font-normal text-right">
                       {product?.sale_price} Ks
+                    </p>
+                    <p className=" text-[14px] text-red-500 opacity-70 px-5 font-bold text-right">
+                      {product?.total_stock === 0 ? "Out of Stock" : ""}
                     </p>
                   </div>
                 </div>
@@ -115,7 +136,7 @@ const Cashier = () => {
               return (
                 <div
                   key={item?.id}
-                  onClick={()=>addCurrentItemHandler(item)}
+                  onClick={() => addCurrentItemHandler(item)}
                   className={`flex flex-col w-full py-2 cursor-pointer ${
                     item?.id === currentItem?.id ? "selected-Item" : ""
                   }`}
@@ -126,7 +147,10 @@ const Cashier = () => {
                         {item?.name}
                       </p>
                       <p className=" text-[var(--gray-color)] text-[14px] font-normal">
-                        {item?.quantity} Qty {item?.sale_price} Ks
+                        {item?.quantity} Qty / Unit Price {item?.sale_price} Ks
+                      </p>
+                      <p className=" text-[var(--gray-color)] text-[14px] font-normal">
+                        Available Stock {item?.total_stock}
                       </p>
                     </div>
                     <p className=" text-[var(--secondary-color)] text-[16px] font-bold">
@@ -156,19 +180,19 @@ const Cashier = () => {
           <div className=" bg-[var(--base-color)]">
             <div className="flex justify-center items-center text-[var(--secondary-color)] w-full">
               <button
-                onClick={() => dispatch(addItemsQuantity(1))}
+                onClick={() => dispatch(addItemsQuantity("1"))}
                 className=" calculator-btn"
               >
                 1
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(2))}
+                onClick={() => dispatch(addItemsQuantity("2"))}
                 className=" calculator-btn"
               >
                 2
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(3))}
+                onClick={() => dispatch(addItemsQuantity("3"))}
                 className=" calculator-btn"
               >
                 3
@@ -180,61 +204,68 @@ const Cashier = () => {
 
             <div className="flex justify-center items-center text-[var(--secondary-color)] w-full">
               <button
-                onClick={() => dispatch(addItemsQuantity(4))}
+                onClick={() => dispatch(addItemsQuantity("4"))}
                 className=" calculator-btn"
               >
                 4
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(5))}
+                onClick={() => dispatch(addItemsQuantity("5"))}
                 className=" calculator-btn"
               >
                 5
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(6))}
+                onClick={() => dispatch(addItemsQuantity("6"))}
                 className=" calculator-btn"
               >
                 6
               </button>
-              <button onClick={()=>dispatch(removeFromCart(currentItem))} className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]">
+              <button
+                onClick={() => dispatch(removeFromCart(currentItem))}
+                className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]"
+              >
                 Del Item
               </button>
             </div>
             <div className="flex justify-center items-center text-[var(--secondary-color)] w-full">
               <button
-                onClick={() => dispatch(addItemsQuantity(7))}
+                onClick={() => dispatch(addItemsQuantity("7"))}
                 className=" calculator-btn"
               >
                 7
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(8))}
+                onClick={() => dispatch(addItemsQuantity("8"))}
                 className=" calculator-btn"
               >
                 8
               </button>
               <button
-                onClick={() => dispatch(addItemsQuantity(9))}
+                onClick={() => dispatch(addItemsQuantity("9"))}
                 className=" calculator-btn"
               >
                 9
               </button>
-              <button className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]">
-                PRICE
+              <button
+                onClick={() => subtractQuantityHandler(currentItem)}
+                className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]"
+              >
+                <RiDeleteBackLine size={"1.3rem"} />
               </button>
             </div>
             <div className="flex justify-center items-center text-[var(--secondary-color)] w-full">
               <button className=" calculator-btn">0/-</button>
               <button
-                onClick={() => dispatch(addItemsQuantity(0))}
+                onClick={() => zeroBtnHandler(currentItem)}
                 className=" calculator-btn"
               >
                 0
               </button>
               <button className=" calculator-btn">.</button>
-              <button className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]">
-                cross
+
+              <button className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)] text-[12px] flex flex-col justify-center items-center">
+                
               </button>
             </div>
             <button className=" w-full h-[60px] border-[1px] border-[var(--border-color)] text-[16px] font-semibold flex justify-center items-center text-[var(--font-color)]">

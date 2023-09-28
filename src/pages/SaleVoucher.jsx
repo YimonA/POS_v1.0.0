@@ -1,5 +1,5 @@
 import { Navbar } from "@mantine/core";
-import { BsArrowRight } from "react-icons/ai";
+import { BsArrowLeft } from "react-icons/ai";
 import { BsPrinter } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const SaleVoucher = () => {
       <Navbar />
       <div className="container-fluid h-[45px] p-5 flex justify-between items-center bg-[--base-color] text-[--secondary-color] border-2 border-[--border-color]">
         <p className="text-[var(--secondary-color)] text-[14px] font-semibold flex justify-center items-center gap-3">
-          <BsArrowRight size={"1.3rem"} />
+          <BsArrowLeft size={"1.3rem"} />
           Back
         </p>
       </div>
