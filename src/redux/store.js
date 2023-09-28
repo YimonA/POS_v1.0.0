@@ -1,9 +1,9 @@
-import {  configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./api/authApi";
 import authSlice from "./services/authSlice";
 
 import shopSlice from "./services/shopSlice";
-import stockSlice from "./services/StockSlice";
+import stockSlice from "./services/stockSlice";
 import { stockApi } from "./api/stockApi";
 
 import { mediaApi } from "./api/mediaApi";
@@ -34,11 +34,11 @@ export const store = configureStore({
     [productApi.reducerPath]: productApi.reducer,
     [brandApi.reducerPath]: brandApi.reducer,
     [stockApi.reducerPath]: stockApi.reducer,
-    [profileApi.reducerPath]:profileApi.reducer,
+    [profileApi.reducerPath]: profileApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [reportSaleApi.reducerPath]: reportSaleApi.reducer,
-    [overviewApi.reducerPath]:overviewApi.reducer,
-    [reportStockApi.reducerPath] : reportStockApi.reducer,
+    [overviewApi.reducerPath]: overviewApi.reducer,
+    [reportStockApi.reducerPath]: reportStockApi.reducer,
 
     authSlice: authSlice,
     mediaSlice: mediaSlice,
@@ -47,11 +47,11 @@ export const store = configureStore({
     shop: shopSlice,
     stockSlice: stockSlice,
     userSlice: userSlice,
-    profileSlice:profileSlice,
-    overviewSlice:overviewSlice,
+    profileSlice: profileSlice,
+    overviewSlice: overviewSlice,
     reportSaleSlice: reportSaleSlice,
-    reportStockSlice:reportStockSlice,
-    cashierSlice:cashierSlice,
+    reportStockSlice: reportStockSlice,
+    cashierSlice: cashierSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -64,6 +64,6 @@ export const store = configureStore({
       userApi.middleware,
       overviewApi.middleware,
       reportSaleApi.middleware,
-      reportStockApi.middleware,
+      reportStockApi.middleware
     ),
 });
