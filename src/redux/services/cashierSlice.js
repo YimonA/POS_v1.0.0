@@ -10,6 +10,9 @@ const initialState = {
   quantity: 0,
   cartItems: [],
   currentItem: null,
+  deleteItem: null,
+  strQty: "",
+  substractQty: "",
 };
 
 function calcTotalCost(cartItems) {
@@ -44,57 +47,103 @@ export const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (item) => item.id !== payload.id
       );
+      state.deleteItem = state.currentItem;
       state.totalCost -=
-        state.currentItem.quantity * state.currentItem.sale_price;
+        state.deleteItem.quantity * state.deleteItem.sale_price;
       state.tax = calcTax(state.totalCost);
       state.taxCost = calcTaxCost(state.totalCost, state.tax);
       state.currentItem = state.cartItems[state.cartItems.length - 1];
     },
     addItemsQuantity: (state, { payload }) => {
-      if (state.currentItem.quantity === 1) {
+      if (
+        (state.currentItem.quantity === 1 ||
+          state.currentItem.quantity === 0) &&
+        state.currentItem.total_stock > Number(payload)
+      ) {
         state.cartItems = state.cartItems.map((item) => {
           if (item.id === state.currentItem.id) {
-            return { ...item, quantity: payload };
+            return { ...item, quantity: Number(payload) };
           } else {
             return item;
           }
         });
         state.currentItem = {
           ...state.currentItem,
-          quantity:payload,
+          quantity: payload,
         };
         state.totalCost +=
           calcTotalCost(state.cartItems) - state.currentItem.sale_price;
         state.tax = calcTax(state.totalCost);
         state.taxCost = calcTaxCost(state.totalCost, state.tax);
-      } else if (state.currentItem.quantity >= 1) {
+      } else if (
+        state.currentItem.quantity >= 1 &&
+        state.currentItem.total_stock >
+          Number(state.currentItem.quantity + payload)
+      ) {
         // const currentQty= state.currentItem.quantity+payload;
         state.cartItems = state.cartItems.map((item) => {
           if (item.id === state.currentItem.id) {
-            return { ...item, quantity: state.currentItem.quantity + payload };
+            return {
+              ...item,
+              quantity: Number(state.currentItem.quantity + payload),
+            };
           } else {
             return item;
           }
         });
-        
-        state.totalCost += calcTotalCost(state.cartItems)-(state.currentItem.quantity*state.currentItem.sale_price);
-        
+
+        state.totalCost +=
+          calcTotalCost(state.cartItems) -
+          state.currentItem.quantity * state.currentItem.sale_price;
+
         state.tax = calcTax(state.totalCost);
         state.taxCost = calcTaxCost(state.totalCost, state.tax);
         state.currentItem = {
           ...state.currentItem,
-          quantity: state.currentItem.quantity + payload,
+          quantity: Number(state.currentItem.quantity + payload),
         };
       }
     },
+    subtractItemsQuantity: (state, { payload }) => {
+      state.strQty = new String(payload.quantity);
+      state.substractQty = state.strQty.substring(0, state.strQty.length - 1);
+
+      state.cartItems = state.cartItems.map((item) => {
+        if (item.id === state.currentItem.id) {
+          return {
+            ...item,
+            quantity: Number(state.substractQty),
+          };
+        }
+      });
+      state.totalCost +=
+        calcTotalCost(state.cartItems) -
+        state.currentItem.quantity * state.currentItem.sale_price;
+
+      state.tax = calcTax(state.totalCost);
+      state.taxCost = calcTaxCost(state.totalCost, state.tax);
+      state.currentItem = {
+        ...state.currentItem,
+        quantity: Number(state.substractQty),
+      };
+    },
+    removeStrQty: (state) => {
+      (state.strQty = null), 
+      (state.substractQty = null);      
+    },
     addCurrentItem: (state, { payload }) => {
-      state.currentItem=payload;
-    }
+      state.currentItem = payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, addItemsQuantity, removeFromCart,addCurrentItem } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  addItemsQuantity,
+  removeFromCart,
+  addCurrentItem,
+  subtractItemsQuantity,removeStrQty,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -55,7 +55,7 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className=" flex justify-center items-start py-10">
+            <div className=" flex justify-start items-start py-10">
               <div className="w-fit flex flex-col gap-5 basis-1/2">
                 <p className=" font-medium text-[18px] text-[#B9B9B9]">Brand</p>
                 <p className=" font-medium text-[18px] text-[#B9B9B9]">Stock</p>

@@ -1,8 +1,8 @@
 import { BsCheckLg } from "react-icons/bs";
-import { useContextCustom } from "../context/stateContext";
+import { useContextCustom } from "../../context/stateContext";
 import { Link } from "react-router-dom";
 
-const ModalCreateProduct = () => {
+const ModalEditProduct = () => {
   const { liHandler} = useContextCustom();
 
   return (
@@ -24,4 +24,4 @@ const ModalCreateProduct = () => {
   )
 }
 
-export default ModalCreateProduct
+export default ModalEditProduct

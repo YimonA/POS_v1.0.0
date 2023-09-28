@@ -16,7 +16,7 @@ export const StateContextProvider = ({ children }) => {
   const [brand, setBrand] = useState();
   const [unit, setUnit] = useState();
   const [productInfo, setProductInfo] = useState();
-  const [stock, setStock] = useState(3);
+  const [stock, setStock] = useState();
   const [actualPrice, setActualPrice] = useState();
   const [salePrice, setSalePrice] = useState();
   const [photo,setPhoto]=useState(null);
@@ -58,13 +58,13 @@ const [showBrandAdd,setShowBrandAdd]=useState(false);
   //for product detail
   const[pdata,setPData]=useState();
 
-  const [editProductName, setEditProductName] = useState();
+  const [editName, setEditName] = useState();
   const [editBrand, setEditBrand] = useState();
   const [editUnit, setEditUnit] = useState();
   const [editProductInfo, setEditProductInfo] = useState();
   const [editStock, setEditStock] = useState(3);
-  // const [actualPrice, setActualPrice] = useState();
   const [editSalePrice, setEditSalePrice] = useState();
+  const [editActualPrice, setEditActualPrice] = useState();
   const [editPhoto,setEditPhoto]=useState(null);
 
 //add stock
@@ -88,8 +88,8 @@ const[editProduct,setEditProduct]=useState();
 
     pdata,setPData,
     // editProduct,setEditProduct,
-    editProductName,
-    setEditProductName,
+    editName,
+    setEditName,
     editBrand,
     setEditBrand,
     editUnit,
@@ -98,7 +98,7 @@ const[editProduct,setEditProduct]=useState();
     setEditProductInfo,
     editStock,
     setEditStock,
-    // actualPrice,setActualPrice,
+    editActualPrice,setEditActualPrice,
     editSalePrice,
     setEditSalePrice,editPhoto,setEditPhoto,
     showBrandAdd,setShowBrandAdd,

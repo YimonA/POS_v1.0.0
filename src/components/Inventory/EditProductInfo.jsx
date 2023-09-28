@@ -4,39 +4,37 @@ import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { addBrands } from "../../redux/services/brandSlice";
 
 const EditProductInfo = (props) => {
-  // const {id,name}=props;
-  console.log('props',props);
+  const { name, brand_name, total_stock, unit, more_information } = props;
+  const { nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
 
-  const {
-    editProduct,
-    setEditUnit,setEditBrand,setEditStock,setEditProductName,setEditProductInfo,
-    nextStepperHandler
-  } = useContextCustom();
+  // const [editPhoto,setEditPhoto]=useState(null);
+
   const token = Cookies.get("token");
   const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
   const brands = useSelector((state) => state.brandSlice.brands);
   // console.log("brand", data);
-  console.log("pData", editProduct);
+
+  useEffect(() => {
+    setEditName(name);
+    setEditBrand(brand_name);
+    setEditUnit(unit);
+    setEditStock(total_stock);
+    setEditProductInfo(more_information);
+  }, []);
 
   useEffect(() => {
     dispatch(addBrands({ brands: data?.data }));
   }, [data]);
 
-  const nextHandler = () => {
-    // const ppp=dispatch(addProduct)
-    nextStepperHandler(4);
-  };
-
   return (
     <div className=" ">
       <form
-        onSubmit={nextHandler}
         action=""
         className=" flex gap-20 justify-start items-stretch bg-[--base-color]"
       >
@@ -50,9 +48,8 @@ const EditProductInfo = (props) => {
             </label>
             <input
               type="text"
-              defaultValue={editProduct?.name}
-              onChange={(e) => setEditProductName(e.target.value)}
-              placeholder="Product Name"
+              defaultValue={editName}
+              onChange={(e) => setEditName(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />{" "}
           </div>
@@ -65,7 +62,7 @@ const EditProductInfo = (props) => {
             </label>
             <select
               name="brand"
-              value={editProduct?.brand_name}
+              value={editBrand}
               onChange={(e) => setEditBrand(e.target.value)}
               className="brand-dropdown brand-select "
             >
@@ -91,8 +88,8 @@ const EditProductInfo = (props) => {
             </label>
             <input
               type="text"
-              defaultValue={editProduct?.total_stock}
-              onChange={(e) => setEditStock(e.target.value)}
+              defaultValue={editStock}
+              onChange={(e) => setEditStock(Number(e.target.value))}
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -106,7 +103,7 @@ const EditProductInfo = (props) => {
             </label>
             <select
               name="unit"
-              value={editProduct?.unit}
+              value={editUnit}
               onChange={(e) => setEditUnit(e.target.value)}
               className="brand-dropdown "
             >
@@ -126,7 +123,7 @@ const EditProductInfo = (props) => {
               More Info
             </label>
             <textarea
-              defaultValue={editProduct?.more_information}
+              defaultValue={editProductInfo}
               onChange={(e) => setEditProductInfo(e.target.value)}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
@@ -136,8 +133,7 @@ const EditProductInfo = (props) => {
         <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
           <AddProductStepper />
           <button
-            type="submit"
-            // onClick={()=>nextStepperHandler(2)}
+            onClick={()=>nextStepperHandler(4)}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />

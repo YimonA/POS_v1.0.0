@@ -1,19 +1,21 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Home from "../components/Home";
+// const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 import Login from "../pages/Login";
 import Error from "../pages/Error";
 
 import Media from "../components/Media/Media";
-import MediaImgDetail from '../components/Media/MediaImgDetail';
+import MediaImgDetail from "../components/Media/MediaImgDetail";
 
 import MyAccount from "../components/Profile/MyAccount";
 
 import EditAccount from "../components/User/EditAccount";
-import UserOverview from '../components/User/UserOverview';
-import CreateUser from '../components/User/CreateUser';
-import BannedUser from "../components/User/BannedUser"
-import UserAccount from "../components/User/UserAccount"
+import UserOverview from "../components/User/UserOverview";
+import CreateUser from "../components/User/CreateUser";
+import BannedUser from "../components/User/BannedUser";
+import UserAccount from "../components/User/UserAccount";
 
 import AddProduct from "../components/Inventory/AddProduct";
 import Products from "../components/Inventory/Products";
@@ -42,12 +44,23 @@ import StockEdit from "../components/Inventory/StockEdit";
 // import Cashier from "../components/Cashier";
 
 const Path = () => {
-
-
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Dashboard view={<Home />} />} />
+        {/* <Route
+          path="/"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <Dashboard view={<Home />} />
+            </React.Suspense>
+          }
+        /> */}
+        <Route
+          path="/"
+          element={
+              <Dashboard view={<Home />} />
+          }
+        />
         <Route path="/*" element={<Error />} />
 
         {/* media routes start*/}
@@ -61,8 +74,7 @@ const Path = () => {
           path="/my-profile"
           element={<Dashboard view={<MyAccount />} />}
         />
-        
-        
+
         {/* profile routes start*/}
 
         {/* sale routes start*/}
@@ -83,7 +95,8 @@ const Path = () => {
         />
         <Route
           path="/user-profile/:id"
-          element={<Dashboard view={<UserAccount />} />}/>
+          element={<Dashboard view={<UserAccount />} />}
+        />
         <Route
           path="/create-user"
           element={<Dashboard view={<CreateUser />} />}
@@ -91,7 +104,7 @@ const Path = () => {
         <Route
           path="/banned-user"
           element={<Dashboard view={<BannedUser />} />}
-        /> 
+        />
         {/* user routes start*/}
 
         {/* inventory routes start*/}
@@ -109,7 +122,10 @@ const Path = () => {
           element={<Dashboard view={<ProductEdit />} />}
         />
         <Route path="/stock-control" element={<Dashboard view={<Stock />} />} />
-        <Route path="/stock-edit/:id" element={<Dashboard view={<StockEdit />} />} />
+        <Route
+          path="/stock-edit/:id"
+          element={<Dashboard view={<StockEdit />} />}
+        />
         <Route path="/brand" element={<Dashboard view={<Brand />} />} />
         {/* <Route path="/brand-edit/:id" element={<Dashboard view={<BrandEdit />} />} /> */}
         {/* inventory routes start*/}
@@ -118,24 +134,19 @@ const Path = () => {
         <Route path="/recent" element={<Dashboard view={<Recent />} />} />
         {/* sale routes start*/}
 
-        
         <Route
           path="/report-stock"
           element={<Dashboard view={<StockReport />} />}
         />
-      
+
         <Route
           path="/report-sale"
           element={<Dashboard view={<SaleReport />} />}
         />
 
-
         {/* finance routes start*/}
         <Route path="/finance-daily" element={<Dashboard view={<Daily />} />} />
-        <Route
-          path="/finance-daily"
-          element={<Dashboard view={<Daily />} />}
-        />
+        <Route path="/finance-daily" element={<Dashboard view={<Daily />} />} />
         <Route
           path="/finance-monthly"
           element={<Dashboard view={<Monthly />} />}

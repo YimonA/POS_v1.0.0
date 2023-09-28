@@ -1,14 +1,14 @@
 import EditProductInfo from "./EditProductInfo";
 import EditProductPrice from "./EditProductPrice";
 import EditProductPhotoUpload from "./EditProductPhotoUpload";
-import ModalCreateProduct from "../ModalCreateProduct";
+import ModalEditProduct from "./ModalEditProduct";
 import EditProductInfoPreview from "./EditProductInfoPreview";
 import Modal from "../Modal";
 import EditProductSelectImg from "./EditProductSelectImg";
 import { useContextCustom } from "../../context/stateContext";
 import { useGetSingleProductQuery } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -17,15 +17,15 @@ import { addSingleProduct } from "../../redux/services/productSlice";
 
 const ProductEdit = () => {
   const { showModal, current, liHandler,pData } = useContextCustom();
+  const {id}=useParams();
   const token = Cookies.get("token");
-  const { data } = useGetSingleProductQuery(token);
   const dispatch = useDispatch();
+  const { data } = useGetSingleProductQuery({id,token});
   const singleProduct = useSelector((state) => state.productSlice.singleProduct);
-  // console.log('ddd',data?.data);
-  // console.log("cu", current);
+  console.log('data',data?.data);
   
   useEffect(() => {
-    dispatch(addSingleProduct({ products: data }));
+    dispatch(addSingleProduct({ singleProduct: data?.data }));
   }, [data]);
   console.log('singleProduct',singleProduct);
 
@@ -63,11 +63,11 @@ const ProductEdit = () => {
           ""
         )}
         {current === 4 ? <EditProductInfoPreview /> : ""}
-        {/* {current === 4 && showModal ? (
-          <Modal title={"Create Product"} modalView={<ModalCreateProduct />} />
+        {current === 4 && showModal ? (
+          <Modal title={"Edit Product"} modalView={<ModalEditProduct />} />
         ) : (
           ""
-        )} */}
+        )}
       </div>
     </div>  )
 }
