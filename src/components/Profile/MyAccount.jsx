@@ -7,7 +7,7 @@ import { LuMailOpen } from "react-icons/lu";
 import { LuPhoneCall } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { useChangeProfilePWMutation } from "../../redux/api/ProfileApi";
+import { useChangeProfilePWMutation } from "../../redux/api/profileApi";
 import Cookies from "js-cookie";
 import { useLogoutMutation } from "../../redux/api/authApi";
 import { removeUser } from "../../redux/services/authSlice";
