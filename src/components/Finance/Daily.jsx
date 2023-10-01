@@ -132,30 +132,8 @@ const Daily = () => {
           </tr>
         </thead>
         <tbody>
-          {/* {dailySaleRecords?
-          dailySaleRecords?.today_sale_overview?.map((record, index) => {
-            return (
-              <tr className=" " key={record?.id}>
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4">{record?.voucher}</td>
-                <td className="px-1 text-end py-4">{record?.item_count}</td>
-                <td className="px-1 py-4 text-end">{record?.tax}</td>
-                <td className="px-1 py-4 text-end">{record?.total}</td>
-                <td className="px-1 py-4 text-end">{12/7/2023}</td>
-                <td className=" px-1 py-4 text-end">{record?.time}</td>
-                <td className=" pe-5 py-4 text-end">
-                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                    <BsArrowRight
-                      size={"1rem"}
-                      className="text-[var(--secondary-color)]"
-                    />
-                  </span>
-                </td>
-              </tr>
-            );
-          }):''
-          } */}
-          {dRecords?.today_sale_overview?.map((record, index) => {
+          {dRecords?.today_sale_overview.length>0?
+          dRecords?.today_sale_overview?.map((record, index) => {
             return (
               <tr className=" " key={record?.id}>
                 <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -175,7 +153,10 @@ const Daily = () => {
                 </td>
               </tr>
             );
-          })}
+          }):
+          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
+
+          }
         </tbody>
       </table>
       {/* showList end */}

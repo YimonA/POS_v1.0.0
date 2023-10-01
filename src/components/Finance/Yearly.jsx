@@ -39,7 +39,7 @@ const Yearly = () => {
           <p className="breadcrumb-title	">Yearly</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Finance / Yearly
-          </p>{" "}
+          </p>
         </div>
         <Link to={"/cashier"}>
           <button
@@ -88,12 +88,12 @@ const Yearly = () => {
               <option value="" className="recent-dropdown hidden">
                 Year
               </option>
-              <option value={2021} className="recent-dropdown">
+              {/* <option value={2021} className="recent-dropdown">
                 2021
               </option>
               <option value={2022} className="recent-dropdown">
                 2022
-              </option>
+              </option> */}
               <option value={2023} className="recent-dropdown">
                 2023
               </option>
@@ -138,7 +138,8 @@ const Yearly = () => {
         </thead>
 
         <tbody>
-          {yRecords?.yearly_sale_overviews?.map((record, index) => {
+          {yRecords?.yearly_sale_overviews.length>0?
+          yRecords?.yearly_sale_overviews?.map((record, index) => {
             return (
               <tr key={record?.id} className=" ">
                 <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -158,7 +159,9 @@ const Yearly = () => {
                 </td>
               </tr>
             );
-          })}
+          }):
+          <tr><td className="px-1 text-center py-4 " colSpan={8} >There is no data now.</td></tr> 
+          }
         </tbody>
       </table>
       {/* showList end */}

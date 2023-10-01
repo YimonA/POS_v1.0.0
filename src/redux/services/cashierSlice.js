@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const initialState = {
   sum: 0,
-  cost: 0,
   tax: 0,
   totalCost: 0,
   taxCost: 0,
@@ -106,7 +105,12 @@ export const cartSlice = createSlice({
     },
     subtractItemsQuantity: (state, { payload }) => {
       state.strQty = new String(payload.quantity);
-      state.substractQty = state.strQty.substring(0, state.strQty.length - 1);
+      console.log("strQty", state.strQty);
+      if (state.strQty.length === 1) {
+        state.substractQty = "1";
+      } else {
+        state.substractQty = state.strQty.substring(0, state.strQty.length - 1);
+      }
 
       state.cartItems = state.cartItems.map((item) => {
         if (item.id === state.currentItem.id) {
@@ -114,8 +118,13 @@ export const cartSlice = createSlice({
             ...item,
             quantity: Number(state.substractQty),
           };
+        } else {
+          return item;
         }
       });
+      console.log("ccc", state.cartItems);
+      console.log("current", state.currentItem);
+
       state.totalCost +=
         calcTotalCost(state.cartItems) -
         state.currentItem.quantity * state.currentItem.sale_price;
@@ -127,13 +136,17 @@ export const cartSlice = createSlice({
         quantity: Number(state.substractQty),
       };
     },
-    removeStrQty: (state) => {
-      (state.strQty = null), 
-      (state.substractQty = null);      
-    },
+
     addCurrentItem: (state, { payload }) => {
       state.currentItem = payload;
     },
+    clearCart:(state)=>{
+      state.cartItems=[];
+      state.totalCost=0;
+            state.tax=0;
+            state.taxCost=0;
+
+    }
   },
 });
 
@@ -143,7 +156,8 @@ export const {
   addItemsQuantity,
   removeFromCart,
   addCurrentItem,
-  subtractItemsQuantity,removeStrQty,
+  subtractItemsQuantity,
+  clearCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
