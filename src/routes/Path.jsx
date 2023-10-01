@@ -26,7 +26,8 @@ import Brand from "../components/Inventory/Brand";
 
 // import Shop from "../pages/Shop";
 import Cashier from "../pages/Cashier";
-import ShopList from "../components/ShopList";
+import SaleVoucher from "../pages/SaleVoucher";
+import VoucherDetail from "../pages/VoucherDetail";
 import Recent from "../components/Recent";
 
 import Daily from "../components/Finance/Daily";
@@ -68,8 +69,7 @@ const Path = () => {
         <Route path="/media" element={<Dashboard view={<Media />} />} />
         {/* media routes start*/}
 
-        {/* sale routes start*/}
-
+        {/* profile routes start*/}
         <Route
           path="/my-profile"
           element={<Dashboard view={<MyAccount />} />}
@@ -78,10 +78,10 @@ const Path = () => {
         {/* profile routes start*/}
 
         {/* sale routes start*/}
-        {/* <Route path="/cashier" element={<Shop />} /> */}
+        <Route path="/voucher" element={<SaleVoucher />} />
+        <Route path="/voucher-detail" element={<VoucherDetail />} />
         <Route path="/cashier" element={<Cashier />} />
-        <Route path="/shop-list" element={<Dashboard view={<ShopList />} />} />
-        {/* sale routes start*/}
+        {/* sale routes end*/}
 
         {/* user routes start*/}
 

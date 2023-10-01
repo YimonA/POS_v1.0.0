@@ -153,7 +153,8 @@ const Custom = () => {
           </tr>
         </thead>
         <tbody>
-          {cRecords?.map((record, index) => {
+          {cRecords?.length>0?
+          cRecords?.map((record, index) => {
             return (
               <tr key={record?.id} className=" ">
                 <td className="px-1 text-center  py-4">{index+1}</td>
@@ -173,7 +174,10 @@ const Custom = () => {
                 </td>
               </tr>
             );
-          })}
+          }):
+          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
+
+          }
         </tbody>
       </table>
       {/* showList end */}
@@ -226,7 +230,7 @@ const Custom = () => {
         {/* total calculate end*/}
 
         {/* pagination start */}
-        <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
+        <Button.Group className="ms-auto border-[--border-color] flex justify-end basis-1/3">
           <Button
             variant="default"
             className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"

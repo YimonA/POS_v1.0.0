@@ -10,12 +10,14 @@ import Modal from "./Modal";
 import SaleCloseGuard from "../pages/SaleCloseGuard";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const TodaySaleOverview = () => {
     const token = Cookies.get("token");
   const { showModal, setShowModal } = useContextCustom();
   const [sortValue, setSortValue] = useState();
   const [vouchers, setVouchers] = useState();
+const nav=useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -34,20 +36,16 @@ const TodaySaleOverview = () => {
     console.log("v", vouchers);
   };
 
+  const detailHandler=(v)=>{
+    nav("/voucher-detail",{state:{voucher:v}});
+  }
   return (
     <SaleCloseGuard>
 
     <div className=" w-full my-10">
         <div className=" flex justify-between items-center py-5">
           <p className="breadcrumb-title	">Today Sale Overview</p>
-          {/* <div className="border-[var(--border-color)] rounded border inline px-2 py-1">
-          <BsSearch className=" inline text-gray-400 me-3" />
-          <input
-            type="text"
-            placeholder="search"
-            className=" w-[250px] outline-none bg-transparent text-gray-300 text-sm font-semibold"
-          />
-        </div> */}
+          
           <div className=" flex items-baseline gap-4">
             <select
               name="sort"
@@ -126,7 +124,8 @@ const TodaySaleOverview = () => {
             </tr>
           </thead>
           <tbody>
-            {vouchers?.voucher.map((v, index) => {
+            {vouchers?.voucher.length>0?
+            vouchers?.voucher.map((v, index) => {
               return (
                 <tr key={v?.id} className=" ">
                   <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -141,7 +140,8 @@ const TodaySaleOverview = () => {
                   <td className=" px-1 py-4 text-end">{v?.time}</td>
 
                   <td className=" pe-5 py-4 text-end">
-                    <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    
+                    <button onClick={()=>detailHandler(v)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                       <BsArrowRight
                         size={"1rem"}
                         className="text-[var(--secondary-color)]"
@@ -150,7 +150,9 @@ const TodaySaleOverview = () => {
                   </td>
                 </tr>
               );
-            })}
+            })
+            :
+<tr><td className="px-1 text-center py-4 " colSpan={8} >There is no data now.</td></tr>             }
           </tbody>
         </table>
         {/* showList end */}

@@ -12,17 +12,21 @@ import {
   removeFromCart,
   addItemsQuantity,
   subtractItemsQuantity,
-  addCurrentItem,removeStrQty
+  addCurrentItem,
 } from "../redux/services/cashierSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useVoucherMutation } from "../redux/api/cashierApi";
 
 const Cashier = () => {
+  const nav = useNavigate();
+  const [voucher] = useVoucherMutation();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetProductsQuery(token);
   const products = useSelector((state) => state.productSlice.products);
-  const { cartItems, currentItem, currentQty, cost, tax, totalCost, taxCost } =
+  const { cartItems, currentItem, currentQty, tax, totalCost, taxCost } =
     useSelector((state) => state.cashierSlice);
+  const user = useSelector((state) => state.authSlice.user);
 
   console.log("cartItems", cartItems);
   console.log("currentItem", currentItem);
@@ -51,14 +55,42 @@ const Cashier = () => {
       dispatch(addItemsQuantity("0"));
     }
   };
-const subtractQuantityHandler=(currentItem)=>{
-  dispatch(removeStrQty());
-  dispatch(subtractItemsQuantity(currentItem));
-}
+
+  function payment() {
+    const items = cartItems.map((item) => {
+      return {
+        product_id: item.id,
+        quantity: item.quantity,
+      };
+    });
+    console.log("cart items", items);
+
+    const content = {
+      customer_name: user.name,
+      phone_number: user.phone_number,
+      items: items,
+    };
+    const strData = JSON.stringify(content);
+    return strData;
+  }
+
+  const paymentHandler = async () => {
+    try {
+      const strData = payment();
+      const stringData = await voucher({token,strData});
+      console.log('strData',strData);
+      console.log('stringData',stringData);
+      if(stringData?.data?.data) {
+          nav("/voucher",{state:{voucher:stringData?.data?.data}});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen">
-      <div className=" flex justify-center items-stretch sidebar-height">
+      <div className=" flex justify-center items-stretch ">
         {/* left section start*/}
 
         <div className=" basis-3/4 bg-[var(--base-color)] h-full border-r-[1px] border-[var(--border-color)]">
@@ -92,7 +124,7 @@ const subtractQuantityHandler=(currentItem)=>{
             <div className=" flex gap-2.5 items-center "></div>
           </div>
           {/* product card start*/}
-          <div className=" flex flex-wrap gap-10 p-5 py-10 sidebar-height overflow-y-scroll">
+          <div className=" flex flex-wrap gap-10 p-5 py-10 sidebar-height overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-800 ">
             {products?.map((product) => {
               return (
                 <div
@@ -124,7 +156,7 @@ const subtractQuantityHandler=(currentItem)=>{
         </div>
         {/* left section end*/}
 
-        <div className=" basis-1/4 flex flex-col h-full bg-[var(--sidebar-color)]">
+        <div className=" basis-1/4 flex flex-col h-full bg-[var(--sidebar-color)] h-screen">
           {/* right calculate section start*/}
 
           <div className="bg-[var(--sidebar-color)] h-full p-1">
@@ -248,7 +280,7 @@ const subtractQuantityHandler=(currentItem)=>{
                 9
               </button>
               <button
-                onClick={() => subtractQuantityHandler(currentItem)}
+                onClick={() => dispatch(subtractItemsQuantity(currentItem))}
                 className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)]"
               >
                 <RiDeleteBackLine size={"1.3rem"} />
@@ -264,11 +296,12 @@ const subtractQuantityHandler=(currentItem)=>{
               </button>
               <button className=" calculator-btn">.</button>
 
-              <button className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)] text-[12px] flex flex-col justify-center items-center">
-                
-              </button>
+              <button className=" calculator-btn bg-[var(--secondary-color)] text-[var(--sidebar-color)] text-[12px] flex flex-col justify-center items-center"></button>
             </div>
-            <button className=" w-full h-[60px] border-[1px] border-[var(--border-color)] text-[16px] font-semibold flex justify-center items-center text-[var(--font-color)]">
+            <button
+              onClick={paymentHandler}
+              className=" w-full h-[60px] border-[1px] border-[var(--border-color)] text-[16px] font-semibold flex justify-center items-center text-[var(--font-color)]"
+            >
               Payment
             </button>
           </div>

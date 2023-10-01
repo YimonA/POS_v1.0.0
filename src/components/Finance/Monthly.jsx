@@ -130,12 +130,12 @@ const Monthly = () => {
               <option value="" className="recent-dropdown hidden">
                 Year
               </option>
-              <option value={2021} className="recent-dropdown">
+              {/* <option value={2021} className="recent-dropdown">
                 2021
               </option>
               <option value={2022} className="recent-dropdown">
                 2022
-              </option>
+              </option> */}
               <option value={2023} className="recent-dropdown">
                 2023
               </option>
@@ -179,7 +179,8 @@ const Monthly = () => {
           </tr>
         </thead>
         <tbody>
-          {mRecords?.monthly_sale_overview.map((record, index) => {
+          {mRecords?.monthly_sale_overview.length>0?
+          mRecords?.monthly_sale_overview.map((record, index) => {
             return (
               <tr key={record?.id} className=" ">
                 <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -199,7 +200,9 @@ const Monthly = () => {
                 </td>
               </tr>
             );
-          })}
+          }) :
+          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
+          }
         </tbody>
       </table>
       {/* showList end */}

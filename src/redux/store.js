@@ -25,6 +25,7 @@ import reportStockSlice from "./services/reportStockSlice";
 
 import { profileApi } from "./api/profileApi";
 import profileSlice from "./services/profileSlice";
+import { cashierApi } from "./api/cashierApi";
 import cashierSlice from "./services/cashierSlice";
 
 export const store = configureStore({
@@ -39,6 +40,7 @@ export const store = configureStore({
     [reportSaleApi.reducerPath]: reportSaleApi.reducer,
     [overviewApi.reducerPath]: overviewApi.reducer,
     [reportStockApi.reducerPath]: reportStockApi.reducer,
+    [cashierApi.reducerPath]: cashierApi.reducer,
 
     authSlice: authSlice,
     mediaSlice: mediaSlice,
@@ -52,9 +54,12 @@ export const store = configureStore({
     reportSaleSlice: reportSaleSlice,
     reportStockSlice: reportStockSlice,
     cashierSlice: cashierSlice,
+    
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(
       authApi.middleware,
       mediaApi.middleware,
       productApi.middleware,
@@ -64,6 +69,7 @@ export const store = configureStore({
       userApi.middleware,
       overviewApi.middleware,
       reportSaleApi.middleware,
-      reportStockApi.middleware
+      reportStockApi.middleware,
+      cashierApi.middleware
     ),
 });

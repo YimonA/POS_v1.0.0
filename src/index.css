@@ -47,6 +47,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.columnSpan {
+  column-span: 8;
+}
 .text-title-logo {
   font-family: "Genos", sans-serif;
   font-size: 26px;

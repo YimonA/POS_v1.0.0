@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearCart } from "../redux/services/cashierSlice";
 
-const SaleVoucher = () => {
+const VoucherDetail = () => {
   const [voucher, setVoucher] = useState();
   const location = useLocation();
   const voucherList = location.state?.voucher;
@@ -94,4 +94,4 @@ const SaleVoucher = () => {
   );
 };
 
-export default SaleVoucher;
+export default VoucherDetail;
