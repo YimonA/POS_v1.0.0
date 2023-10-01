@@ -93,7 +93,7 @@ const Cashier = () => {
       <div className=" flex justify-center items-stretch ">
         {/* left section start*/}
 
-        <div className=" basis-3/4 bg-[var(--base-color)] h-full border-r-[1px] border-[var(--border-color)]">
+        <div className=" basis-3/4 bg-[var(--base-color)] min-h-full border-r-[1px] border-[var(--border-color)]">
           <div className="w-full h-[50px] p-5 flex justify-between items-center bg-[--base-color] text-[--secondary-color] border-2 border-[--border-color]">
             {/* left cashier navbar start*/}
             <div className="w-full flex gap-5 justify-between items-center">
@@ -133,7 +133,8 @@ const Cashier = () => {
                   className="w-[170px] h-[200px] flex flex-col border-[1px] border-[var(--border-color)] rounded-[5px] cursor-pointer"
                 >
                   <img
-                    src={product?.photo}
+                    // src={product?.photo}
+                    src={`https://h.mmsdev.site/storage/photos/FR9QfU5OmbZlybJUSXFZjaipeVZqxBU7Cr3CKiyw.jpg`}
                     className="w-[170px] h-[120px] object-cover object-center"
                     alt=""
                   />
@@ -156,7 +157,7 @@ const Cashier = () => {
         </div>
         {/* left section end*/}
 
-        <div className=" basis-1/4 flex flex-col h-full bg-[var(--sidebar-color)] h-screen">
+        <div className=" basis-1/4 flex flex-col min-h-full bg-[var(--sidebar-color)]">
           {/* right calculate section start*/}
 
           <div className="bg-[var(--sidebar-color)] h-full p-1">

@@ -32,8 +32,7 @@ const SaleTinyBarChart = ({ wdata }) => {
           <YAxis dataKey="total" />
           <Tooltip />
           <Legend />
-          <Bar dataKey="dayName" fill="#8884d8" />
-          {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+          <Bar dataKey="total" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
   );
