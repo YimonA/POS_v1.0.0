@@ -116,10 +116,11 @@ const MyAccount = () => {
               size={"1rem"}
               className="text-[var(--font-color)]"
             />
-            <p className="text-white text-[16px]">Personal</p>
+            <p onClick={() => setShowChangePassword(false)}
+ className="text-white text-[16px] cursor-pointer">Personal</p>
             <BsInfoCircleFill
               size={"1rem"}
-              className="ms-4 text-[var(--font-color)]"
+              className="ms-4 text-[var(--font-color)] "
             />
             <p
               onClick={() => setShowChangePassword(true)}

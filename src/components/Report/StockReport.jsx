@@ -166,7 +166,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.lowStock}
+                  {brandReport?.stocks?.lowStockoutOfStock}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>

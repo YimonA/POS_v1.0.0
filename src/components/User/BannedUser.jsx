@@ -115,7 +115,8 @@ const BannedUser = () => {
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {bannedUsers?.map((bannedUser, index) => {
+          {bannedUsers?.length>0?
+          bannedUsers?.map((bannedUser, index) => {
             return (
               <tr
                 key={bannedUser?.id}
@@ -135,7 +136,10 @@ const BannedUser = () => {
                 </td>
               </tr>
             );
-          })}
+          }):
+          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
+
+          }
         </tbody>
       </table>
       {/* stock table end */}

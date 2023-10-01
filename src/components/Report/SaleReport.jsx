@@ -235,7 +235,7 @@ const SaleReport = () => {
                 </div>
                 <div className="ms-auto">
                   <p className=" text-white text-[14px] font-semibold">
-                  {wdata?.weekely_lowest_sale[0]?.lowest_sale} k
+                  {wdata?.weekely_lowest_sale[0]?.lowest_sale.toFixed(2)} k
                   </p>
                   <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                     kyats
@@ -296,7 +296,7 @@ const SaleReport = () => {
         </div>
         <div className=" basis-1/3 border-[1px] border-[var(--border-color)] px-5 rounded-[3px]">
           <p className=" text-[20px] font-medium text-[var(--secondary-color)] pt-5">
-            Brand Sales
+           Weekely Brand Sales
           </p>
           <SalePieChart bdata={brandData} />
         </div>

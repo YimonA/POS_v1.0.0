@@ -1,12 +1,14 @@
 import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
-const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#2a58b8"];
+const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#8f2e44"];
 
 const SalePieChart = ({ bdata }) => {
   SalePieChart.propTypes = {
     bdata: PropTypes.object,
   };
+  const [colors,setColors]=useState(["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#8f2e44"])
   const data = bdata?.brandsInfo;
   console.log("bdata", bdata?.brandsInfo);
 
@@ -40,7 +42,7 @@ const SalePieChart = ({ bdata }) => {
           return (
             <span key={index}>
               <span
-                className={`inline-block mr-2 w-3 h-3 rounded-full bg-[${COLORS[index]}] `}
+                className={`inline-block mr-2 w-3 h-3 rounded-full bg-[${COLORS[index % COLORS.length]}] `}
               >
               </span>
               <span className=" text-[var(--gray-color)]">{bdata?.name}</span>
