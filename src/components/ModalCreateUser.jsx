@@ -2,7 +2,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useContextCustom } from "../context/stateContext";
 import { Link } from "react-router-dom";
 
-const ModalCreateProduct = () => {
+const ModalCreateUser = () => {
   const { liHandler} = useContextCustom();
 
   return (
@@ -13,15 +13,15 @@ const ModalCreateProduct = () => {
             </div>
           </div>
           <p className=" text-[18px] font-semibold text-white">
-            Successfully created the product
+            Successfully created the User
           </p>
-          <Link to={'/products'}>
+          <Link to={'/user-overview'}>
           <button onClick={()=>liHandler("products")} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
-            SEE ALL PRODUCTS
+            SEE ALL users
           </button>
           </Link>
         </div>
   )
 }
 
-export default ModalCreateProduct
+export default ModalCreateUser

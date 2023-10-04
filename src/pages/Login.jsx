@@ -10,7 +10,7 @@ import { grey } from "@mui/material/colors";
 import Checkbox from "@mui/material/Checkbox";
 import { BiSquare } from "react-icons/bi";
 import { BiSolidSquare } from "react-icons/bi";
-import LoginImg from "/public/login.svg";
+import LoginImg from "/login.svg";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 

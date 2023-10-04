@@ -1,16 +1,42 @@
 import CreateUserInfo from "./CreateUserInfo";
 import CreateUserContactInfo from "./CreateUserContactInfo";
 import CreateUserPhotoUpload from "./CreateUserPhotoUpload";
-import ModalCreateProduct from "../ModalCreateProduct";
+import ModalCreateUser from "../ModalCreateUser";
 import CreateUserPreview from "./CreateUserPreview";
 import Modal from "../Modal";
-import AddProductSelectImg from "./CreateUserSelectImg";
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import CreateUserSelectImg from "./CreateUserSelectImg";
+import { useEffect } from "react";
 
 const CreateUser = () => {
-  const { showModal, current, liHandler } = useContextCustom();
+  const {
+    showModal,
+    current,setCurrent,
+    liHandler,
+    setUName,
+    setUDOB,
+    setUAddress,
+    setUPosition,
+    setUEmail,
+    setUPhone,
+    setUPassword,
+    setUConfirmPassword,
+    setUPhoto,
+  } = useContextCustom();
+
+  useEffect(() => {
+    setCurrent(1);
+    setUName("");
+    setUDOB("");
+    setUAddress("");
+    setUPosition("");
+    setUEmail("");
+    setUPhone("");
+    setUPassword("");
+    setUConfirmPassword("");
+    setUPhoto("");
+  }, []);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -19,7 +45,8 @@ const CreateUser = () => {
         <div>
           <p className="breadcrumb-title	">User</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-User / Create User          </p>{" "}
+            User / Create User{" "}
+          </p>{" "}
         </div>
         <Link to={"/product"}>
           <button
@@ -44,12 +71,12 @@ User / Create User          </p>{" "}
         ) : (
           ""
         )}
-        {/* {current === 4 ? <CreateUserPreview /> : ""}
+        {current === 4 ? <CreateUserPreview /> : ""}
         {current === 4 && showModal ? (
-          <Modal title={"Create Product"} modalView={<ModalCreateProduct />} />
+          <Modal title={"Create User"} modalView={<ModalCreateUser />} />
         ) : (
           ""
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -10,6 +10,9 @@ const EditProductPrice = (props) => {
   
 
   useEffect(() => {
+    setEditSalePrice();
+    setEditActualPrice();
+
     setEditSalePrice(sale_price);
     setEditActualPrice(actual_price);
   }, []);

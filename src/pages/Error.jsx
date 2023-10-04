@@ -1,4 +1,4 @@
-import Img404 from "/public/404-svg.svg";
+import Img404 from "/404-svg.svg";
 
 const Error = () => {
     return (

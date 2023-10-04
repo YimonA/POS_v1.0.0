@@ -1,6 +1,6 @@
+import { BsPlusLg } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
 import { BsPencil } from "react-icons/bs";
-import { BsPlusLg } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 import { Button } from "@mantine/core";
@@ -8,42 +8,51 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import {
-  useGetBrandsPerPageQuery,
-  useGetBrandsQuery,
-} from "../../redux/api/brandApi";
-import { addBrands } from "../../redux/services/brandSlice";
+import Modal from "../Modal";
+import { addBrands, addBrandsPerPage } from "../../redux/services/brandSlice";
 import { useContextCustom } from "../../context/stateContext";
-import axios from "axios";
 import BrandAdd from "./BrandAdd";
+import { useDeleteBrandMutation } from "../../redux/api/brandApi";
+import axios from "axios";
+import ModalCreateBrand from "../ModalCreateBrand";
 
 const Brand = () => {
-  // const { showBrandAdd, setShowBrandAdd } = useContextCustom();
-  // const [prev, setPrev] = useState();
-  // const [next, setNext] = useState();
-
-  // const [brandPageData, setBrandPageData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const dispatch = useDispatch();
+  const { showBrandAdd, setShowBrandAdd } = useContextCustom();
+  const [brandData, setBrandData] = useState();
   const token = Cookies.get("token");
-  const { data } = useGetBrandsPerPageQuery({currentPage,token});
-  // const { data } = useGetBrandsPerPageQuery({currentPage,token});
 
-  const userID = useSelector((state) => state.authSlice.user);
-  // const bbrands = useSelector((state) => state.brandSlice.brands);
-
-  console.log("userID", userID);
-  // console.log("bbrands", bbrands);
-  console.log("data", data);
+  // console.log("userID", userID);
 
   useEffect(() => {
-    // dispatch(addBrands({ brands: brands?.data }));
-    // console.log("data", data);
-    console.log("brands", data);
-  }, [data]);
+    fetchData(1);
+  }, []);
 
+  const fetchData = async (page) => {
+    const data = await axios({
+      method: "get",
+      url: `https://h.mmsdev.site/api/v1/brand?page=${page}`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "brand",
+    });
+    const bData = await JSON.parse(data?.data);
+    setBrandData(bData);
+    console.log("data", data);
+    console.log("dd", bData);
+  };
+
+  const fetchDataPerPage = async (link) => {
+    const data = await axios({
+      method: "get",
+      url: link,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "brand",
+    });
+    const bData = await JSON.parse(data?.data);
+    setBrandData(bData);
+    console.log("data", data);
+    console.log("dd", bData);
+  };
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 relative">
       <div className=" flex justify-between items-center mb-5">
@@ -137,20 +146,85 @@ const Brand = () => {
               <th className=" py-4 pe-4 text-end px-1 uppercase font-medium">
                 Phone
               </th>
-              <th className=" py-4 pe-4 text-end px-1 uppercase font-medium">
-                Description
-              </th>
               <th className=" py-4 pe-4 text-end px-1 uppercase font-medium"></th>
             </tr>
           </thead>
-          <tbody className=" text-gray-100"></tbody>
+          <tbody className=" text-gray-100">
+            {brandData?.data?.map((brand, index) => {
+              return (
+                <tr
+                  key={brand?.id}
+                  className=" border-b border-b-gray-700 cursor-pointer"
+                >
+                  <td className="px-1 text-center  py-4">{index + 1}</td>
+                  <td className="px-1 text-end py-4 ">{brand?.name}</td>
+                  <td className="px-1 text-end py-4">{brand.company}</td>
+                  <td className="px-1 py-4 text-end">{brand?.agent}</td>
+                  <td className="px-1 py-4 text-end">{brand?.phone_no}</td>
+                  
+                  <td>
+                    <div className="px-20 flex justify-end items-center gap-2 z-20">
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
+                        <BsPlusLg
+                          size={"1.3rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+       <BsPencil
+         size={"0.8rem"}
+         className="text-[var(--secondary-color)]"
+       />
+     </button>
+
+     <Link to={"/product-detail"}>
+       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+         <BiMinus
+           size={"1rem"}
+           className="text-[var(--secondary-color)]"
+         />
+       </button>
+     </Link>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
         {/* brand table end */}
       </div>
 
       {/* pagination start*/}
-      {/* <div>
-        <Button.Group className="  pt-20 flex justify-end">
+      <div>
+        <Button.Group className=" pt-10 flex justify-end">
+          <Button
+            onClick={() => fetchDataPerPage(brandData?.links?.prev)}
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowBackIosNew />
+          </Button>
+          <Button
+            // onClick={() => fetchData(link?.url)}
+            variant="default"
+            className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            {`page ${brandData?.meta?.current_page} / ${brandData?.meta?.last_page}`}
+          </Button>
+
+          <Button
+            onClick={() => fetchDataPerPage(brandData?.links?.next)}
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowForwardIos />
+          </Button>
+        </Button.Group>
+
+        {/* <Button.Group className=" pt-20 flex justify-end">
           <Button
             onClick={() => fetchData(prev)}
             variant="default"
@@ -185,13 +259,16 @@ const Brand = () => {
           >
             <MdArrowForwardIos />
           </Button>
-        </Button.Group>
-      </div> */}
+        </Button.Group> */}
+      </div>
       {/* pagination end*/}
 
       {/* add brand start */}
       <BrandAdd />
       {/* add brand end */}
+
+      {/* modal */}
+      <Modal title={"Create Brand"} modalView={<ModalCreateBrand />} />
     </div>
   );
 };

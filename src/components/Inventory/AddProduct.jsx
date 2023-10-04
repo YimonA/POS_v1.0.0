@@ -13,20 +13,15 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { addProducts } from "../../redux/services/productSlice";
+// import { useGetBrandsQuery } from "../../redux/api/brandApi";
+import { addBrands } from "../../redux/services/brandSlice";
 
 const AddProduct = () => {
   const { showModal, current, liHandler } = useContextCustom();
   const token = Cookies.get("token");
-  const { data } = useGetProductsQuery(token);
+  // const { data } = useGetBrandsQuery(token);
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.productSlice.products);
-  // console.log('ddd',data?.data);
-  // console.log("cu", current);
-  // console.log('products',products);
-
-  useEffect(() => {
-    dispatch(addProducts({ products: data?.data }));
-  }, [data]);
+  const brandsList = useSelector((state) => state.brandSlice.brands);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">

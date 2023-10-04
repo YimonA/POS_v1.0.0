@@ -5,7 +5,6 @@ import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useCreateProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
-import { useMemo } from "react";
 
 const AddProductInfoPreview = () => {
   const {
@@ -25,10 +24,10 @@ const AddProductInfoPreview = () => {
     const token = Cookies.get("token");
     const product = {
       name: productName,
-      brand_id: brand,
+      brand_id: 16,
       unit: unit,
       more_information: productInfo,
-      // stock: Number(stock),
+      total_stock: Number(stock),
       actual_price: Number(actualPrice),
       sale_price: Number(salePrice),
       photo: photo,
@@ -80,7 +79,7 @@ const AddProductInfoPreview = () => {
             />
             <p className="text-white text-[16px]">Information</p>
           </div>
-          <div className=" flex justify-between items-center py-10">
+          {/* <div className=" flex justify-between items-center py-10">
             <div className="w-fit flex flex-col gap-5 basis-1/2">
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Name</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Brand</p>
@@ -101,7 +100,7 @@ const AddProductInfoPreview = () => {
                 : {productInfo}
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
