@@ -98,7 +98,7 @@ Phone            </label>
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
         <CreateUserStepper />
         <button
-          onClick={()=>nextStepperHandler(3)}
+          onClick={()=>nextStepperHandler(4)}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />

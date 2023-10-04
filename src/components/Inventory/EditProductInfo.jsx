@@ -2,7 +2,7 @@ import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./EditProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useGetBrandsQuery } from "../../redux/api/brandApi";
+// import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { addBrands } from "../../redux/services/brandSlice";
@@ -10,17 +10,21 @@ import { addBrands } from "../../redux/services/brandSlice";
 const EditProductInfo = (props) => {
   const { name, brand_name, total_stock, unit, more_information } = props;
   const { nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
-
-  // const [editPhoto,setEditPhoto]=useState(null);
-
+  
   const token = Cookies.get("token");
-  const { data } = useGetBrandsQuery(token);
+  // const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
   const brands = useSelector((state) => state.brandSlice.brands);
   // console.log("brand", data);
 
   useEffect(() => {
+    setEditName();
+    setEditBrand();
+    setEditUnit();
+    setEditStock();
+    setEditProductInfo();
+
     setEditName(name);
     setEditBrand(brand_name);
     setEditUnit(unit);
@@ -28,9 +32,9 @@ const EditProductInfo = (props) => {
     setEditProductInfo(more_information);
   }, []);
 
-  useEffect(() => {
-    dispatch(addBrands({ brands: data?.data }));
-  }, [data]);
+  // useEffect(() => {
+  //   dispatch(addBrands({ brands: data?.data }));
+  // }, [data]);
 
   return (
     <div className=" ">
@@ -66,7 +70,7 @@ const EditProductInfo = (props) => {
               onChange={(e) => setEditBrand(e.target.value)}
               className="brand-dropdown brand-select "
             >
-              {brands?.map((brand) => {
+              {/* {brands?.map((brand) => {
                 return (
                   <option
                     key={brand?.id}
@@ -76,7 +80,7 @@ const EditProductInfo = (props) => {
                     {brand?.name}
                   </option>
                 );
-              })}
+              })} */}
             </select>
           </div>
           <div className=" flex justify-start items-start">

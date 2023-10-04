@@ -8,60 +8,40 @@ export const brandApi = createApi({
   tagTypes: ["brand"],
 
   endpoints: (builder) => ({
-    getBrands: builder.query({
-      query: (token) => ({
-        url: `/brand`,
-        headers: { authorization: `Bearer ${token}` },
-      }),
-      providesTags: ["brand"],
-    }),
-    getSingleBrand: builder.query({
+    getSinglBrand: builder.query({
       query: ({id,token}) => ({
         url: `/brand/${id}`,
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["brand"],
     }),
-    getBrandsPerPage: builder.query({
-      query: ({currentPage,token}) => ({
-        url: `/brand?page=${currentPage}`,
-        headers: { authorization: `Bearer ${token}` },
-      }),
-      providesTags: ["brand"],
-    }),
     createBrand: builder.mutation({
-      query: ({brand, token }) => {
-        return {
-          url: `/brand`,
-          method: "POST",
-          headers: { authorization: `Bearer ${token}` },
-          body: brand,
-        };
-      },
+      query: ({ brand, token }) => ({
+        url: `/brand`,
+        method: "POST",
+        headers: { authorization: `Bearer ${token}` },
+        body: brand,
+      }),
       invalidatesTags: ["brand"],
     }),
-    updateBrand: builder.mutation({
-      query: ({brand, token }) => {
-        return {
-          url: `/brand/${brand.id}`,
-          method: "PUT",
-          headers: { authorization: `Bearer ${token}` },
-          body: brand,
-        };
-      },
+    editBrand: builder.mutation({
+      query: ({ brand, token }) => ({
+        url: `/brand/${brand.id}`,
+        method: "PUT",
+        headers: { authorization: `Bearer ${token}` },
+        body: brand,
+      }),
       invalidatesTags: ["brand"],
     }),
     deleteBrand: builder.mutation({
-      query: ({id, token }) => {
-        return {
-          url: `/brand/${id}`,
-          method: "DELETE",
-          headers: { authorization: `Bearer ${token}` },
-        };
-      },
+      query: ({ id, token }) => ({
+        url: `/brand/${id}`,
+        method: "DELETE",
+        headers: { authorization: `Bearer ${token}` },
+      }),
       invalidatesTags: ["brand"],
     }),
   }),
 });
 
-export const {useCreateBrandMutation,useUpdateBrandMutation,useDeleteBrandMutation, useGetBrandsQuery, useGetBrandsPerPageQuery,useGetSingleBrandQuery } = brandApi;
+export const { useCreateBrandMutation ,useDeleteBrandMutation} = brandApi;

@@ -10,8 +10,9 @@ import { useCreateBrandMutation } from "../../redux/api/brandApi";
 import { useNavigate } from "react-router-dom";
 
 const BrandAdd = () => {
+  const token=Cookies.get('token');
   const [createBrand] = useCreateBrandMutation();
-  const { showBrandAdd, setShowBrandAdd, setShowModal } = useContextCustom();
+  const { showBrandAdd, setShowBrandAdd, setShowModal,addBrandPhoto,setAddBrandPhoto } = useContextCustom();
   const [brandName, setBrandName] = useState();
   const [companyName, setCompanyName] = useState();
   const [desc, setDesc] = useState();
@@ -23,20 +24,25 @@ const BrandAdd = () => {
   const nav=useNavigate();
   const userID = useSelector((state) => state?.authSlice?.user?.id);
 
-  const createBrandHandler = (e) => {
+  const createBrandHandler =async (e) => {
     e.preventDefault();
     const newBrand={
       name: brandName,
       company: companyName,
-      user_id: userID,
+      // user_id: userID,
+      user_id: 1,
       agent: agentName,
       phone_no: phoneNo,
       photo: brandPhoto,
+      description:'usgdf',
     };
-    createBrand(newBrand);
+    console.log('new brand',newBrand);
+    const response=await createBrand({newBrand,token});
+    console.log('response',response);
+
     nav('/brand');
-;
-    // setShowModal(true);
+
+    setShowModal(true);
   };
 
   return (
@@ -50,7 +56,7 @@ const BrandAdd = () => {
           Add new Brand
           <AiOutlineClose
             onClick={() => setShowBrandAdd(false)}
-            className=" text-white"
+            className=" text-white cursor-pointer"
           />
         </p>
         <form onSubmit={createBrandHandler} className="flex flex-col gap-2">
@@ -58,7 +64,7 @@ const BrandAdd = () => {
             onClick={() => setShowModal(true)}
             className="relative w-[120px] h-[120px] border-[3px] rounded-full border-dashed border-[var(--font-color)] bg-[var(--base-color)] flex justify-center items-center cursor-pointer mx-auto mb-2"
           >
-            <img src="" alt="" />
+            <img src={addBrandPhoto? addBrandPhoto:''} alt="" />
             <MdOutlinePhotoLibrary size={"3rem"} color="white" />
             <div className="absolute bottom-0 right-5 w-[20px] h-[20px] rounded-full bg-white flex justify-center items-center">
               <PiPencilSimpleLineBold />

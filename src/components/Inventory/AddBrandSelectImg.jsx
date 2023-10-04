@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
 
-const CreateUserSelectImg = () => {
-  const { liHandler, setShowModal, setUPhoto } = useContextCustom();
+const AddBrandSelectImg = () => {
+  const { liHandler, setShowModal, setAddBrandPhoto } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
@@ -18,7 +18,7 @@ const CreateUserSelectImg = () => {
   };
 
   const insertHandler = () => {
-    setUPhoto(picture);
+    setAddBrandPhoto(picture);
     setShowModal(false);
   };
 
@@ -85,4 +85,4 @@ const CreateUserSelectImg = () => {
   );
 };
 
-export default CreateUserSelectImg;
+export default AddBrandSelectImg;

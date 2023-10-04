@@ -17,7 +17,7 @@ export const brandSlice = createSlice({
       state.brandsPerPage = payload.brandsPerPage;
     },
     addSingleBrand: (state, { payload }) => {
-      state.singleBrand = payload.singleBrand;
+      state.singleBrand = payload;
     },
   },
 });

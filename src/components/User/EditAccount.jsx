@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSingleUser } from "../../redux/services/userSlice";
 
 const EditAccount = () => {
-  const { showModal, current, liHandler } = useContextCustom();
+  const { showModal, current, liHandler ,editUName,setEditUName,editUDOB,setEditUDOB,editUGender,setEditUGender,editUAddress,setEditUAddress,editUPosition,setEditUPosition,editUEmail,setEditUEmail,editUPhone,setEditUPhone,editUPassword,setEditUPassword,editUConfirmPassword,setEditUConfirmPassword,editUPhoto,setEditUPhoto} = useContextCustom();
 const {id}=useParams();
 const token=Cookies.get('token');
 const dispatch=useDispatch();

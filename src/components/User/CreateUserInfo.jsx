@@ -2,7 +2,7 @@ import { useContextCustom } from "../../context/stateContext";
 import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useGetBrandsQuery } from "../../redux/api/brandApi";
+// import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUsers } from "../../redux/services/userSlice";
@@ -24,19 +24,17 @@ const CreateUserInfo = () => {
   const token = Cookies.get("token");
  
 
-  const nextHandler = (endpoint) => {
-    nextStepperHandler(endpoint);
-  };
+  // const nextHandler = (endpoint) => {
+  //   nextStepperHandler(endpoint);
+  // };
 
   useEffect(() => {
     console.log("dob", uDOB);
-    // console.log("1", uDOB?.toLocalDateString('mm'));
   }, [uDOB]);
 
   return (
     <div className=" ">
       <form
-        onSubmit={nextHandler}
         action=""
         className=" flex gap-20 justify-start items-stretch bg-[--base-color]"
       >
@@ -62,16 +60,16 @@ const CreateUserInfo = () => {
             >
               Date of Birth
             </label>
-            {/* <DateInput
+            <DateInput
               valueFormat="DD-MM-YYYY"
-              label="chose Date"
+              label="choose Date"
               placeholder="DOB"
               value={uDOB}
               onChange={setUDOB}
               maw={400}
               mx="auto"
               className="w-[380px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
-            /> */}
+            />
           </div>
 
           <div className=" flex justify-start items-start">
@@ -116,8 +114,7 @@ const CreateUserInfo = () => {
         <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
           <CreateUserStepper />
           <button
-            type="submit"
-            onClick={()=>nextStepperHandler(3)}
+            onClick={()=>nextStepperHandler(4)}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />

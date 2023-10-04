@@ -20,37 +20,49 @@ const CreateUserPhotoUpload = () => {
     uPhone,
     uPassword,
     uConfirmPassword,
-    uPhoto,
+    uPhoto,setUPhoto
   } = useContextCustom();
-  const [createUser] = useCreateUserMutation();
-  const token = Cookies.get("token");
+  // const [createUser] = useCreateUserMutation();
+  // const token = Cookies.get("token");
 
-  const CreateUserHandler = async(e) => {
-    e.preventDefault();
-    const user = {
-      name: uName,
-      email: uEmail,
-      password: uPassword,
-      phone_number: uPhone,
-      address: uAddress,
-      gender: uGender,
-      date_of_birth: uDOB,
-      role: uPosition,
-      photo: uPhoto,
-      password_confirmation: uConfirmPassword
-    };
-    const data =await createUser({ user, token });
-    console.log("dddd", data);
-    console.log("name", user);
-    // console.log("pppp", users);
+  // const CreateUserHandler = async(e) => {
+  //   e.preventDefault();
+  //   const user = {
+  //     name: uName,
+  //     email: uEmail,
+  //     password: uPassword,
+  //     phone_number: uPhone,
+  //     address: uAddress,
+  //     gender: uGender,
+  //     date_of_birth: uDOB,
+  //     role: uPosition,
+  //     photo: uPhoto,
+  //     password_confirmation: uConfirmPassword
+  //   };
+  //   const data =await createUser({ user, token });
+  //   console.log("dddd", data);
+  //   console.log("name", user);
+  //   // console.log("pppp", users);
 
-    // setShowModal(true);
-  };
+  //   // setShowModal(true);
+  // };
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-
+  const next=()=>{
+    nextStepperHandler(4)
+    console.log(uName,
+      uDOB,
+      uGender,
+      uAddress,
+      uPosition,
+      uEmail,
+      uPhone,
+      uPassword,
+      uConfirmPassword,
+      uPhoto)
+  }
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
@@ -84,7 +96,7 @@ const CreateUserPhotoUpload = () => {
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
         <CreateUserStepper />
         <button
-          onClick={CreateUserHandler}
+          onClick={next}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />
@@ -95,3 +107,5 @@ const CreateUserPhotoUpload = () => {
 };
 
 export default CreateUserPhotoUpload;
+
+
