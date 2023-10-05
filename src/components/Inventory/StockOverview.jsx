@@ -8,11 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useGetStocksQuery } from "../../redux/api/stockApi";
 import { addStocks } from "../../redux/services/stockSlice";
+import { Button } from "@mantine/core";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { MdArrowForwardIos } from "react-icons/md";
+import { useState } from "react";
 
 const StockOverview = () => {
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
   const token = Cookies.get("token");
-  const { data } = useGetStocksQuery(token);
+  const { data } = useGetStocksQuery({ token, page });
   const stocks = useSelector((state) => state.stockSlice.stocks);
   console.log("data", data);
 
@@ -127,16 +132,6 @@ const StockOverview = () => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                    <Link to={`/stock-edit/${stock?.id}`}>
-                    <button
-                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
-                    >
-                      <BsPencil
-                        size={"0.8rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
-                    </Link>
 
                     <Link to={"/product-detail"}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
@@ -154,6 +149,38 @@ const StockOverview = () => {
         </tbody>
       </table>
       {/* stock table end */}
+      {/* pagination start*/}
+      <div>
+        <Button.Group className=" pt-10 flex justify-end">
+          <Button
+            onClick={() => setPage(page - 1)}
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowBackIosNew />
+          </Button>
+          <Button
+            // onClick={() => fetchData(link?.url)}
+            variant="default"
+            className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            page {data?.meta?.current_page} / {data?.meta?.last_page}
+          </Button>
+
+          <Button
+            onClick={() =>
+              setPage(page < data?.meta?.last_page ? page + 1 : page)
+            }
+            variant="default"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+          >
+            <MdArrowForwardIos />
+          </Button>
+        </Button.Group>
+      </div>
+      {/* pagination end*/}
     </div>
   );
 };

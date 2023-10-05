@@ -11,6 +11,7 @@ const SalePieChart = ({ bdata }) => {
   const [colors,setColors]=useState(["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#8f2e44"])
   const data = bdata?.brandsInfo;
   console.log("bdata", bdata?.brandsInfo);
+  console.log("bdata", bdata);
 
   return (
     <div>

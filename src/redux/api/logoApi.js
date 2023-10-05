@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const brandApi = createApi({
-  reducerPath: "brandApi",
+export const logoApi = createApi({
+  reducerPath: "logoApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `https://h.mmsdev.site/api/v1`,
   }),
-  tagTypes: ["brand"],
+  tagTypes: ["logo"],
 
   endpoints: (builder) => ({
     getSinglBrand: builder.query({
@@ -16,13 +16,13 @@ export const brandApi = createApi({
       providesTags: ["brand"],
     }),
     createBrand: builder.mutation({
-      query: ({ brand, token }) => ({
+      query: ({ newBrand, token }) => ({
         url: `/brand`,
         method: "POST",
         headers: { authorization: `Bearer ${token}` },
-        body: brand,
+        body: newBrand,
       }),
-      invalidatesTags: ["brand"],
+      invalidatesTags: ["logo"],
     }),
     editBrand: builder.mutation({
       query: ({ brand, token }) => ({
@@ -31,7 +31,7 @@ export const brandApi = createApi({
         headers: { authorization: `Bearer ${token}` },
         body: brand,
       }),
-      invalidatesTags: ["brand"],
+      invalidatesTags: ["logo"],
     }),
     deleteBrand: builder.mutation({
       query: ({ id, token }) => ({
@@ -39,9 +39,9 @@ export const brandApi = createApi({
         method: "DELETE",
         headers: { authorization: `Bearer ${token}` },
       }),
-      invalidatesTags: ["brand"],
+      invalidatesTags: ["logo"],
     }),
   }),
 });
 
-export const { useCreateBrandMutation ,useDeleteBrandMutation} = brandApi;
+export const { useCreateBrandMutation,useEditBrandMutation ,useDeleteBrandMutation} = logoApi;

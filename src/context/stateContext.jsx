@@ -40,7 +40,7 @@ export const StateContextProvider = ({ children }) => {
 
 //brand add
 const [showBrandAdd,setShowBrandAdd]=useState(false);
-
+const [showBrandModal,setShowBrandModal]=useState('image');
   //pagi
   // const [brandPgNum,setBrandPgNum]=useState(1);
 
@@ -118,7 +118,7 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
     editActualPrice,setEditActualPrice,
     editSalePrice,
     setEditSalePrice,editPhoto,setEditPhoto,
-    showBrandAdd,setShowBrandAdd,
+    showBrandAdd,setShowBrandAdd,showBrandModal,setShowBrandModal,
     // brandPgNum,setBrandPgNum
     addBrandPhoto,setAddBrandPhoto,
 

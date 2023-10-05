@@ -14,14 +14,14 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { addProducts } from "../../redux/services/productSlice";
 // import { useGetBrandsQuery } from "../../redux/api/brandApi";
-import { addBrands } from "../../redux/services/brandSlice";
+import { logoSlice } from "../../redux/services/logoSlice";
 
 const AddProduct = () => {
   const { showModal, current, liHandler } = useContextCustom();
   const token = Cookies.get("token");
   // const { data } = useGetBrandsQuery(token);
   const dispatch = useDispatch();
-  const brandsList = useSelector((state) => state.brandSlice.brands);
+  const brandsList = useSelector((state) => state.logoSlice.brands);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">

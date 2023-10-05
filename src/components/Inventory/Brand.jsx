@@ -1,7 +1,7 @@
 import { BsPlusLg } from "react-icons/bs";
-import { BiMinus } from "react-icons/bi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsPencil } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
@@ -10,35 +10,46 @@ import { BsSearch } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Modal from "../Modal";
-import { addBrands, addBrandsPerPage } from "../../redux/services/brandSlice";
+import { addBrands, addBrandsPerPage } from "../../redux/services/logoSlice";
 import { useContextCustom } from "../../context/stateContext";
 import BrandAdd from "./BrandAdd";
-import { useDeleteBrandMutation } from "../../redux/api/brandApi";
+import { useDeleteBrandMutation } from "../../redux/api/logoApi";
 import axios from "axios";
 import ModalCreateBrand from "../ModalCreateBrand";
+import AddBrandSelectImg from "./AddBrandSelectImg";
+import Swal from "sweetalert2";
 
 const Brand = () => {
-  const { showBrandAdd, setShowBrandAdd } = useContextCustom();
+  const { showBrandAdd, setShowBrandAdd, showBrandModal } = useContextCustom();
   const [brandData, setBrandData] = useState();
+  const [deleteBrand]=useDeleteBrandMutation();
+  const nav=useNavigate();
   const token = Cookies.get("token");
 
   // console.log("userID", userID);
 
   useEffect(() => {
-    fetchData(1);
+    fetchDataPerPage(`https://h.mmsdev.site/api/v1/brand?page=1`);
   }, []);
 
-  const fetchData = async (page) => {
-    const data = await axios({
-      method: "get",
-      url: `https://h.mmsdev.site/api/v1/brand?page=${page}`,
-      headers: { authorization: `Bearer ${token}` },
-      responseType: "brand",
+  const deleteBrandHandler = async (e,id) => {
+    e.stopPropagation();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        const { data } = await deleteBrand({ id, token });
+        nav('/brand')
+        console.log('del',data);
+      }
     });
-    const bData = await JSON.parse(data?.data);
-    setBrandData(bData);
-    console.log("data", data);
-    console.log("dd", bData);
   };
 
   const fetchDataPerPage = async (link) => {
@@ -46,7 +57,7 @@ const Brand = () => {
       method: "get",
       url: link,
       headers: { authorization: `Bearer ${token}` },
-      responseType: "brand",
+      responseType: "brandProduct",
     });
     const bData = await JSON.parse(data?.data);
     setBrandData(bData);
@@ -161,7 +172,7 @@ const Brand = () => {
                   <td className="px-1 text-end py-4">{brand.company}</td>
                   <td className="px-1 py-4 text-end">{brand?.agent}</td>
                   <td className="px-1 py-4 text-end">{brand?.phone_no}</td>
-                  
+
                   <td>
                     <div className="px-20 flex justify-end items-center gap-2 z-20">
                       <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
@@ -171,20 +182,18 @@ const Brand = () => {
                         />
                       </button>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-       <BsPencil
-         size={"0.8rem"}
-         className="text-[var(--secondary-color)]"
-       />
-     </button>
+                        <BsPencil
+                          size={"0.8rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
 
-     <Link to={"/product-detail"}>
-       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-         <BiMinus
-           size={"1rem"}
-           className="text-[var(--secondary-color)]"
-         />
-       </button>
-     </Link>
+                        <button onClick={(e)=>deleteBrandHandler(e,brand?.id)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                          <RiDeleteBin6Line
+                            size={"1rem"}
+                            className="text-[var(--secondary-color)]"
+                          />
+                        </button>
                     </div>
                   </td>
                 </tr>
@@ -211,7 +220,7 @@ const Brand = () => {
             variant="default"
             className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >
-            {`page ${brandData?.meta?.current_page} / ${brandData?.meta?.last_page}`}
+            page {brandData?.meta?.current_page} / {brandData?.meta?.last_page}
           </Button>
 
           <Button
@@ -223,43 +232,6 @@ const Brand = () => {
             <MdArrowForwardIos />
           </Button>
         </Button.Group>
-
-        {/* <Button.Group className=" pt-20 flex justify-end">
-          <Button
-            onClick={() => fetchData(prev)}
-            variant="default"
-            className={`
-                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          {data?.meta?.links?.map((link) => {
-            return (
-              <Button
-                key={link?.label}
-                onClick={() => fetchData(link?.url)}
-                variant="default"
-                className={`${link?.label == "Next &raquo;" ? "hidden" : ""} ${
-                  link?.label == "&laquo; Previous" ? "hidden" : ""
-                }
-                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-              >
-                {link?.label !== "Next &raquo;" &&
-                link?.label !== "&laquo; Previous"
-                  ? link?.label
-                  : ""}
-              </Button>
-            );
-          })}
-          <Button
-            onClick={() => fetchData(next)}
-            variant="default"
-            className={`
-                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group> */}
       </div>
       {/* pagination end*/}
 
@@ -268,7 +240,11 @@ const Brand = () => {
       {/* add brand end */}
 
       {/* modal */}
-      <Modal title={"Create Brand"} modalView={<ModalCreateBrand />} />
+      {showBrandModal === "image" ? (
+        <Modal title={"Select Brand Image"} modalView={<AddBrandSelectImg />} />
+      ) : (
+        <Modal title={"Create Brand"} modalView={<ModalCreateBrand />} />
+      )}
     </div>
   );
 };

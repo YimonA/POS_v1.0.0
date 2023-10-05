@@ -9,8 +9,8 @@ export const stockApi = createApi({
 
   endpoints: (builder) => ({
     getStocks: builder.query({
-      query: (token) => ({
-        url: "/stock",
+      query: ({token,page}) => ({
+        url: `/stock?page=${page}`,
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["stock"],
