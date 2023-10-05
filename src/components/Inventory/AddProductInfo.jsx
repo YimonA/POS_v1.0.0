@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 // import { useGetBrandsPerPageQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addBrands } from "../../redux/services/brandSlice";
+import { addBrands } from "../../redux/services/logoSlice";
 import { useState } from "react";
 
 const AddProductInfo = () => {
@@ -29,7 +29,7 @@ const AddProductInfo = () => {
   // const { data } = useGetBrandsPerPageQuery({page,token});
 
   const dispatch = useDispatch();
-  // const brands = useSelector((state) => state.brandSlice.brands);
+  const brands = useSelector((state) => state.logoSlice.brands);
   // console.log("brand", data);
   // console.log("bbbrand", data);
 

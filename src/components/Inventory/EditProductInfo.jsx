@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 // import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { addBrands } from "../../redux/services/brandSlice";
+import { addBrands } from "../../redux/services/logoSlice";
 
 const EditProductInfo = (props) => {
   const { name, brand_name, total_stock, unit, more_information } = props;

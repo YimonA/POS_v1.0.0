@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 // import { useGetBrandsQuery } from "../../redux/api/brandApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { addBrands } from "../../redux/services/brandSlice";
 
 const EditProfileInfo = () => {
   const {

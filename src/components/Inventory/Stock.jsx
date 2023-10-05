@@ -22,52 +22,12 @@ const Stock = () => {
           </p>
         </div>
 
-        <button  className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex items-center justify-center gap-2">
-          <BsPlusLg size={"1.3rem"} />
-          Add Stock
-        </button>
+        
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
       <StockOverview 
       // stocks={stocks}
       />
-
-      {/* pagination start */}
-      <div>
-        <Button.Group className=" border-[--border-color] pt-20 flex justify-end">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-      </div>
-      {/* pagination end */}
     </div>
   );
 };

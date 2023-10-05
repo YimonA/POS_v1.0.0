@@ -10,8 +10,8 @@ import { mediaApi } from "./api/mediaApi";
 import mediaSlice from "./services/mediaSlice";
 import { productApi } from "./api/productApi";
 import productSlice from "./services/productSlice";
-import { brandApi } from "./api/brandApi";
-import brandSlice from "./services/brandSlice";
+import { logoApi } from "./api/logoApi";
+import logoSlice from "./services/logoSlice";
 
 import { userApi } from "./api/userApi";
 import userSlice from "./services/userSlice";
@@ -33,7 +33,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [mediaApi.reducerPath]: mediaApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
-    [brandApi.reducerPath]: brandApi.reducer,
+    [logoApi.reducerPath]: logoApi.reducer,
     [stockApi.reducerPath]: stockApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
@@ -45,7 +45,7 @@ export const store = configureStore({
     authSlice: authSlice,
     mediaSlice: mediaSlice,
     productSlice: productSlice,
-    brandSlice: brandSlice,
+    logoSlice: logoSlice,
     shop: shopSlice,
     stockSlice: stockSlice,
     userSlice: userSlice,
@@ -63,7 +63,7 @@ export const store = configureStore({
       authApi.middleware,
       mediaApi.middleware,
       productApi.middleware,
-      brandApi.middleware,
+      logoApi.middleware,
       stockApi.middleware,
       profileApi.middleware,
       userApi.middleware,

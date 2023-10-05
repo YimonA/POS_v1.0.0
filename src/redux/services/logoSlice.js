@@ -6,8 +6,8 @@ const initialState = {
   singleBrand:null,
 };
 
-export const brandSlice = createSlice({
-  name: "brandSlice",
+export const logoSlice = createSlice({
+  name: "logoSlice",
   initialState,
   reducers: {
     addBrands: (state, { payload }) => {
@@ -22,5 +22,5 @@ export const brandSlice = createSlice({
   },
 });
 
-export const { addBrands,addBrandsPerPage,addSingleBrand } = brandSlice.actions;
-export default brandSlice.reducer;
+export const { addBrands,addBrandsPerPage,addSingleBrand } = logoSlice.actions;
+export default logoSlice.reducer;
