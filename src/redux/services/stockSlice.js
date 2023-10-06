@@ -12,11 +12,11 @@ export const stockSlice = createSlice({
     addStocks: (state, { payload }) => {
       (state.stocks = payload.stocks)
     },
-    addSingleStocks: (state, { payload }) => {
-      (state.singleStock = payload.singleStock)
+    addSingleStock: (state, { payload }) => {
+      (state.singleStock = payload)
     },
   },
 });
 
-export const { addStocks,addSingleStocks } = stockSlice.actions;
+export const { addStocks,addSingleStock } = stockSlice.actions;
 export default stockSlice.reducer;

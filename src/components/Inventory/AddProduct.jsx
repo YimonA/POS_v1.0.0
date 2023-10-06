@@ -31,9 +31,9 @@ const AddProduct = () => {
           <p className="breadcrumb-title	">Add Product</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Inventory / Add Product
-          </p>{" "}
+          </p>
         </div>
-        <Link to={"/product"}>
+        <Link to={"/products"}>
           <button
             onClick={() => liHandler("products")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"

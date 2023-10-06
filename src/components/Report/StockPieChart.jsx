@@ -8,12 +8,12 @@ const StockPieChart = ({ weekelyBrand }) => {
   StockPieChart.propTypes = {
     weekelyBrand: PropTypes.array,
   };
-  const data = weekelyBrand;
-  console.log("weekelyBrand", weekelyBrand);
+  // const data = weekelyBrand;
+  // console.log("weekelyBrand", weekelyBrand);
 
   return (
       <div className="flex justify-start items-center py-3">
-        <PieChart width={300} height={320} className="">
+        {/* <PieChart width={300} height={320} className="">
           <Pie
             data={data}
             cx={120}
@@ -55,7 +55,7 @@ const StockPieChart = ({ weekelyBrand }) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
   );
 };
