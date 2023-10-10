@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Home from "../components/Home";
@@ -23,6 +22,7 @@ import ProductDetail from "../components/Inventory/ProductDetail";
 import ProductEdit from "../components/Inventory/ProductEdit";
 import Stock from "../components/Inventory/Stock";
 import Brand from "../components/Inventory/Brand";
+import BrandDetail from "../components/Inventory/BrandDetail";
 
 // import Shop from "../pages/Shop";
 import Cashier from "../pages/Cashier";
@@ -38,6 +38,8 @@ import Custom from "../components/Finance/Custom";
 import SaleReport from "../components/Report/SaleReport";
 import StockReport from "../components/Report/StockReport";
 import StockEdit from "../components/Inventory/StockEdit";
+import StockDetail from "../components/Inventory/StockDetail";
+import BrandEdit from "../components/Inventory/BrandEdit";
 
 // import Products from "../components/Products";
 // import StockControl from "../components/StockControl";
@@ -123,11 +125,19 @@ const Path = () => {
         />
         <Route path="/stock-control" element={<Dashboard view={<Stock />} />} />
         <Route
-          path="/stock-edit/:id"
+          path="/stock-add/:id"
           element={<Dashboard view={<StockEdit />} />}
         />
+        <Route
+          path="/stock-detail/:id"
+          element={<Dashboard view={<StockDetail />} />}
+        />
         <Route path="/brand" element={<Dashboard view={<Brand />} />} />
-        {/* <Route path="/brand-edit/:id" element={<Dashboard view={<BrandEdit />} />} /> */}
+        <Route
+          path="/brand-detail/:id"
+          element={<Dashboard view={<BrandDetail />} />}
+        />
+        <Route path="/brand-edit/:id" element={<Dashboard view={<BrandEdit />} />} />
         {/* inventory routes start*/}
         {/* sale routes start*/}
 

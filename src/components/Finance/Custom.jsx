@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
@@ -6,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
-import { BsArrowRight } from "react-icons/bs";
 import { DateInput } from "@mantine/dates";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -20,29 +18,54 @@ const Custom = () => {
   const [endDateTag, setEndDateTag] = useState(null);
   const [endDate, setEndDate] = useState();
   const [cRecords, setCRecords] = useState();
+  const [cPage, setCPage] = useState();
 
   useEffect(() => {
     const a = startDate?.toISOString().slice(0, 10);
     const b = endDate?.toISOString().slice(0, 10);
     setStartDateTag(a);
     setEndDateTag(b);
-    console.log("start", startDateTag, endDateTag);
+    //console.log("start", startDateTag, endDateTag);
   }, [startDate, endDate]);
 
   const fetchData = async () => {
     const data = await axios({
       method: "get",
-      url: `https://h.mmsdev.site/api/v1/custom_sale_records?start_date=${startDateTag}&end_date=${endDateTag}`,
+      url: `https://h.mmsdev.site/api/v1/custom_sale_records?start_date=${startDateTag}&end_date=${endDateTag}&page=1`,
       headers: { authorization: `Bearer ${token}` },
       responseType: "finance",
     });
-    const cData = await JSON.parse(data?.data);
-    setCRecords(cData?.data);
-    setStartDate(null);
-    setEndDate(null);
-    console.log("data", cData);
-    console.log("dd", cRecords);
+    const cdata = await JSON.parse(data?.data);
+    setCRecords(cdata?.data);
+    setCPage(cdata);
+    // setStartDate(null);
+    // setEndDate(null);
+    // console.log("data", cdata);
+    // console.log("dd", cRecords);
   };
+
+  const pageChange = async(link) => {
+    const { data } = await axios({
+      method: "get",
+      url: `${link}`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "finance",
+    });
+    const cdata = await JSON.parse(data);
+    setCRecords(cdata?.data);
+    setCPage(cdata);
+  };
+
+  const next=()=>{
+    if(cPage?.links?.next){
+      pageChange(cPage?.links?.next)
+    }
+  }
+  const prev=()=>{
+    if(cPage?.links?.prev){
+      pageChange(cPage?.links?.prev)
+    }
+  }
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -149,35 +172,31 @@ const Custom = () => {
             <th className=" py-4 border-b text-end border-gray-600 px-1 uppercase font-medium">
               TIME
             </th>
-            <th className=" "></th>
           </tr>
         </thead>
         <tbody>
-          {cRecords?.length>0?
-          cRecords?.map((record, index) => {
-            return (
-              <tr key={record?.id} className=" ">
-                <td className="px-1 text-center  py-4">{index+1}</td>
-                <td className="px-1 text-end py-4">{record?.voucher}</td>
-                <td className="px-1 text-end py-4">{record?.cash}</td>
-                <td className="px-1 py-4 text-end">{record?.tax}</td>
-                <td className="px-1 py-4 text-end">{record?.total}</td>
-                <td className="px-1 py-4 text-end"></td>
-                <td className=" px-1 py-4 text-end">{record?.time}</td>
-                <td className=" pe-5 py-4 text-end">
-                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                    <BsArrowRight
-                      size={"1rem"}
-                      className="text-[var(--secondary-color)]"
-                    />
-                  </span>
-                </td>
-              </tr>
-            );
-          }):
-          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
-
-          }
+          {cRecords?.length > 0 ? (
+            cRecords?.map((record, index) => {
+              return (
+                <tr key={record?.id} className=" ">
+                  <td className="px-1 text-center  py-4">{index + 1}</td>
+                  <td className="px-1 text-end py-4">{record?.voucher}</td>
+                  <td className="px-1 text-end py-4">{record?.cash}</td>
+                  <td className="px-1 py-4 text-end">{record?.tax}</td>
+                  <td className="px-1 py-4 text-end">{record?.total}</td>
+                  <td className="px-1 py-4 text-end"></td>
+                  <td className=" px-1 py-4 text-end">{record?.time}</td>
+              
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className="px-1 text-center py-4 " colSpan={7}>
+                There is no data now.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* showList end */}
@@ -229,40 +248,36 @@ const Custom = () => {
         </div> */}
         {/* total calculate end*/}
 
-        {/* pagination start */}
-        <Button.Group className="ms-auto border-[--border-color] flex justify-end basis-1/3">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-        {/* pagination end */}
+        {/* pagination start*/}
+        <div>
+          <Button.Group className=" pt-10 flex justify-end">
+            <Button
+              onClick={prev}
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowBackIosNew />
+            </Button>
+            <Button
+              variant="default"
+              className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              page {cPage?.meta?.current_page} / {cPage?.meta?.last_page}
+            </Button>
+
+            <Button
+              onClick={next
+            }
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowForwardIos />
+            </Button>
+          </Button.Group>
+        </div>
+        {/* pagination end*/}
       </div>
     </div>
   );

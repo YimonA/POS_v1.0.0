@@ -2,7 +2,7 @@ import { BsPlusLg } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsPencil } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-
+import {BsArrowRight} from "react-icons/bs"
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -57,7 +57,7 @@ const Brand = () => {
       method: "get",
       url: link,
       headers: { authorization: `Bearer ${token}` },
-      responseType: "brandProduct",
+      responseType: "logo",
     });
     const bData = await JSON.parse(data?.data);
     setBrandData(bData);
@@ -175,18 +175,13 @@ const Brand = () => {
 
                   <td>
                     <div className="px-20 flex justify-end items-center gap-2 z-20">
-                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                        <BsPlusLg
-                          size={"1.3rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
+                      <Link to={`/brand-edit/${brand?.id}`}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsPencil
                           size={"0.8rem"}
                           className="text-[var(--secondary-color)]"
                         />
-                      </button>
+                      </button></Link>
 
                         <button onClick={(e)=>deleteBrandHandler(e,brand?.id)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                           <RiDeleteBin6Line
@@ -194,6 +189,14 @@ const Brand = () => {
                             className="text-[var(--secondary-color)]"
                           />
                         </button>
+                        <Link to={`/brand-detail/${brand?.id}`}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                        <BsArrowRight
+                          size={"1rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                    </Link>
                     </div>
                   </td>
                 </tr>
@@ -216,7 +219,6 @@ const Brand = () => {
             <MdArrowBackIosNew />
           </Button>
           <Button
-            // onClick={() => fetchData(link?.url)}
             variant="default"
             className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >

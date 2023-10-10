@@ -8,6 +8,13 @@ export const reportStockApi = createApi({
   tagTypes: ["reportStock"],
 
   endpoints: (builder) => ({
+    getStockOverview: builder.query({
+      query: ({token,page}) => ({
+        url: `/stock_report?page=${page}`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["reportStock"],
+    }),
     getWeekelyBestBrands: builder.query({
       query: (token) => ({
         url: `/weekely_best_seller_brands`,
@@ -25,4 +32,4 @@ export const reportStockApi = createApi({
   }),
 });
 
-export const { useGetWeekelyBestBrandsQuery,useGetBrandsReportQuery} = reportStockApi;
+export const {useGetStockOverviewQuery, useGetWeekelyBestBrandsQuery,useGetBrandsReportQuery} = reportStockApi;

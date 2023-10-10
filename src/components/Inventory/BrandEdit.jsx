@@ -1,103 +1,177 @@
+import { useState } from "react";
+import {
+  useEditBrandMutation,
+  useGetSinglBrandQuery,
+} from "../../redux/api/logoApi";
+import Cookies from "js-cookie";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
 import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
-import { AiOutlineClose } from "react-icons/ai";
+import BrandEditSelectImg from "./BrandEditSelectImg";
+import Modal from "../Modal";
 
 const BrandEdit = () => {
-  const { showBrandAdd, setShowBrandAdd, setShowModal } = useContextCustom();
+  const { setShowModal, showModal, editBrandPhoto, setEditBrandPhoto } =
+    useContextCustom();
+  const [name, setName] = useState();
+  const [company, setCompany] = useState();
+  const [description, setDescription] = useState();
+  // const [photo, setPhoto] = useState();
+  const [agent, setAgent] = useState();
+  const [phone, setPhone] = useState();
+
+  const token = Cookies.get("token");
+  const { id } = useParams();
+  const { data } = useGetSinglBrandQuery({ id, token });
+
+  const nav = useNavigate();
+  const [editBrand] = useEditBrandMutation();
+
+  // console.log("data", data?.data);
+
+  useEffect(() => {
+    setName(data?.data?.name);
+    setAgent(data?.data?.agent);
+    setCompany(data?.data?.agent);
+    setDescription(data?.data?.agent);
+    setPhone(data?.data?.phone_no);
+    setEditBrandPhoto(data?.data?.photo);
+    // setPhoto(data?.data?.photo)
+    // console.log("stockData", qty, more);
+  }, [data]);
+
+  useEffect(() => {
+    // setPhoto(editBrandPhoto);
+    console.log("editBrandPhoto", editBrandPhoto);
+    // console.log("setPhoto", photo);
+  }, [editBrandPhoto]);
+
+  const EditBrandHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const newData = {
+        name,
+        company,
+        description,
+        agent,
+        phone_no: phone,
+        photo:editBrandPhoto,
+      };
+      console.log("newData", newData);
+      const response = await editBrand({
+        id: Number(id),
+        newData: newData,
+        token,
+      });
+      console.log("response", response);
+      nav("/brand");
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
   return (
-    <div className={`${showBrandAdd ? "" : "delay-[3000ms] hidden"}`}>
-      <div
-        className={`sidebar-height bg-[var(--base-color)] p-5 z-20 w-[30%] absolute top-0 border-[3px] border-[var(--border-color)] ease-in-out duration-1000 ${
-          showBrandAdd ? "right-0 " : "-right-[100%]"
-        }`}
-      >
-        <p className="flex justify-between items-center text-white text-[18px] font-normal mb-3 gap-3">
-          Add new Brand
-          <AiOutlineClose
-            onClick={() => setShowBrandAdd(false)}
-            className=" text-white"
-          />
+    // <></>
+    <div
+      className={`w-full h-full bg-[var(--base-color)] p-5 z-20 top-0 border-[3px] border-[var(--border-color)] flex flex-col justify-between `}
+    >
+      <div className=" mb-5">
+        <p className="breadcrumb-title	">Edit Brand</p>
+        <p className=" text-[14px] text-white opacity-70  select-none">
+          Inventory / Edit Brand
         </p>
-        <div className="flex flex-col gap-2">
+      </div>
+
+      <div className="w-[680px] bg-[var(--sidebar-color)] px-10 py-5">
+        <form onSubmit={EditBrandHandler} className="flex flex-col gap-2 ">
           <div
             onClick={() => setShowModal(true)}
-            className="relative w-[120px] h-[120px] border-[3px] rounded-full border-dashed border-[var(--font-color)] bg-[var(--base-color)] flex justify-center items-center cursor-pointer mx-auto mb-2"
+            className="relative w-[140px] h-[140px] border-[3px] rounded-full border-dashed border-[var(--font-color)] bg-[var(--base-color)] flex justify-center items-center cursor-pointer mb-7"
           >
-            <img src="" alt="" />
-            <MdOutlinePhotoLibrary size={"3rem"} color="white" />
-            <div className="absolute bottom-0 right-5 w-[20px] h-[20px] rounded-full bg-white flex justify-center items-center">
+            <img
+              src={editBrandPhoto ? editBrandPhoto : null}
+              className={`${
+                editBrandPhoto
+                  ? "relative w-[140px] h-[140px] border-[3px] rounded-full flex justify-center items-center cursor-pointer object-cover object-center"
+                  : ""
+              }`}
+              alt=""
+            />
+            <MdOutlinePhotoLibrary size={"2rem"} color="white" />
+            <div className="absolute bottom-0 right-0 w-[30px] h-[30px] rounded-full bg-white flex justify-center items-center">
               <PiPencilSimpleLineBold />
             </div>
           </div>
-          <label
-            htmlFor=""
-            className="text-white w-[170px] pt-[2px] h-[24px] text-[14px] font-normal "
+          <div className=" flex justify-start items-start mb-3">
+            <label className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold">
+              Name
+            </label>
+            <input
+              type="text"
+              defaultValue={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start mb-3">
+            <label className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold">
+              Company
+            </label>
+            <input
+              type="text"
+              defaultValue={company}
+              onChange={(e) => setCompany(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start mb-3">
+            <label className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold">
+              Phone
+            </label>
+            <input
+              type="text"
+              defaultValue={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start mb-3">
+            <label className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold">
+              Agent
+            </label>
+            <input
+              type="text"
+              defaultValue={agent}
+              onChange={(e) => setAgent(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <div className=" flex justify-start items-start mb-3">
+            <label className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold">
+              Description
+            </label>
+            <textarea
+              defaultValue={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-[200px] h-[35px] font-normal text-[14px] myBlueBtn my-6 ms-auto"
           >
-            Brand Name
-          </label>
-          <input
-            type="text"
-            //   value={productName}
-            //   onChange={(e) => setProductName(e.target.value)}
-            className="w-[100%] h-[30px] px-2 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-          />
-          <label
-            htmlFor=""
-            className="text-white w-[170px] pt-[2px] h-[24px] text-[14px] font-normal "
-          >
-            Company Name
-          </label>
-          <input
-            type="text"
-            //   value={productName}
-            //   onChange={(e) => setProductName(e.target.value)}
-            className="w-[100%] h-[30px] px-2 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-          />
-          <label
-            htmlFor=""
-            className="text-white w-[170px] pt-[2px] h-[24px] text-[14px] font-normal "
-          >
-            Agent
-          </label>
-          <input
-            type="text"
-            //   value={productName}
-            //   onChange={(e) => setProductName(e.target.value)}
-            className="w-[100%] h-[30px] px-2 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-          />
-          <label
-            htmlFor=""
-            className="text-white w-[170px] pt-[2px] h-[24px] text-[14px] font-normal "
-          >
-            Phone{" "}
-          </label>
-          <input
-            type="text"
-            //   value={productName}
-            //   onChange={(e) => setProductName(e.target.value)}
-            className="w-[100%] h-[30px] px-2 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-          />
-          <label
-            htmlFor=""
-            className="text-white w-[170px] pt-[2px] h-[24px] text-[14px] font-normal "
-          >
-            Description{" "}
-          </label>
-          <textarea
-            //   value={productName}
-            //   onChange={(e) => setProductName(e.target.value)}
-            className="w-[100%] h-[60px] px-2 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-          />
-        </div>
-        <button
-          onClick={() => setShowBrandAdd(true)}
-          className="w-full h-[35px] font-normal text-[14px] myBlueBtn mt-6"
-        >
-          Save
-        </button>
+            Edit
+          </button>
+        </form>
       </div>
+      {showModal ? (
+        <Modal title={"Select an image"} modalView={<BrandEditSelectImg />} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -25,11 +25,11 @@ export const logoApi = createApi({
       invalidatesTags: ["logo"],
     }),
     editBrand: builder.mutation({
-      query: ({ brand, token }) => ({
-        url: `/brand/${brand.id}`,
+      query: ({ id,newData, token }) => ({
+        url: `/brand/${id}`,
         method: "PUT",
         headers: { authorization: `Bearer ${token}` },
-        body: brand,
+        body: newData,
       }),
       invalidatesTags: ["logo"],
     }),
@@ -44,4 +44,4 @@ export const logoApi = createApi({
   }),
 });
 
-export const { useCreateBrandMutation,useEditBrandMutation ,useDeleteBrandMutation} = logoApi;
+export const { useGetSinglBrandQuery,useCreateBrandMutation,useEditBrandMutation ,useDeleteBrandMutation} = logoApi;

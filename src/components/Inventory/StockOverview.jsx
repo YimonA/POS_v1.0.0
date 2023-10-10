@@ -1,5 +1,4 @@
 import { BsArrowRight } from "react-icons/bs";
-import { BsPencil } from "react-icons/bs";
 import { BsPlusLg } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -126,14 +125,15 @@ const StockOverview = () => {
                 <td className="px-1 py-4 text-end">AAA</td>
                 <td>
                   <div className="me-20 flex justify-end items-center gap-2 z-20">
+                    <Link to={`/stock-add/${stock?.id}`}>
                     <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
                       <BsPlusLg
                         size={"1.3rem"}
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-
-                    <Link to={"/product-detail"}>
+                    </Link>
+                    <Link to={`/stock-detail/${stock?.id}`}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsArrowRight
                           size={"1rem"}
@@ -153,7 +153,7 @@ const StockOverview = () => {
       <div>
         <Button.Group className=" pt-10 flex justify-end">
           <Button
-            onClick={() => setPage(page - 1)}
+            onClick={() => setPage(page>1?page - 1:page)}
             variant="default"
             className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
@@ -161,7 +161,6 @@ const StockOverview = () => {
             <MdArrowBackIosNew />
           </Button>
           <Button
-            // onClick={() => fetchData(link?.url)}
             variant="default"
             className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >

@@ -2,13 +2,13 @@ import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#8f2e44"];
+const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#6a88b8"];
 
 const SalePieChart = ({ bdata }) => {
   SalePieChart.propTypes = {
     bdata: PropTypes.object,
   };
-  const [colors,setColors]=useState(["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#8f2e44"])
+  const [colors,setColors]=useState(["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#6a88b8"])
   const data = bdata?.brandsInfo;
   console.log("bdata", bdata?.brandsInfo);
   console.log("bdata", bdata);

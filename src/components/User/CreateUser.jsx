@@ -41,21 +41,11 @@ const CreateUser = () => {
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
-      <div className=" flex justify-between items-center mb-20">
-        <div>
+      <div className="mb-20">
           <p className="breadcrumb-title	">User</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-            User / Create User{" "}
-          </p>{" "}
-        </div>
-        <Link to={"/product"}>
-          <button
-            onClick={() => liHandler("products")}
-            className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
-          >
-            Product List
-          </button>
-        </Link>
+            User / Create User
+          </p>        
       </div>
       {/* Breadcrumg end */}
 

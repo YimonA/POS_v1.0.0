@@ -9,20 +9,24 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import StockOverview from "../Inventory/StockOverview";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   addBrandReport,
+  addStockReport,
   addWeekelyBestBrands,
 } from "../../redux/services/reportStockSlice.js";
 import {
   useGetBrandsReportQuery,
+  useGetStockOverviewQuery,
   useGetWeekelyBestBrandsQuery,
 } from "../../redux/api/reportStockApi";
 
 const StockReport = () => {
+  const [page,setPage]=useState(1);
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
   const dispatch = useDispatch();
+  const {data:stockReport}=useGetStockOverviewQuery({token,page});
   const { data: bBData } = useGetWeekelyBestBrandsQuery(token);
   const { data: brandReportData } = useGetBrandsReportQuery(token);
   const weekelyBestBrands = useSelector(
@@ -31,9 +35,20 @@ const StockReport = () => {
   const brandReport = useSelector(
     (state) => state.reportStockSlice.brandReport
   );
+  const stockReportData = useSelector(
+    (state) => state.reportStockSlice.stockReport
+  );
 
-  console.log("weekelyBestBrands", weekelyBestBrands);
-  console.log("brandReport", brandReport);
+  // console.log("weekelyBestBrands", weekelyBestBrands);
+  // console.log("brandReport", brandReport);
+  // console.log("stockReport", stockReport);
+  console.log("weekelyBestBrands", brandReportData);
+  console.log("brandReport", bBData);
+  console.log("stockReport", stockReport);
+
+  useEffect(() => {
+    dispatch(addStockReport({ stockReport }));
+  }, [stockReport]);
 
   useEffect(() => {
     dispatch(addWeekelyBestBrands({ bBData }));
@@ -51,7 +66,7 @@ const StockReport = () => {
           <p className="breadcrumb-title	">Stock</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Report / Stock
-          </p>{" "}
+          </p>
         </div>
         <div className=" flex gap-5 items-center">
           <Link to={"/cashier"}>

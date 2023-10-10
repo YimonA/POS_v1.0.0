@@ -4,6 +4,8 @@ const initialState = {
   pData: null,
   bData: null,
   wData: null,
+  mdata:null,
+  ydata:null,
   tData: null,
 };
 
@@ -20,11 +22,17 @@ export const reportSaleSlice = createSlice({
     addWeekelySaleReport: (state, { payload }) => {
       state.wData = payload.wdata;
     },
+    addMonthlySaleReport: (state, { payload }) => {
+      state.mData = payload.mdata;
+    },
+    addYearlySaleReport: (state, { payload }) => {
+      state.yData = payload.ydata;
+    },
     addTodaySaleReport: (state, { payload }) => {
       state.tData = payload.tdata;
     },
   },
 });
 
-export const { addProductSaleReport,addBrandSaleReport,addWeekelySaleReport,addTodaySaleReport } = reportSaleSlice.actions;
+export const { addProductSaleReport,addBrandSaleReport,addWeekelySaleReport,addMonthlySaleReport,addYearlySaleReport,addTodaySaleReport } = reportSaleSlice.actions;
 export default reportSaleSlice.reducer;

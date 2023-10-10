@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
-import { BsArrowRight } from "react-icons/bs";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -35,20 +34,39 @@ const Monthly = () => {
   const fetchData = async () => {
     const { data } = await axios({
       method: "get",
-      url: `https://h.mmsdev.site/api/v1/monthly_sale_record?month=${month}&year=${year}`,
+      url: `https://h.mmsdev.site/api/v1/monthly_sale_record?month=${month}&year=${year}&page=1`,
       headers: { authorization: `Bearer ${token}` },
       responseType: "finance",
     });
-    // const dd=await data.json();
     const mdata = JSON.parse(data);
-    setMRecords(mdata.data);
-    setMonth(null);
-    setYear(null);
-    setMonthTag(mdata.data.monthly_sale_overview[0].date);
-    console.log("mdata", mdata);
-    console.log("data", data);
-    console.log("monthTag", monthTag.slice(3, monthTag.length));
+    setMRecords(mdata?.data);
+    setMonthTag(mdata?.data.monthly_sale_overview[0]?.date);
+    // console.log("data", data);
+    // console.log("monthTag", monthTag.slice(3, monthTag.length));
   };
+
+  const pageChange = async(link) => {
+    const { data } = await axios({
+      method: "get",
+      url: link,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "finance",
+    });
+    const mdata = JSON.parse(data);
+    setMRecords(mdata?.data);
+    // setMonthTag(mdata?.data.monthly_sale_overview[0]?.date);
+  };
+
+  const next=()=>{
+    if(mRecords?.next_page_url){
+      pageChange(mRecords?.next_page_url)
+    }
+  }
+  const prev=()=>{
+    if(mRecords?.prev_page_url){
+      pageChange(mRecords?.prev_page_url)
+    }
+  }
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -172,37 +190,29 @@ const Monthly = () => {
             <th className=" py-4 border-b text-end border-gray-600 px-1 uppercase font-medium">
               DATE
             </th>
-            {/* <th className=" py-4 border-b text-end border-gray-600 px-1 uppercase font-medium">
-              TIME
-            </th> */}
-            <th className=" "></th>
           </tr>
         </thead>
         <tbody>
-          {mRecords?.monthly_sale_overview.length>0?
-          mRecords?.monthly_sale_overview.map((record, index) => {
-            return (
-              <tr key={record?.id} className=" ">
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4">{record?.vouchers}</td>
-                <td className="px-1 text-end py-4">{record?.cash}</td>
-                <td className="px-1 py-4 text-end">{record?.tax}</td>
-                <td className="px-1 py-4 text-end">{record?.total}</td>
-                <td className="px-1 py-4 text-end">{record?.date}</td>
-                {/* <td className=" px-1 py-4 text-end">{record?.}</td> */}
-                <td className=" pe-5 py-4 text-end">
-                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                    <BsArrowRight
-                      size={"1rem"}
-                      className="text-[var(--secondary-color)]"
-                    />
-                  </span>
-                </td>
-              </tr>
-            );
-          }) :
-          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
-          }
+          {mRecords?.monthly_sale_overview.length > 0 ? (
+            mRecords?.monthly_sale_overview.map((record, index) => {
+              return (
+                <tr key={record?.id} className=" ">
+                  <td className="px-1 text-center  py-4">{index + 1}</td>
+                  <td className="px-1 text-end py-4">{record?.vouchers}</td>
+                  <td className="px-1 text-end py-4">{record?.cash}</td>
+                  <td className="px-1 py-4 text-end">{record?.tax}</td>
+                  <td className="px-1 py-4 text-end">{record?.total}</td>
+                  <td className="px-1 py-4 text-end">{record?.date}</td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className="px-1 text-center py-4 " colSpan={6}>
+                There is no data now.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* showList end */}
@@ -264,40 +274,36 @@ const Monthly = () => {
         </div>
         {/* total calculate end*/}
 
-        {/* pagination start */}
-        <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-        {/* pagination end */}
+        {/* pagination start*/}
+        <div>
+          <Button.Group className=" pt-10 flex justify-end">
+            <Button
+              onClick={prev}
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowBackIosNew />
+            </Button>
+            <Button
+              variant="default"
+              className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              page {mRecords?.current_page} / {mRecords?.last_page}
+            </Button>
+
+            <Button
+              onClick={next
+            }
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowForwardIos />
+            </Button>
+          </Button.Group>
+        </div>
+        {/* pagination end*/}
       </div>
     </div>
   );
