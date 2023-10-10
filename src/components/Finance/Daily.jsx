@@ -6,34 +6,34 @@ import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
-import { BsArrowRight } from "react-icons/bs";
 import { DateInput } from "@mantine/dates";
 import Cookies from "js-cookie";
 import axios from "axios";
 
 const Daily = () => {
+  const [page, setPage] = useState(1);
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
-  const [dRecords, setDRecords] = useState();
+  const [dRecords, setDRecords] = useState(null);
   const [date, setDate] = useState(null);
   const [dateTag, setDateTag] = useState(null);
 
   useEffect(() => {
-    const a=date?.toISOString().slice(0, 10);
+    const a = date?.toISOString().slice(0, 10);
     setDateTag(a);
   }, [date]);
 
   const fetchData = async () => {
-    const data  = await axios({
+    const data = await axios({
       method: "get",
-      url: `https://h.mmsdev.site/api/v1/daily_sale_records?date=${dateTag}`,
+      url: `https://h.mmsdev.site/api/v1/daily_sale_records?date=${dateTag}&page=${page}`,
       headers: { authorization: `Bearer ${token}` },
-      responseType: "finance",
+      responseType: "finance-daily",
     });
     const dData = await JSON.parse(data?.data);
     setDRecords(dData);
     setDate(null);
-    console.log("data", data);
+    // console.log("data", data);
     console.log("dd", dData);
   };
 
@@ -59,7 +59,9 @@ const Daily = () => {
       {/* Breadcrumg end */}
 
       <div className=" flex justify-between items-center py-5">
-        <p className="breadcrumb-title	">{dateTag? dateTag : 'Today'} Sale Overview</p>
+        <p className="breadcrumb-title	">
+          {dateTag ? dateTag : "Today"} Sale Overview
+        </p>
         <div className=" flex items-baseline gap-4">
           <select
             placeholder="Export"
@@ -128,35 +130,26 @@ const Daily = () => {
             <th className=" py-4 border-b text-end border-gray-600 px-1 uppercase font-medium">
               TIME
             </th>
-            <th className=" "></th>
           </tr>
         </thead>
         <tbody>
-          {dRecords?.today_sale_overview.length>0?
-          dRecords?.today_sale_overview?.map((record, index) => {
-            return (
-              <tr className=" " key={record?.id}>
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4">{record?.voucher}</td>
-                <td className="px-1 text-end py-4">{record?.cash}</td>
-                <td className="px-1 py-4 text-end">{record?.tax}</td>
-                <td className="px-1 py-4 text-end">{record?.total}</td>
-                <td className="px-1 py-4 text-end">{dateTag}</td>
-                <td className=" px-1 py-4 text-end">{record?.time}</td>
-                <td className=" pe-5 py-4 text-end">
-                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                    <BsArrowRight
-                      size={"1rem"}
-                      className="text-[var(--secondary-color)]"
-                    />
-                  </span>
-                </td>
-              </tr>
-            );
-          }):
-          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
-
-          }
+          {dRecords === null || dRecords?.total_vouchers == 0 ? (
+            <tr>
+              <td className="px-1 text-center py-4 " colSpan={7}>
+                There is no data now.
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td className="px-1 text-center  py-4">{1}</td>
+              <td className="px-1 text-end py-4">{dRecords?.voucher}</td>
+              <td className="px-1 text-end py-4">{dRecords?.cash}</td>
+              <td className="px-1 py-4 text-end">{dRecords?.tax}</td>
+              <td className="px-1 py-4 text-end">{dRecords?.total}</td>
+              <td className="px-1 py-4 text-end">{dateTag}</td>
+              <td className=" px-1 py-4 text-end">{dRecords?.time}</td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* showList end */}
@@ -171,7 +164,7 @@ const Daily = () => {
               Total Voucher
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {dRecords?.total_vouchers}
+              {dRecords?.total_vouchers == 0 ? 0 : dRecords?.total_vouchers}
             </p>
           </div>
 
@@ -205,43 +198,40 @@ const Daily = () => {
               {dRecords?.total}
             </p>
           </div>
-        </div> 
+        </div>
         {/* total calculate end*/}
 
-        {/* pagination start */}
-        <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
+        {/* pagination start*/}
+      <div>
+        <Button.Group className=" pt-10 flex justify-end">
           <Button
+            onClick={() => setPage(page>1?page - 1:page)}
             variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >
             <MdArrowBackIosNew />
           </Button>
           <Button
             variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
+            className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >
-            1
+             page {dRecords?.daily_sale_records?.current_page} / {dRecords?.daily_sale_records?.last_page}
           </Button>
+
           <Button
+            onClick={() =>
+              setPage(page < dRecords?.daily_sale_records?.last_page? page + 1 : page)
+            }
             variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
+            className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >
             <MdArrowForwardIos />
           </Button>
         </Button.Group>
-        {/* pagination end */}
+      </div>
+      {/* pagination end*/}
       </div>
     </div>
   );

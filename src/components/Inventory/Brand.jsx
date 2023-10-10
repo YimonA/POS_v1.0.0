@@ -219,7 +219,6 @@ const Brand = () => {
             <MdArrowBackIosNew />
           </Button>
           <Button
-            // onClick={() => fetchData(link?.url)}
             variant="default"
             className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >

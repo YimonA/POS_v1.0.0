@@ -153,7 +153,7 @@ const StockOverview = () => {
       <div>
         <Button.Group className=" pt-10 flex justify-end">
           <Button
-            onClick={() => setPage(page - 1)}
+            onClick={() => setPage(page>1?page - 1:page)}
             variant="default"
             className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
@@ -161,7 +161,6 @@ const StockOverview = () => {
             <MdArrowBackIosNew />
           </Button>
           <Button
-            // onClick={() => fetchData(link?.url)}
             variant="default"
             className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
           >

@@ -10,6 +10,8 @@ import Cookies from "js-cookie";
 import {
   useGetProductSaleReportQuery,
   useGetWeekelySaleReportQuery,
+  useGetMonthlySaleReportQuery,
+  useGetYearlySaleReportQuery,
   useGetTodaySaleReportQuery,
   useGetBrandSaleReportQuery,
 } from "../../redux/api/reportSaleApi";
@@ -21,36 +23,50 @@ import {
   addProductSaleReport,
   addTodaySaleReport,
   addWeekelySaleReport,
+  addMonthlySaleReport,
+  addYearlySaleReport,
 } from "../../redux/services/reportSaleSlice";
 
 const SaleReport = () => {
+  const [show, setShow] = useState("monthly");
   const [vouchers, setVouchers] = useState();
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const { data: pdata } = useGetProductSaleReportQuery(token);
   const { data: wdata } = useGetWeekelySaleReportQuery(token);
+  const { data: mdata } = useGetMonthlySaleReportQuery(token);
+  const { data: ydata } = useGetYearlySaleReportQuery(token);
+
   const { data: tdata } = useGetTodaySaleReportQuery(token);
   const { data: bdata } = useGetBrandSaleReportQuery(token);
   const productData = useSelector((state) => state.reportSaleSlice.pData);
-  const WeekelyData = useSelector((state) => state.reportSaleSlice.wData);
+  const weekelyData = useSelector((state) => state.reportSaleSlice.wData);
+  const monthlyData = useSelector((state) => state.reportSaleSlice.mData);
+  const yearlyData = useSelector((state) => state.reportSaleSlice.yData);
   const todayData = useSelector((state) => state.reportSaleSlice.tData);
   const brandData = useSelector((state) => state.reportSaleSlice.bData);
 
   // console.log("pdata", productData?.productInfo);
-  console.log("wdata", WeekelyData);
+  console.log("wdata", weekelyData);
+  console.log("mdata", monthlyData);
+  console.log('weeke',weekelyData?.weekly_lowest_sale?.sale_date)
   // console.log("tdata", todayData);
   // console.log("bdata", brandData);
 
   // console.log("pdata", pdata?.productInfo);
-  // console.log("wdata", wdata);
+  // console.log("wddata", mdata);
+  // console.log("ydata", wdata);
+  // console.log("mata", ydata);
   // console.log("tdata", tdata);
   // console.log("bdata", bdata);
+  // console.log("monthlyData", monthlyData);
+  // console.log("yearlyData", yearlyData);
 
   useEffect(() => {
     fetchData();
-    console.log("v", vouchers);
   }, []);
+  
 
   const fetchData = async () => {
     const data = await axios({
@@ -61,7 +77,7 @@ const SaleReport = () => {
     });
     const voucher = await JSON.parse(data?.data);
     setVouchers(voucher?.data);
-    console.log("data", data);
+    //console.log("data", data);
   };
 
   useEffect(() => {
@@ -76,6 +92,18 @@ const SaleReport = () => {
   useEffect(() => {
     dispatch(addWeekelySaleReport({ wdata }));
   }, [wdata]);
+  useEffect(() => {
+    dispatch(addMonthlySaleReport({ mdata }));
+  }, [mdata]);
+  useEffect(() => {
+    dispatch(addYearlySaleReport({ ydata }));
+    console.log("pdata", pdata?.productInfo);
+  console.log("wddata", mdata);
+  console.log("ydata", wdata);
+  console.log("mata", ydata);
+  console.log("tdata", tdata);
+  console.log("bdata", bdata);
+  }, [ydata]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -91,20 +119,35 @@ const SaleReport = () => {
         {/* btn group start */}
         <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
           <Button
+            onClick={() => setShow("yearly")}
             variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+            className={`${
+              show === "yearly"
+                ? " text-[--font-color]"
+                : " text-[--secondary-color]"
+            } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
           >
             Year
           </Button>
           <Button
+            onClick={() => setShow("monthly")}
             variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+            className={`${
+              show === "monthly"
+                ? " text-[--font-color]"
+                : " text-[--secondary-color]"
+            }  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
           >
             Month
           </Button>
           <Button
+            onClick={() => setShow("weekely")}
             variant="default"
-            className=" text-[--font-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+            className={`${
+              show === "weekely"
+                ? " text-[--font-color]"
+                : " text-[--secondary-color]"
+            }  text-[--font-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
           >
             week
           </Button>
@@ -124,13 +167,13 @@ const SaleReport = () => {
             />
           </span>
           <p className=" text-[42px] font-medium text-[var(--secondary-color)] mb-3 flex justify-between items-center">
-            {tdata?.total_today_sale_amount}
+            {todayData?.total_amount}
             <span className=" text-[16px] font-normal text-[var(--gray-color)]">
               Kyats
             </span>
           </p>
 
-          {vouchers?.voucher?.map((v) => {
+          {vouchers?.voucher.slice(0, 3)?.map((v) => {
             return (
               <div
                 key={v?.id}
@@ -162,89 +205,311 @@ const SaleReport = () => {
             </button>
           </Link>
         </div>
-        <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
-          <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
-            Weekly Sales
-          </p>
-          <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
-            Total {wdata?.total_weekely_sale_amount.toFixed(2)} k Sales
-          </p>
-          <div className="flex items-stretch gap-3">
-            <div className="basis-3/5">
-              <SaleTinyBarChart wdata={wdata?.weekely_sales}/>
-            </div>
-            <div className="basis-2/5 flex flex-col gap-5">
-              <div className=" flex justify-center gap-2">
-                <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
-                {wdata?.weekely_highest_sale[0]?.dayName.substring(0,1)}
-                </p>
-                <div className="px-3">
-                  <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Highest</span>
-                    <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
-                    <span className=" text-green-500">35.5%</span>
-                  </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    {wdata?.weekely_highest_sale[0]?.highest_sale_date}
-                  </p>
-                </div>
-                <div className="ms-auto">
-                  <p className=" text-white text-[14px] font-semibold">
-                    {wdata?.weekely_highest_sale[0]?.highest_sale} k
-                  </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    kyats
-                  </p>
-                </div>
+        {/* weekely sale */}
+        {show === "weekely" ? (
+          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+            <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
+              Weekly Sales
+            </p>
+            <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
+              Total {weekelyData?.weekly_sale_total} k Sales
+            </p>
+            <div className="flex items-stretch gap-3">
+              <div className="basis-3/5">
+                <SaleTinyBarChart wdata={wdata?.weekely_sale} tag={show}/>
               </div>
+              <div className="basis-2/5 flex flex-col gap-5">
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
+                    {weekelyData?.weekly_highest_sale?.sale_date.substring(
+                      0,
+                      1
+                    )}
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Highest</span>
+                      <IoIosArrowUp
+                        className=" text-green-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-green-500">
+                        {
+                          weekelyData?.weekly_highest_percentage
+                        }
+                      </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {weekelyData?.weekly_highest_sale?.sale_date}
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {weekelyData?.weekly_highest_sale?.total}
+                      k
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
 
-              <div className=" flex justify-center gap-2">
-                <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                  A
-                </p>
-                <div className="px-3">
-                  <p className=" text-white text-[14px] font-semibold ">
-                    Average
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    A
                   </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    Income
-                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold ">
+                      Average
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      Income
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {weekelyData?.average}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
                 </div>
-                <div className="ms-auto">
-                  <p className=" text-white text-[14px] font-semibold">
-                    {wdata?.weekely_average_amount.toFixed(2)} k
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    {weekelyData?.weekly_lowest_sale?.sale_date.substring(
+                      0,
+                      1
+                    )}
                   </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    kyats
-                  </p>
-                </div>
-              </div>
-              <div className=" flex justify-center gap-2">
-                <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                {wdata?.weekely_lowest_sale[0]?.dayName.substring(0,1)}
-                </p>
-                <div className="px-3">
-                  <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
-                    <span className="w-[55px]">Lowest</span>
-                    <IoIosArrowDown className=" text-red-500" size={"1.3rem"} />
-                    <span className=" text-red-500">3%</span>
-                  </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    {wdata?.weekely_lowest_sale[0]?.lowest_sale_date}
-                  </p>
-                </div>
-                <div className="ms-auto">
-                  <p className=" text-white text-[14px] font-semibold">
-                  {wdata?.weekely_lowest_sale[0]?.lowest_sale.toFixed(2)} k
-                  </p>
-                  <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
-                    kyats
-                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Lowest</span>
+                      <IoIosArrowDown
+                        className=" text-red-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-red-500">
+                        {weekelyData?.weekly_lowest_percentage}
+                      </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {weekelyData?.weekly_lowest_sale?.sale_date}
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {weekelyData?.weekly_lowest_sale?.total}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
+
+        {/* monthly sale */}
+        {show === "monthly" ? (
+          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+            <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
+              Monthly Sales
+            </p>
+            <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
+              Total {monthlyData?.TotalMonthlySalesAmount.toFixed(2)} k Sales
+            </p>
+            <div className="flex items-stretch gap-3">
+              <div className="basis-3/5">
+                <SaleTinyBarChart wdata={mdata?.monthly_sales} tag={show} />
+              </div>
+              <div className="basis-2/5 flex flex-col gap-5">
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
+                    {monthlyData?.MonthlyHighestSale[0]?.highest_sale_month}
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Highest</span>
+                      <IoIosArrowUp
+                        className=" text-green-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-green-500">
+                      
+                        {monthlyData?.MonthlyHighestSale[0]?.percentage}
+                      </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {monthlyData?.MonthlyHighestSale[0]?.highest_sale_month}
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {monthlyData?.MonthlyHighestSale[0]?.highest_sale}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
+
+               <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    A
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold ">
+                      Average
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      Income
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {monthlyData?.MonthlyAverageAmount.toFixed(2)}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
+                  
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    {monthlyData?.MonthlyLowestSale[0]?.lowest_sale_month}
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Lowest</span>
+                      <IoIosArrowDown
+                        className=" text-red-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-red-500">
+                        {monthlyData?.MonthlyLowestSale[0]?.percentage}
+                      </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {monthlyData?.MonthlyLowestSale[0]?.lowest_sale_month}
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {monthlyData?.MonthlyLowestSale[0]?.lowest_sale.toFixed(
+                        2
+                      )}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {/* yearly sale */}
+        {show === "yearly" ? (
+          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+            <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
+              Yearly Sales
+            </p>
+            <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
+              Total {yearlyData?.total_yearly_sales_amount.toFixed(2)} k Sales
+            </p>
+            <div className="flex items-stretch gap-3">
+              <div className="basis-3/5">
+                <SaleTinyBarChart wdata={ydata?.yearly_sales} tag={show} />
+              </div>
+              <div className="basis-2/5 flex flex-col gap-5">
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
+                    {yearlyData?.yearly_highest_sale[0]?.highest_sale_year}
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Highest</span>
+                      <IoIosArrowUp
+                        className=" text-green-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-green-500">
+                        {yearlyData?.yearly_highest_sale[0]?.highest_percentage}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {yearlyData?.yearly_highest_sale[0]?.highest_sale}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
+
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    A
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold ">
+                      Average
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      Income
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {yearlyData?.yearly_average_amount.toFixed(2)}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
+                <div className=" flex justify-center gap-2">
+                  <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
+                    {yearlyData?.yearly_lowest_sale[0]?.lowest_sale_year}
+                  </p>
+                  <div className="px-3">
+                    <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
+                      <span className="w-[55px]">Lowest</span>
+                      <IoIosArrowDown
+                        className=" text-red-500"
+                        size={"1.3rem"}
+                      />
+                      <span className=" text-red-500">
+                        {yearlyData?.yearly_lowest_sale[0]?.lowest_percentage}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="ms-auto">
+                    <p className=" text-white text-[14px] font-semibold">
+                      {yearlyData?.yearly_lowest_sale[0]?.lowest_sale.toFixed(
+                        2
+                      )}
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      kyats
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       {/* sale week end */}
@@ -274,29 +539,37 @@ const SaleReport = () => {
               </tr>
             </thead>
             <tbody className=" text-gray-100">
-              {productData?.productInfo?.map((product, index) => {
-                return (
-                  <tr
-                    key={index}
-                    className=" border-b border-b-gray-700 cursor-pointer"
-                  >
-                    <td className="px-1 text-center  py-4">{index + 1}</td>
-                    <td className="px-1 text-end py-4 ">{product?.name} </td>
-                    <td className="px-1 py-4 text-end">{product?.brand}</td>
-                    <td className="px-1 pe-4 py-4 text-end">
-                      {product?.sale_price}
-                    </td>
+              {productData?.productInfo?.length > 0 ? (
+                productData?.productInfo?.map((product, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className=" border-b border-b-gray-700 cursor-pointer"
+                    >
+                      <td className="px-1 text-center  py-4">{index + 1}</td>
+                      <td className="px-1 text-end py-4 ">{product?.name} </td>
+                      <td className="px-1 py-4 text-end">{product?.brand}</td>
+                      <td className="px-1 pe-4 py-4 text-end">
+                        {product?.sale_price}
+                      </td>
 
-                    <td></td>
-                  </tr>
-                );
-              })}
+                      <td></td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td className="px-1 text-center py-4 " colSpan={4}>
+                    There is no data now.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
         <div className=" basis-1/3 border-[1px] border-[var(--border-color)] px-5 rounded-[3px]">
           <p className=" text-[20px] font-medium text-[var(--secondary-color)] pt-5">
-           Weekely Brand Sales
+            Weekely Brand Sales
           </p>
           <SalePieChart bdata={brandData} />
         </div>

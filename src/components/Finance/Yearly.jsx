@@ -1,35 +1,74 @@
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
-import {  useState } from "react";
+import { useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
-import { BsArrowRight } from "react-icons/bs";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Yearly = () => {
   const token = Cookies.get("token");
   const { liHandler } = useContextCustom();
   const [sortValue, setSortValue] = useState();
   const [year, setYear] = useState(null);
+  const [allYear, setAllYear] = useState();
+  // const [year, setYear] = useState(new Date().getFullYear());
   const [yRecords, setYRecords] = useState();
   const [yearTag, setYearTag] = useState(null);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    fetchYearData();
+  }, []);
+
+  const fetchData = async (year) => {
     const { data } = await axios({
       method: "get",
-      url: `https://h.mmsdev.site/api/v1/yearly_sale_record?year=${year}`,
+      url: `https://h.mmsdev.site/api/v1/yearly_sale_record?year=${year}&page=1`,
       headers: { authorization: `Bearer ${token}` },
-      responseType: "finance",
+      responseType: "financeData",
     });
     const ydata = JSON.parse(data);
     setYRecords(ydata);
-    setYear(null);
     setYearTag(ydata.yearly_sale_overviews[0].year);
-    console.log("dd", ydata);
   };
+
+  const fetchYearData = async () => {
+    const { data } = await axios({
+      method: "get",
+      url: `https://h.mmsdev.site/api/v1/year`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "getYear",
+    });
+    const ydata = JSON.parse(data);
+    setAllYear(ydata);
+  };
+
+  const pageChange = async(link) => {
+    const { data } = await axios({
+      method: "get",
+      url: link,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "finance",
+    });
+    // const dd=await data.json();
+    const ydata = JSON.parse(data);
+    setYRecords(ydata);
+    setYearTag(ydata.yearly_sale_overviews[0].year);
+  };
+
+  const next=()=>{
+    if(yRecords?.next_page_url){
+      pageChange(yRecords?.next_page_url)
+    }
+  }
+  const prev=()=>{
+    if(yRecords?.prev_page_url){
+      pageChange(yRecords?.prev_page_url)
+    }
+  }
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -85,23 +124,22 @@ const Yearly = () => {
               onChange={(e) => setYear(e.target.value)}
               className="recent-dropdown "
             >
-              <option value="" className="recent-dropdown hidden">
+              <option value="null" className="recent-dropdown hidden">
                 Year
               </option>
-              {/* <option value={2021} className="recent-dropdown">
-                2021
-              </option>
-              <option value={2022} className="recent-dropdown">
-                2022
-              </option> */}
-              <option value={2023} className="recent-dropdown">
-                2023
-              </option>
+
+              {allYear?.map((y) => {
+                return (
+                  <option key={y} value={y} className="recent-dropdown">
+                    {y}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
           <button
-            onClick={fetchData}
+            onClick={()=>fetchData(year)}
             className="w-[40px] h-[30px] font-semibold text-[16px] myBlueBtn flex justify-center items-center"
           >
             <BsSearch className=" text-[var(--sidebar-color)]" />
@@ -133,35 +171,33 @@ const Yearly = () => {
             <th className=" py-4 border-b text-end border-gray-600 px-1 uppercase font-medium">
               Year
             </th>
-            <th className=" "></th>
           </tr>
         </thead>
 
         <tbody>
-          {yRecords?.yearly_sale_overviews.length>0?
-          yRecords?.yearly_sale_overviews?.map((record, index) => {
-            return (
-              <tr key={record?.id} className=" ">
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4">{record?.total_vouchers}</td>
-                <td className="px-1 text-end py-4">{record?.total_cash}</td>
-                <td className="px-1 py-4 text-end">{record?.total_tax}</td>
-                <td className="px-1 py-4 text-end">{record?.total}</td>
-                <td className="px-1 py-4 text-end">{record?.month}</td>
-                <td className=" px-1 py-4 text-end">{record?.year}</td>
-                <td className=" pe-5 py-4 text-end">
-                  <span className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                    <BsArrowRight
-                      size={"1rem"}
-                      className="text-[var(--secondary-color)]"
-                    />
-                  </span>
-                </td>
-              </tr>
-            );
-          }):
-          <tr><td className="px-1 text-center py-4 " colSpan={8} >There is no data now.</td></tr> 
-          }
+          {yRecords?.yearly_sale_overviews?.data.length > 0 ? (
+            yRecords?.yearly_sale_overviews?.data?.map((record, index) => {
+              return (
+                <tr key={record?.id} className=" ">
+                  <td className="px-1 text-center  py-4">{index + 1}</td>
+                  <td className="px-1 text-end py-4">
+                    {record?.total_vouchers}
+                  </td>
+                  <td className="px-1 text-end py-4">{record?.total_cash}</td>
+                  <td className="px-1 py-4 text-end">{record?.total_tax}</td>
+                  <td className="px-1 py-4 text-end">{record?.total}</td>
+                  <td className="px-1 py-4 text-end">{record?.month}</td>
+                  <td className=" px-1 py-4 text-end">{record?.year}</td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className="px-1 text-center py-4 " colSpan={8}>
+                There is no data now.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* showList end */}
@@ -223,40 +259,36 @@ const Yearly = () => {
         </div>
         {/* total calculate end*/}
 
-        {/* pagination start */}
-        <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-        {/* pagination end */}
+        {/* pagination start*/}
+        <div>
+          <Button.Group className=" pt-10 flex justify-end">
+            <Button
+              onClick={prev}
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowBackIosNew />
+            </Button>
+            <Button
+              variant="default"
+              className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              page {yRecords?.yearly_sale_overviews?.current_page} / {yRecords?.yearly_sale_overviews?.last_page}
+            </Button>
+
+            <Button
+              onClick={next
+            }
+              variant="default"
+              className={`
+                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              <MdArrowForwardIos />
+            </Button>
+          </Button.Group>
+        </div>
+        {/* pagination end*/}
       </div>
     </div>
   );
