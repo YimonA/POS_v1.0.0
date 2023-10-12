@@ -31,8 +31,8 @@ const ProductsTable = ({ products }) => {
     });
   };
 
-  const editProductHandler=(id)=>{
-    nav(`/product-edit/${id}`);
+  const editProductHandler=(product)=>{
+    nav(`/product-edit/${product?.id}`,{state:{item:product}});
     setCurrent(1);
   }
   return (
@@ -77,7 +77,7 @@ const ProductsTable = ({ products }) => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                      <button onClick={()=>editProductHandler(product?.id)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                      <button onClick={()=>editProductHandler(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsPencil
                           size={"0.8rem"}
                           className="text-[var(--secondary-color)]"

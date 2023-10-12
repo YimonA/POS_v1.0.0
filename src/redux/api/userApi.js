@@ -32,8 +32,8 @@ export const userApi = createApi({
       invalidatesTags: ["user"],
     }),
     editUser: builder.mutation({
-      query: ({ user, token }) => ({
-        url: `/user/${user?.id}`,
+      query: ({ id, token,user }) => ({
+        url: `/user/${id}`,
         method: "PUT",
         headers: { authorization: `Bearer ${token}` },
         body: user,

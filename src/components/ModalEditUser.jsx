@@ -2,7 +2,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useContextCustom } from "../context/stateContext";
 import { Link } from "react-router-dom";
 
-const ModalCreateUser = () => {
+const ModalEditUser = () => {
   const { liHandler} = useContextCustom();
 
   return (
@@ -13,7 +13,7 @@ const ModalCreateUser = () => {
             </div>
           </div>
           <p className=" text-[18px] font-semibold text-white">
-            Successfully created the Staff
+            Successfully update the Staff
           </p>
           <Link to={'/staff-overview'}>
           <button onClick={()=>liHandler("staff overview")} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
@@ -24,4 +24,4 @@ const ModalCreateUser = () => {
   )
 }
 
-export default ModalCreateUser
+export default ModalEditUser

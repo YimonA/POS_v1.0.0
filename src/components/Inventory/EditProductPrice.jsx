@@ -3,18 +3,13 @@ import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 
-const EditProductPrice = (props) => {
-  const { sale_price,actual_price } = props;
-
+const EditProductPrice = ({product}) => {
   const { nextStepperHandler,editSalePrice, setEditSalePrice,editActualPrice, setEditActualPrice } = useContextCustom();
   
 
   useEffect(() => {
-    setEditSalePrice();
-    setEditActualPrice();
-
-    setEditSalePrice(sale_price);
-    setEditActualPrice(actual_price);
+    setEditSalePrice(product?.sale_price);
+    setEditActualPrice(product?.actual_price);
   }, []);
 
   return (

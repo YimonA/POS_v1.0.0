@@ -2,44 +2,37 @@ import { useContextCustom } from "../../context/stateContext";
 import EditProfileStepper from "./EditProfileStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-// import { useGetBrandsQuery } from "../../redux/api/brandApi";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { DateInput } from "@mantine/dates";
+import { Group, Radio } from "@mantine/core";
+import { useEffect } from "react";
 
-const EditProfileInfo = () => {
+const EditProfileInfo = ({ staff }) => {
+  console.log("staff", staff);
   const {
-    productName,
-    setProductName,
-    brand,
-    setBrand,
-    unit,
-    setUnit,
-    productInfo,
-    setProductInfo,
-    stock,
-    setStock,
+    editUName,
+    setEditUName,
+    editUDOB,
+    setEditUDOB,
+    editUGender,
+    setEditUGender,
+    editUAddress,
+    setEditUAddress,
     nextStepperHandler,
   } = useContextCustom();
   const token = Cookies.get("token");
-  // const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
-  // const brands = useSelector((state) => state.brandSlice.brands);
-  // console.log("brand", data);
-  // console.log("bbbrand", brands);
 
-  // useEffect(() => {
-  //   dispatch(addBrands({ brands: data?.data }));
-  // }, [data]);
-
+  useEffect(() => {
+    setEditUName(staff?.name);
+    setEditUDOB(staff?.date_of_birth);
+    setEditUGender(staff?.gender);
+    setEditUAddress(staff?.address);
+  }, []);
   const nextHandler = () => {
-    // const ppp=dispatch(addProduct)
-    nextStepperHandler(3);
+    nextStepperHandler(4);
   };
-
-  // useMemo(() => {
-  //   console.log("first", brand);
-  // }, [brand]);
 
   return (
     <div className=" ">
@@ -58,9 +51,8 @@ const EditProfileInfo = () => {
             </label>
             <input
               type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              placeholder="Product Name"
+              defaultValue={editUName}
+              onChange={(e) => setEditUName(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
@@ -71,12 +63,15 @@ const EditProfileInfo = () => {
             >
               Date of Birth
             </label>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              placeholder=""
-              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
+            <DateInput
+              valueFormat="DD-MM-YYYY"
+              label="choose Date"
+              placeholder={editUDOB}
+              defaultValue={editUDOB}
+              onChange={setEditUDOB}
+              maw={400}
+              mx="auto"
+              className="w-[380px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
             />
           </div>
 
@@ -87,13 +82,24 @@ const EditProfileInfo = () => {
             >
               Gender
             </label>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              placeholder=""
-              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />
+            <Radio.Group name="gender" withAsterisk>
+              <Group mt="xs">
+                <Radio
+                  checked={editUGender==='male'?true:''}
+                  onChange={(e) => setEditUGender(e.target.value)}
+                  value="male"
+                  label="Male"
+                />
+                <Radio
+                  // checked={editUGender}
+                  checked={editUGender==='female'?true:''}
+
+                  onChange={(e) => setEditUGender(e.target.value)}
+                  value="female"
+                  label="Female"
+                />
+              </Group>
+            </Radio.Group>
           </div>
           <div className=" flex justify-start items-start">
             <label
@@ -103,8 +109,8 @@ const EditProfileInfo = () => {
               Address
             </label>
             <textarea
-              value={productInfo}
-              onChange={(e) => setProductInfo(e.target.value)}
+              value={editUAddress}
+              onChange={(e) => setEditUAddress(e.target.value)}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -113,7 +119,7 @@ const EditProfileInfo = () => {
         <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
           <EditProfileStepper />
           <button
-            type="submit"
+            onClick={() => nextStepperHandler(4)}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />

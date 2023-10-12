@@ -78,7 +78,7 @@ const BrandAdd = () => {
             onClick={showImgHandler}
             className="relative w-[120px] h-[120px] border-[3px] rounded-full border-dashed border-[var(--font-color)] bg-[var(--base-color)] flex justify-center items-center cursor-pointer mx-auto mb-2"
           >
-            <img src={addBrandPhoto ? addBrandPhoto : ""} alt="" />
+            <img src={addBrandPhoto ? addBrandPhoto : ""} alt="" className={`${addBrandPhoto? 'w-[120px] h-[120px] rounded-full':''}`} />
             <MdOutlinePhotoLibrary size={"3rem"} color="white" />
             <div className="absolute bottom-0 right-5 w-[20px] h-[20px] rounded-full bg-white flex justify-center items-center">
               <PiPencilSimpleLineBold />

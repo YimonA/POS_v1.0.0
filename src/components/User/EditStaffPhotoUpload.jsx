@@ -1,27 +1,64 @@
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
-import AddProductStepper from "./AddProductStepper";
+import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useCreateUserMutation } from "../../redux/api/userApi";
 
-const EditProductPhotoUpload = ({product}) => {
-  const { setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
-    useContextCustom();
+const EditStaffPhotoUpload = () => {
+  const {
+    setShowModal,
+    nextStepperHandler,
+    editUPhoto,setEditUPhoto  } = useContextCustom();
+  // const [createUser] = useCreateUserMutation();
+  // const token = Cookies.get("token");
+
+  // const CreateUserHandler = async(e) => {
+  //   e.preventDefault();
+  //   const user = {
+  //     name: uName,
+  //     email: uEmail,
+  //     password: uPassword,
+  //     phone_number: uPhone,
+  //     address: uAddress,
+  //     gender: uGender,
+  //     date_of_birth: uDOB,
+  //     role: uPosition,
+  //     photo: uPhoto,
+  //     password_confirmation: uConfirmPassword
+  //   };
+  //   const data =await createUser({ user, token });
+  //   console.log("dddd", data);
+  //   console.log("name", user);
+  //   // console.log("pppp", users);
+
+  //   // setShowModal(true);
+  // };
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-useEffect(()=>{
-setEditPhoto(product?.photo)
-},[])
+  const next=()=>{
+    nextStepperHandler(4)
+    // console.log(uName,
+    //   uDOB,
+    //   uGender,
+    //   uAddress,
+    //   uPosition,
+    //   uEmail,
+    //   uPhone,
+    //   uPassword,
+    //   uConfirmPassword,
+    //   uPhoto)
+  }
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
         <p className=" text-white text-[16px] font-semibold">Upload Photo</p>
-        {editPhoto ? (
+        {editUPhoto ? (
           <img
-            src={editPhoto}
+            src={editUPhoto}
             alt=""
             className=" relative w-[180px] h-[180px] border-[3px] rounded-full flex justify-center items-center cursor-pointer"
           />
@@ -39,16 +76,16 @@ setEditPhoto(product?.photo)
         )}
 
         <button
-          onClick={() => setEditPhoto(null)}
+          onClick={() => setEditUPhoto(null)}
           className=" w-[110px] h-[40px] text-[var(--secondary-color)] border rounded-[5px] border-[var(--secondary-color)] font-medium text-[12px]"
         >
           Clear Photo
         </button>
       </div>
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
-        <AddProductStepper />
+        <CreateUserStepper />
         <button
-          onClick={()=>nextStepperHandler(4)}
+          onClick={next}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />
@@ -58,4 +95,6 @@ setEditPhoto(product?.photo)
   );
 };
 
-export default EditProductPhotoUpload;
+export default EditStaffPhotoUpload;
+
+

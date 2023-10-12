@@ -33,7 +33,7 @@ const UserOverview = () => {
   const bannedHandler = async (e, id) => {
     e.preventDefault();
     Swal.fire({
-      title: "Are you sure to ban the user?",
+      title: "Are you sure to ban the staff?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -42,12 +42,12 @@ const UserOverview = () => {
       confirmButtonText: "Yes, ban!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Banned!", "The user has been banned.", "success");
+        Swal.fire("Banned!", "The staff has been banned.", "success");
         const { data } = await bannedUsers({ id, token });
         console.log('banuser',data)
         setTimeout(()=>{
-          liHandler("user banned")
-          nav("/banned-user");
+          liHandler("staff banned")
+          nav("/banned-staff");
         },1000)
       }
     });
@@ -57,9 +57,9 @@ const UserOverview = () => {
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
         <div>
-          <p className="breadcrumb-title	">User Overview</p>
+          <p className="breadcrumb-title	">Staff Overview</p>
           <p className=" text-[14px] text-white opacity-70 select-none">
-            User / User Overview
+          Staff / Staff Overview
           </p>
         </div>
       </div>
@@ -158,7 +158,7 @@ const UserOverview = () => {
                       />
                     </button>
 
-                    <Link to={`/user-profile/${user?.id}`}>
+                    <Link to={`/staff-profile/${user?.id}`}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsArrowRight
                           size={"1rem"}

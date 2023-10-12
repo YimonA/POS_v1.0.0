@@ -85,29 +85,29 @@ const Path = () => {
         <Route path="/cashier" element={<Cashier />} />
         {/* sale routes end*/}
 
-        {/* user routes start*/}
+        {/* staff routes start*/}
 
         <Route
-          path="/user-overview"
+          path="/staff-overview"
           element={<Dashboard view={<UserOverview />} />}
         />
         <Route
-          path="/user-edit/:id"
+          path="/staff-edit/:id"
           element={<Dashboard view={<EditAccount />} />}
         />
         <Route
-          path="/user-profile/:id"
+          path="/staff-profile/:id"
           element={<Dashboard view={<UserAccount />} />}
         />
         <Route
-          path="/create-user"
+          path="/create-staff"
           element={<Dashboard view={<CreateUser />} />}
         />
         <Route
-          path="/banned-user"
+          path="/banned-staff"
           element={<Dashboard view={<BannedUser />} />}
         />
-        {/* user routes start*/}
+        {/* staff routes start*/}
 
         {/* inventory routes start*/}
         <Route

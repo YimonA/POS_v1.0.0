@@ -30,17 +30,17 @@ const UserAccount = () => {
       {/* Breadcrumg start */}
       <div className=" flex justify-between items-center mb-20">
         <div>
-          <p className="breadcrumb-title	">User</p>
+          <p className="breadcrumb-title	">Staff</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-            User / Information
+          Staff / Information
           </p>{" "}
         </div>
-        <Link to={"/profile-edit"}>
+        <Link to={`/staff-edit/${singleUser?.id}`}>
           <button
             onClick={() => liHandler("edit")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
-            Edit User
+            Edit Staff
           </button>
         </Link>
       </div>

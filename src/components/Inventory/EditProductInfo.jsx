@@ -2,39 +2,32 @@ import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./EditProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
-// import { useGetBrandsQuery } from "../../redux/api/brandApi";
+import { useGetBrandsQuery } from "../../redux/api/logoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { addBrands } from "../../redux/services/logoSlice";
 
-const EditProductInfo = (props) => {
-  const { name, brand_name, total_stock, unit, more_information } = props;
+const EditProductInfo = ({product}) => {
   const { nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
   
   const token = Cookies.get("token");
-  // const { data } = useGetBrandsQuery(token);
+  const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
-  const brands = useSelector((state) => state.brandSlice.brands);
-  // console.log("brand", data);
+  const brands = useSelector((state) => state.logoSlice.brands);
+  // console.log("props", props);
 
   useEffect(() => {
-    setEditName();
-    setEditBrand();
-    setEditUnit();
-    setEditStock();
-    setEditProductInfo();
-
-    setEditName(name);
-    setEditBrand(brand_name);
-    setEditUnit(unit);
-    setEditStock(total_stock);
-    setEditProductInfo(more_information);
+    setEditName(product?.name);
+    setEditBrand(product?.brand_name);
+    setEditUnit(product?.unit);
+    setEditStock(product?.total_stock);
+    setEditProductInfo(product?.more_information);
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(addBrands({ brands: data?.data }));
-  // }, [data]);
+  useEffect(() => {
+    dispatch(addBrands({ brands: data?.data }));
+  }, [data]);
 
   return (
     <div className=" ">
@@ -55,7 +48,7 @@ const EditProductInfo = (props) => {
               defaultValue={editName}
               onChange={(e) => setEditName(e.target.value)}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />{" "}
+            />
           </div>
           <div className=" flex justify-start items-start">
             <label
@@ -70,7 +63,7 @@ const EditProductInfo = (props) => {
               onChange={(e) => setEditBrand(e.target.value)}
               className="brand-dropdown brand-select "
             >
-              {/* {brands?.map((brand) => {
+              {brands?.map((brand) => {
                 return (
                   <option
                     key={brand?.id}
@@ -80,7 +73,7 @@ const EditProductInfo = (props) => {
                     {brand?.name}
                   </option>
                 );
-              })} */}
+              })}
             </select>
           </div>
           <div className=" flex justify-start items-start">

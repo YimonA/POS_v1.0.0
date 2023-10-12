@@ -1,65 +1,70 @@
 import { Link, useParams } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import EditContactInfo from "./EditContactInfo";
-import EditPassword from "./EditPassword";
+import EditUserSelectImg from "./EditUserSelectImg";
 import EditProfileInfo from "./EditProfileInfo";
+import ModalEditUser from "../ModalEditUser";
+import Modal from "../Modal";
 import Cookies from "js-cookie";
 import { useGetSingleUsersQuery } from "../../redux/api/userApi";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addSingleUser } from "../../redux/services/userSlice";
+import { useDispatch } from "react-redux";
+import EditStaffPhotoUpload from "./EditStaffPhotoUpload";
+import EditStaffPreview from "./EditStaffPreview";
 
 const EditAccount = () => {
-  const { showModal, current, liHandler ,editUName,setEditUName,editUDOB,setEditUDOB,editUGender,setEditUGender,editUAddress,setEditUAddress,editUPosition,setEditUPosition,editUEmail,setEditUEmail,editUPhone,setEditUPhone,editUPassword,setEditUPassword,editUConfirmPassword,setEditUConfirmPassword,editUPhoto,setEditUPhoto} = useContextCustom();
-const {id}=useParams();
-const token=Cookies.get('token');
-const dispatch=useDispatch();
-const{data}=useGetSingleUsersQuery({id,token});
-const singleUser=useSelector((state)=>state.userSlice.singleUser);
+  const {
+    showModal,
+    current,
+    liHandler
+  } = useContextCustom();
+  const { id } = useParams();
+  const token = Cookies.get("token");
+  const dispatch = useDispatch();
+  const { data: staff } = useGetSingleUsersQuery({ id, token });
+  // const singleUser=useSelector((state)=>state.userSlice.singleUser);
 
-useEffect(()=>{
-  dispatch(addSingleUser({singleUser:data}));
-},[data]);
-console.log('singleUser',singleUser);
+  // useEffect(()=>{
+  //   dispatch(addSingleUser({singleUser:data}));
+  // },[data]);
+  console.log("staff", staff);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
       <div className=" flex justify-between items-center mb-20">
         <div>
-          <p className="breadcrumb-title	">Edit User</p>
+          <p className="breadcrumb-title	">Edit Staff</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-            User / Overview / Edit User
+            Staff / Overview / Edit Staff
           </p>
         </div>
-        <Link to={"/user-overview"}>
+        <Link to={"/staff-overview"}>
           <button
-            onClick={() => liHandler("user overview")}
+            onClick={() => liHandler("staff overview")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
-            User List
+            Staff List
           </button>
         </Link>
       </div>
       {/* Breadcrumg end */}
 
       <div className=" flex gap-20 justify-start items-stretch">
-        {current === 1 ? <EditProfileInfo {...singleUser}/> : ""}
-        {current === 2 ? <EditContactInfo {...singleUser}/> : ""}
-        {current === 3 ? <EditPassword {...singleUser}/> : ""}
-        {/* {current === 3 && showModal ? (
-          <Modal
-            title={"Select an image"}
-            modalView={<AddProductSelectImg />}
-          />
+        {current === 1 ? <EditProfileInfo staff={staff} /> : ""}
+        {current === 2 ? <EditContactInfo staff={staff} /> : ""}
+        {current === 3 ? <EditStaffPhotoUpload staff={staff} /> : ""}
+        {current === 3 && showModal ? (
+          <Modal title={"Select an image"} modalView={<EditUserSelectImg />} />
         ) : (
           ""
         )}
+                {current === 4 ? <EditStaffPreview id={id}/> : ""}
+
         {current === 4 && showModal ? (
-          <Modal title={"Create Product"} modalView={<ModalCreateProduct />} />
+          <Modal title={"Edit Staff"} modalView={<ModalEditUser />} />
         ) : (
           ""
-        )} */}
+        )}
       </div>
     </div>
   );

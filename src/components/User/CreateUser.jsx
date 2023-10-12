@@ -42,9 +42,9 @@ const CreateUser = () => {
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
       <div className="mb-20">
-          <p className="breadcrumb-title	">User</p>
+          <p className="breadcrumb-title	">Staff</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-            User / Create User
+          Staff / Create Staff
           </p>        
       </div>
       {/* Breadcrumg end */}
@@ -63,7 +63,7 @@ const CreateUser = () => {
         )}
         {current === 4 ? <CreateUserPreview /> : ""}
         {current === 4 && showModal ? (
-          <Modal title={"Create User"} modalView={<ModalCreateUser />} />
+          <Modal title={"Create Staff"} modalView={<ModalCreateUser />} />
         ) : (
           ""
         )}

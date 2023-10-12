@@ -27,7 +27,7 @@ const BannedUser = () => {
   const RestoreHandler=(e,id)=>{
     e.preventDefault();
     Swal.fire({
-      title: "Are you sure to restore the user?",
+      title: "Are you sure to restore the staff?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -36,11 +36,11 @@ const BannedUser = () => {
       confirmButtonText: "Yes, restore!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Restored!", "The user has been restored.", "success");
+        Swal.fire("Restored!", "The staff has been restored.", "success");
         const { data } = await restoreUser({ id, token });
         console.log("restore Users", data);
-        liHandler("user overview")
-        nav("/user-overview");
+        liHandler("staff overview")
+        nav("/staff-overview");
       }
     });
   }
@@ -49,15 +49,15 @@ const BannedUser = () => {
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
         <div>
-          <p className="breadcrumb-title	">Banned User </p>
+          <p className="breadcrumb-title	">Banned Staff </p>
           <p className=" text-[14px] text-white opacity-70 select-none">
-            User / Banned User Overview
+          Staff / Banned Staff Overview
           </p>
         </div>
         
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
-      <p className="breadcrumb-title mb-5">Banned User Overview</p>
+      <p className="breadcrumb-title mb-5">Banned Staff Overview</p>
 
       <div className=" flex justify-between items-center mb-[30px]">
         <div className="basis-1/3 h-[34px] border-gray-700 rounded border flex items-center px-2 py-1">

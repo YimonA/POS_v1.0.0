@@ -5,28 +5,26 @@ import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useEditProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
-import { useMemo } from "react";
 
-const EditProductInfoPreview = () => {
+const EditProductInfoPreview = ({productId}) => {
+  console.log('product id=', productId)
   const {
     editName,
     editBrand,
     editUnit,
     editProductInfo,
     editStock,
-    actualPrice,
     editSalePrice,
     editActualPrice,
     editPhoto,
     setShowModal,
   } = useContextCustom();
   const [editProduct] = useEditProductMutation();
-
+  const token = Cookies.get("token");
   const createProductHandler = async () => {
-    const token = Cookies.get("token");
     const product = {
       name: editName,
-      brand_name: editBrand,
+      brand_id: Number(editBrand),
       unit: editUnit,
       more_information: editProductInfo,
       total_stock: Number(editStock),
@@ -34,9 +32,9 @@ const EditProductInfoPreview = () => {
       sale_price: Number(editSalePrice),
       photo: editPhoto,
     };
-    const data = await editProduct({ product, token });
-    console.log("dddd", data);
     console.log("pppp", product);
+    const res = await editProduct({id:productId, token ,product});
+    console.log("res", res);
 
     setShowModal(true);
   };
