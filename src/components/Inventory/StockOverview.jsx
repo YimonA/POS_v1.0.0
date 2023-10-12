@@ -11,6 +11,7 @@ import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useState } from "react";
+import { Badge } from "@mantine/core";
 
 const StockOverview = () => {
   const dispatch = useDispatch();
@@ -122,16 +123,32 @@ const StockOverview = () => {
                 <td className="px-1 py-4 text-end">{stock?.unit}</td>
                 <td className="px-1 py-4 text-end">{stock?.sale_price}</td>
                 <td className="px-1 py-4 text-end">{stock?.total_stock}</td>
-                <td className="px-1 py-4 text-end">AAA</td>
+                <td className="px-1 py-4 text-end">
+                  {stock?.total_stock >= 10 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
+                      In Stock
+                    </p>
+                  ) : null}
+                  {stock?.total_stock <= 10 && stock?.total_stock > 0 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
+                      Low Stock
+                    </p>
+                  ) : null}
+                  {stock?.total_stock <= 0 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
+                      Out of Stock
+                    </p>
+                  ) : null}
+                </td>
                 <td>
                   <div className="me-20 flex justify-end items-center gap-2 z-20">
                     <Link to={`/stock-add/${stock?.id}`}>
-                    <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                      <BsPlusLg
-                        size={"1.3rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
+                        <BsPlusLg
+                          size={"1.3rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
                     </Link>
                     <Link to={`/stock-detail/${stock?.id}`}>
                       <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
@@ -153,7 +170,7 @@ const StockOverview = () => {
       <div>
         <Button.Group className=" pt-10 flex justify-end">
           <Button
-            onClick={() => setPage(page>1?page - 1:page)}
+            onClick={() => setPage(page > 1 ? page - 1 : page)}
             variant="default"
             className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}

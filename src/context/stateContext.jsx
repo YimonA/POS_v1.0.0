@@ -14,7 +14,7 @@ export const StateContextProvider = ({ children }) => {
 
   const [productName, setProductName] = useState();
   const [brand, setBrand] = useState();
-  const [unit, setUnit] = useState();
+  const [unit, setUnit] = useState('single');
   const [productInfo, setProductInfo] = useState();
   const [stock, setStock] = useState();
   const [actualPrice, setActualPrice] = useState();
@@ -45,6 +45,7 @@ const[editBrandPhoto,setEditBrandPhoto]=useState();
   //pagi
   // const [brandPgNum,setBrandPgNum]=useState(1);
 
+  const [UID, setUID] = useState();
   //for user info
   const[uName,setUName]=useState('');
   const[uDOB,setUDOB]=useState('');
@@ -88,6 +89,8 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
 
 // const[editProduct,setEditProduct]=useState();
   const data = {
+    UID, setUID,
+
     productName,
     setProductName,
     brand,

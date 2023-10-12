@@ -12,7 +12,7 @@ import {
   removeFromCart,
   addItemsQuantity,
   subtractItemsQuantity,
-  addCurrentItem,
+  addCurrentItem,clearCart
 } from "../redux/services/cashierSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useVoucherMutation } from "../redux/api/cashierApi";
@@ -41,6 +41,9 @@ const Cashier = () => {
     console.log("products", products);
   }, [data]);
 
+  useEffect(()=>{
+dispatch(clearCart());
+  },[])
   const cartItemsHandler = (product) => {
     if (product.total_stock >= 1) {
       dispatch(addToCart(product));
@@ -76,7 +79,7 @@ const Cashier = () => {
 
   const paymentHandler = async () => {
     try {
-      const strData = payment();
+      const strData =await payment();
       const stringData = await voucher({token,strData});
       console.log('strData',strData);
       console.log('stringData',stringData);

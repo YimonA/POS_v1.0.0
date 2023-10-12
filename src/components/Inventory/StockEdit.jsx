@@ -8,17 +8,18 @@ import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useContextCustom } from "../../context/stateContext";
 
 const StockEdit = () => {
   const [qty, setQty] = useState();
   const [more, setMore] = useState();
-
+const {UID}=useContextCustom();
   const token = Cookies.get("token");
   const { id } = useParams();
   const { data } = useGetSingleStocksQuery({ id, token });
 
-  const userID = useSelector((state) => state.authSlice.user.id);
-  console.log("id", userID);
+  // const userID = useSelector((state) => state.authSlice.user.id);
+  console.log("id", UID);
   const nav = useNavigate();
   const [addStock] = useAddStockMutation();
 
@@ -32,7 +33,7 @@ const StockEdit = () => {
     e.preventDefault();
     try {
       const newData = {
-        user_id: userID,
+        user_id: UID,
         product_id: Number(id),
         quantity: Number(qty),
         more,

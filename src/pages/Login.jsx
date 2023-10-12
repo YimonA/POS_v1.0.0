@@ -11,12 +11,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { BiSquare } from "react-icons/bi";
 import { BiSolidSquare } from "react-icons/bi";
 import LoginImg from "/login.svg";
+import { useContextCustom } from "../context/stateContext";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
+  const{ setUID}=useContextCustom();
   const nav = useNavigate();
-
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
@@ -53,6 +54,7 @@ const Login = () => {
                 console.log(data);
 
                 dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
+                setUID(data?.data?.user?.id)
                 if (data?.data?.token) {
                   nav("/");
                 }

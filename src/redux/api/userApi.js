@@ -42,22 +42,22 @@ export const userApi = createApi({
     }),
     getBannedUsers: builder.query({
       query: (token) => ({
-        url: "/banned-user",
+        url: "/ban-user-list",
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["user"],
     }),
     bannedUsers: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/user/${id}`,
-        method: "DELETE",
+        url: `/ban-user/${id}`,
+        method: "POST",
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["user"],
     }),
     restoreUser: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/restore/${id}`,
+        url: `/restore-user/${id}`,
         method: "POST",
         headers: { authorization: `Bearer ${token}` },
       }),

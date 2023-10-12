@@ -24,7 +24,7 @@ const AddProductInfoPreview = () => {
     const token = Cookies.get("token");
     const product = {
       name: productName,
-      brand_id: 16,
+      brand_id: brand,
       unit: unit,
       more_information: productInfo,
       total_stock: Number(stock),
@@ -79,7 +79,7 @@ const AddProductInfoPreview = () => {
             />
             <p className="text-white text-[16px]">Information</p>
           </div>
-          {/* <div className=" flex justify-between items-center py-10">
+          <div className=" flex justify-between items-center py-10">
             <div className="w-fit flex flex-col gap-5 basis-1/2">
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Name</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Brand</p>
@@ -100,7 +100,7 @@ const AddProductInfoPreview = () => {
                 : {productInfo}
               </p>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
 

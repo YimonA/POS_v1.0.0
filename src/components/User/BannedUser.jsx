@@ -1,28 +1,49 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BsSearch } from "react-icons/bs";
-import { BsPlusLg } from "react-icons/bs";
 import { Button } from "@mantine/core";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { addBannedUsers } from "../../redux/services/userSlice";
-import { useGetBannedUsersQuery } from "../../redux/api/userApi";
+import { useGetBannedUsersQuery, useRestoreUserMutation } from "../../redux/api/userApi";
+import Swal from "sweetalert2";
 
 const BannedUser = () => {
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const { data } = useGetBannedUsersQuery(token);
+  const nav=useNavigate();
+  const[restoreUser]=useRestoreUserMutation();
   const bannedUsers = useSelector((state) => state.userSlice.bannedUsers);
   console.log("ddd", data);
   console.log("bannedUsers", bannedUsers);
 
   useEffect(() => {
-    dispatch(addBannedUsers({ bannedUsers: data }));
+    dispatch(addBannedUsers( data?.users));
   }, [data]);
+
+  const RestoreHandler=(e,id)=>{
+    e.preventDefault();
+    Swal.fire({
+      title: "Are you sure to restore the user?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, restore!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Restored!", "The user has been restored.", "success");
+        const { data } = await restoreUser({ id, token });
+        console.log("restore Users", data);
+        liHandler("user overview")
+        nav("/user-overview");
+      }
+    });
+  }
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -33,15 +54,7 @@ const BannedUser = () => {
             User / Banned User Overview
           </p>
         </div>
-        <Link to={"/create-user"}>
-          <button
-            onClick={() => liHandler("user create")}
-            className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex justify-center items-center gap-2"
-          >
-            <BsPlusLg size={"1.3rem"} />
-            Create user
-          </button>
-        </Link>
+        
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
       <p className="breadcrumb-title mb-5">Banned User Overview</p>
@@ -115,71 +128,42 @@ const BannedUser = () => {
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {bannedUsers?.length>0?
-          bannedUsers?.map((bannedUser, index) => {
-            return (
-              <tr
-                key={bannedUser?.id}
-                className=" border-b border-b-gray-700 cursor-pointer"
-              >
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4 ">{bannedUser?.name}</td>
-                <td className="px-1 text-end py-4">{bannedUser.role}</td>
-                <td className="px-1 pe-4 py-4 text-end">{bannedUser?.email}</td>
-                <td className="px-1 pe-4 py-4 text-end">
-                  {bannedUser?.created_at.substring(0,10)}
-                </td>
-                <td className="px-1 pe-4 py-4 text-center">
-                  <button className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px] ">
-                    Restore
-                  </button>
-                </td>
-              </tr>
-            );
-          }):
-          <tr><td className="px-1 text-center py-4 " colSpan={6} >There is no data now.</td></tr> 
-
-          }
+          {bannedUsers?.length > 0 ? (
+            bannedUsers?.map((bannedUser, index) => {
+              return (
+                <tr
+                  key={bannedUser?.id}
+                  className=" border-b border-b-gray-700 cursor-pointer"
+                >
+                  <td className="px-1 text-center  py-4">{index + 1}</td>
+                  <td className="px-1 text-end py-4 ">{bannedUser?.name}</td>
+                  <td className="px-1 text-end py-4">{bannedUser.role}</td>
+                  <td className="px-1 pe-4 py-4 text-end">
+                    {bannedUser?.email}
+                  </td>
+                  <td className="px-1 pe-4 py-4 text-end">
+                    {bannedUser?.created_at.substring(0, 10)}
+                  </td>
+                  <td className="px-1 pe-4 py-4 text-center">
+                    <button onClick={(e)=>RestoreHandler(e,bannedUser?.id)} className="w-[100px] h-[30px] font-semibold text-[16px] bg-transparent text-[var(--secondary-color)] border-[1px] border-[var(--border-color)] rounded-[5px] ">
+                      Restore
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className="px-1 text-center py-4 " colSpan={6}>
+                There is no data now.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* stock table end */}
 
-      {/* pagination start */}
-      <div>
-        <Button.Group className=" border-[--border-color] pt-20 flex justify-end">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-      </div>
-      {/* pagination end */}
+      
     </div>
   );
 };

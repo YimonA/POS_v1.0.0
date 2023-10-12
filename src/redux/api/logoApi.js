@@ -8,6 +8,13 @@ export const logoApi = createApi({
   tagTypes: ["logo"],
 
   endpoints: (builder) => ({
+    getBrands: builder.query({
+      query: (token) => ({
+        url: `/brand?page=1`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["brand"],
+    }),
     getSinglBrand: builder.query({
       query: ({id,token}) => ({
         url: `/brand/${id}`,
@@ -44,4 +51,4 @@ export const logoApi = createApi({
   }),
 });
 
-export const { useGetSinglBrandQuery,useCreateBrandMutation,useEditBrandMutation ,useDeleteBrandMutation} = logoApi;
+export const {useGetBrandsQuery, useGetSinglBrandQuery,useCreateBrandMutation,useEditBrandMutation ,useDeleteBrandMutation} = logoApi;

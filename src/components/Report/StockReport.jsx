@@ -166,7 +166,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.inStock}
+                  {brandReport?.stocks?.inStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -181,7 +181,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.lowStockoutOfStock}
+                  {brandReport?.stocks?.lowStockoutOfStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -196,7 +196,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.outOfStock}
+                  {brandReport?.stocks?.outOfStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -207,10 +207,10 @@ const StockReport = () => {
         {/* Best Seller Brands start */}
         <div className=" basis-1/2 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
           <p className="text-[22px] font-semibold text-[var(--secondary-color)] mb-4">
-            Best Seller Brands
+            Weekly Best Seller Brands
           </p>
           <p className=" text-right font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-            28,500 k
+            28,500
           </p>
           <p className=" text-right font-medium text-[14px] text-[var(--gray-color)]">
             Kyats
