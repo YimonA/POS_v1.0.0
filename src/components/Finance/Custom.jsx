@@ -249,7 +249,9 @@ const Custom = () => {
         {/* total calculate end*/}
 
         {/* pagination start*/}
-        <div>
+        <div className="ms-auto"
+
+        >
           <Button.Group className=" pt-10 flex justify-end">
             <Button
               onClick={prev}

@@ -56,14 +56,14 @@ const MyAccount = () => {
             Profile / My Account / Information
           </p>{" "}
         </div>
-        <Link to={"/profile-edit"}>
+        {/* <Link to={"/profile-edit"}>
           <button
             onClick={() => liHandler("edit")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
             Edit Profile
           </button>
-        </Link>
+        </Link> */}
       </div>
       {/* Breadcrumg end */}
 
