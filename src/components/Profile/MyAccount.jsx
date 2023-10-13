@@ -32,7 +32,7 @@ const MyAccount = () => {
     if (data) {
       nav("/login");
     }
-    console.log(data);
+    // console.log(data);
   };
 
   const changePWHandler = (e) => {
@@ -42,7 +42,7 @@ const MyAccount = () => {
       password: changePassword,
       password_confirmation: confirmPassword,
     };
-    console.log("pw", newData);
+    // console.log("pw", newData);
     changeProfilePW({ newData, token });
     logoutHandler();
   };

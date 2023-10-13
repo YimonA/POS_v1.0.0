@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
+import { useEffect } from "react";
 
 const EditUserSelectImg = () => {
-  const { liHandler, setShowModal, setEditUPhoto } = useContextCustom();
+  const { liHandler, setShowModal, setEditUPhoto,sdata } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
@@ -26,6 +27,8 @@ const EditUserSelectImg = () => {
     liHandler("media");
     setShowModal(false);
   }
+
+ 
 
   return (
     <div className="w-[900px] h-[500px] flex flex-col justify-center items-center gap-10 px-5 ">

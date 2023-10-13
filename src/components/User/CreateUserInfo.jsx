@@ -29,7 +29,7 @@ const CreateUserInfo = () => {
   // };
 
   useEffect(() => {
-    console.log("dob", uDOB);
+    // console.log("dob", uDOB);
   }, [uDOB]);
 
   return (

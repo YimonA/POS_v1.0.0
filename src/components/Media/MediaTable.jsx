@@ -29,9 +29,6 @@ const MediaTable = ({ imgs }) => {
 
   const deletePhotoHandler = async (e,id) => {
     e.stopPropagation();
-    const { data } = await deletePhoto({ id, token });
-    console.log("del", data);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -44,7 +41,7 @@ const MediaTable = ({ imgs }) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
         const { data } = await deletePhoto({ id, token });
-        console.log('del',data);
+        // console.log('del',data);
       }
     });
   };

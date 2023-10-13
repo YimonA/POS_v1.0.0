@@ -8,38 +8,39 @@ import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useContextCustom } from "../../context/stateContext";
 
 const StockEdit = () => {
   const [qty, setQty] = useState();
   const [more, setMore] = useState();
-
+const {UID}=useContextCustom();
   const token = Cookies.get("token");
   const { id } = useParams();
   const { data } = useGetSingleStocksQuery({ id, token });
 
-  const userID = useSelector((state) => state.authSlice.user.id);
-  console.log("id", userID);
+  // const userID = useSelector((state) => state.authSlice.user.id);
+  // console.log("id", UID);
   const nav = useNavigate();
   const [addStock] = useAddStockMutation();
 
   useEffect(() => {
     setQty(data?.data?.total_stock);
     setMore(data?.data?.more);
-    console.log("stockData", qty, more);
+    // console.log("stockData", qty, more);
   }, [data]);
 
   const AddStockHandler = async (e) => {
     e.preventDefault();
     try {
       const newData = {
-        user_id: userID,
+        user_id: UID,
         product_id: Number(id),
         quantity: Number(qty),
         more,
       };
-      console.log("newData", newData);
+      // console.log("newData", newData);
       const response = await addStock({ newData: newData, token });
-      console.log("response", response);
+      // console.log("response", response);
       nav("/stock-control");
     } catch (err) {
       console.log("err", err);

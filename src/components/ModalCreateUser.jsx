@@ -13,11 +13,11 @@ const ModalCreateUser = () => {
             </div>
           </div>
           <p className=" text-[18px] font-semibold text-white">
-            Successfully created the User
+            Successfully created the Staff
           </p>
-          <Link to={'/user-overview'}>
-          <button onClick={()=>liHandler("products")} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
-            SEE ALL users
+          <Link to={'/staff-overview'}>
+          <button onClick={()=>liHandler("staff overview")} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
+            SEE ALL Staff
           </button>
           </Link>
         </div>

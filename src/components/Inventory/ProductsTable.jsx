@@ -26,15 +26,15 @@ const ProductsTable = ({ products }) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
         const { data } = await deleteProduct({ id, token });
-        console.log("del", data);
+        // console.log("del", data);
       }
     });
   };
 
-  const editProductHandler=(id)=>{
-    nav(`/product-edit/${id}`);
-    setCurrent(1);
-  }
+  // const editProductHandler=(product)=>{
+  //   nav(`/product-edit/${product?.id}`,{state:{item:product}});
+  //   setCurrent(1);
+  // }
   return (
     <div>
       <table className=" w-full text-gray-200 border border-gray-700 text-sm ">
@@ -77,12 +77,12 @@ const ProductsTable = ({ products }) => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                      <button onClick={()=>editProductHandler(product?.id)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                      {/* <button onClick={()=>editProductHandler(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsPencil
                           size={"0.8rem"}
                           className="text-[var(--secondary-color)]"
                         />
-                      </button>
+                      </button> */}
                     <Link to={"/product-detail"}>
                       <button
                         onClick={() => setPData(product)}

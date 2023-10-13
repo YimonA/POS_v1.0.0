@@ -13,14 +13,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUsers: (state, { payload }) => {
-      (state.users = payload.users)
+      (state.users = payload)
         // Cookies.set("users", JSON.stringify(state.users));
     },
     addSingleUser: (state, { payload }) => {
       (state.singleUser = payload.singleUser)
     },
     addBannedUsers: (state, { payload }) => {
-      (state.bannedUsers = payload.bannedUsers)
+      (state.bannedUsers = payload)
     },
   },
 });

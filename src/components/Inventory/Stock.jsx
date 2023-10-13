@@ -1,16 +1,12 @@
-import {BsPlusLg} from 'react-icons/bs';
-import { Button } from "@mantine/core";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
 import StockOverview from "./StockOverview";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const Stock = () => {
-  const {showStockAdd, setShowStockAdd,liHandler } = useContextCustom();
-  useEffect(()=>{
-    console.log('setShowStockAdd',showStockAdd)
-  },[showStockAdd])
+  const { showStockAdd, setShowStockAdd } = useContextCustom();
+  useEffect(() => {
+    // console.log('setShowStockAdd',showStockAdd)
+  }, [showStockAdd]);
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 relative">
@@ -21,13 +17,9 @@ const Stock = () => {
             Inventory / Stock Control
           </p>
         </div>
-
-        
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
-      <StockOverview 
-      // stocks={stocks}
-      />
+      <StockOverview />
     </div>
   );
 };

@@ -3,15 +3,18 @@ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
+import { useEffect } from "react";
 
 const EditProductPhotoUpload = () => {
-  const { setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
+  const {pdata, setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
     useContextCustom();
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-
+useEffect(()=>{
+setEditPhoto(pdata?.photo)
+},[])
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">

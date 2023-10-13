@@ -1,5 +1,5 @@
 import { BsArrowRight } from "react-icons/bs";
-import { BsPencil } from "react-icons/bs";
+// import { BsPencil } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
@@ -7,7 +7,6 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
-import { BsPlusLg } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import {
@@ -19,24 +18,22 @@ import { addUsers } from "../../redux/services/userSlice";
 import Swal from "sweetalert2";
 
 const UserOverview = () => {
-  const { liHandler } = useContextCustom();
+  const { liHandler, setSData } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetUsersQuery(token);
-  const users = useSelector((state) => state.userSlice.users);
   const [bannedUsers] = useBannedUsersMutation();
   const nav = useNavigate();
+  const users = useSelector((state) => state.userSlice.users);
 
   useEffect(() => {
-    dispatch(addUsers({ users: data }));
-    console.log("data", data);
-    // console.log("users", users);
+    dispatch(addUsers(data?.users));
   }, [data]);
 
   const bannedHandler = async (e, id) => {
     e.preventDefault();
     Swal.fire({
-      title: "Are you sure to ban the user?",
+      title: "Are you sure to ban the staff?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -45,32 +42,31 @@ const UserOverview = () => {
       confirmButtonText: "Yes, ban!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Banned!", "The user has been banned.", "success");
+        Swal.fire("Banned!", "The staff has been banned.", "success");
         const { data } = await bannedUsers({ id, token });
-        console.log("bannedUsers", data);
-        nav("/banned-user");
+        // console.log("banuser", data);
+        setTimeout(() => {
+          liHandler("staff banned");
+          nav("/banned-staff");
+        }, 1000);
       }
     });
+  };
+
+  const staffDetailHandler = (user) => {
+    setSData(user);
+    nav(`/staff-profile/${user?.id}`);
   };
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
         <div>
-          <p className="breadcrumb-title	">User Overview</p>
+          <p className="breadcrumb-title	">Staff Overview</p>
           <p className=" text-[14px] text-white opacity-70 select-none">
-            User / User Overview
+            Staff / Staff Overview
           </p>
         </div>
-        <Link to={"/create-user"}>
-          <button
-            onClick={() => liHandler("user create")}
-            className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex justify-center items-center gap-2"
-          >
-            <BsPlusLg size={"1.3rem"} />
-            Create user
-          </button>
-        </Link>
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
       <p className="breadcrumb-title mb-5">Staff Overview</p>
@@ -158,7 +154,7 @@ const UserOverview = () => {
                 <td className="px-1 py-4 text-end">
                   <div className=" pe-20 flex justify-end items-center gap-2 z-20">
                     <button
-                      onClick={(e) => bannedHandler(e,user?.id)}
+                      onClick={(e) => bannedHandler(e, user?.id)}
                       className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer"
                     >
                       <BiMinus
@@ -167,23 +163,17 @@ const UserOverview = () => {
                       />
                     </button>
 
-                    <Link to={`/user-edit/${user?.id}`}>
-                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                        <BsPencil
-                          size={"0.8rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
-                    </Link>
-
-                    <Link to={`/user-profile/${user?.id}`}>
-                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                        <BsArrowRight
-                          size={"1rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
-                    </Link>
+                    {/* <Link to={`/staff-profile/${user?.id}`}> */}
+                    <button
+                      onClick={() => staffDetailHandler(user)}
+                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                    >
+                      <BsArrowRight
+                        size={"1rem"}
+                        className="text-[var(--secondary-color)]"
+                      />
+                    </button>
+                    {/* </Link> */}
                   </div>
                 </td>
               </tr>
@@ -192,43 +182,6 @@ const UserOverview = () => {
         </tbody>
       </table>
       {/* stock table end */}
-
-      {/* pagination start */}
-      <div>
-        <Button.Group className=" border-[--border-color] pt-20 flex justify-end">
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            1
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            2
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            3
-          </Button>
-          <Button
-            variant="default"
-            className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent"
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-      </div>
-      {/* pagination end */}
     </div>
   );
 };

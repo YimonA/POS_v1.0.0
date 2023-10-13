@@ -41,7 +41,7 @@ const Sidebar = () => {
     if (data) {
       nav("/login");
     }
-    console.log(data);
+    // console.log(data);
   };
 
   return (
@@ -307,8 +307,8 @@ const Sidebar = () => {
           </Accordion.Item>
           {/* Finance end */}
 
-          {/* user start */}
-          <Accordion.Item value="user">
+          {/* staff start */}
+          <Accordion.Item value="staff">
             <Accordion.Control
               className="accordion-bg "
               icon={
@@ -318,16 +318,16 @@ const Sidebar = () => {
                 />
               }
             >
-              <p className="text-base font-['Montserrat'] font-medium">User</p>
+              <p className="text-base font-['Montserrat'] font-medium">Staff</p>
             </Accordion.Control>
             <Link
-              to={"/user-overview"}
-              onClick={() => liHandler("user overview")}
+              to={"/staff-overview"}
+              onClick={() => liHandler("staff overview")}
             >
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
-                    sidebarActived === "user overview"
+                    sidebarActived === "staff overview"
                       ? "text-[var(--font-color)]"
                       : "text-[var(--secondary-color)]"
                   } text-sm font-['Montserrat'] font-medium `}
@@ -337,50 +337,36 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            <Link to={"/create-user"} onClick={() => liHandler("user create")}>
+            <Link to={"/create-staff"} onClick={() => liHandler("staff create")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
-                    sidebarActived === "user create"
+                    sidebarActived === "staff create"
                       ? "text-[var(--font-color)]"
                       : "text-[var(--secondary-color)]"
                   } text-sm font-['Montserrat'] font-medium `}
                 >
                   <Dot className="z-20" />
-                  Create User
+                  Create Staff
                 </p>
               </Accordion.Panel>
             </Link>
-            {/* <Link to={"/user-edit"} onClick={() => liHandler("edit")}>
+            <Link to={"/banned-staff"} onClick={() => liHandler("staff banned")}>
               <Accordion.Panel className="accordion-bg li-text">
                 <p
                   className={`${
-                    sidebarActived === "edit"
+                    sidebarActived === "staff banned"
                       ? "text-[var(--font-color)]"
                       : "text-[var(--secondary-color)]"
                   } text-sm font-['Montserrat'] font-medium `}
                 >
                   <Dot className="z-20" />
-                  Edit User
-                </p>
-              </Accordion.Panel>
-            </Link> */}
-            <Link to={"/banned-user"} onClick={() => liHandler("user banned")}>
-              <Accordion.Panel className="accordion-bg li-text">
-                <p
-                  className={`${
-                    sidebarActived === "user banned"
-                      ? "text-[var(--font-color)]"
-                      : "text-[var(--secondary-color)]"
-                  } text-sm font-['Montserrat'] font-medium `}
-                >
-                  <Dot className="z-20" />
-                  Banned User
+                  Banned Staff
                 </p>
               </Accordion.Panel>
             </Link>
           </Accordion.Item>
-          {/* user end */}
+          {/* staff end */}
         </Accordion>
 
         {/* media start */}

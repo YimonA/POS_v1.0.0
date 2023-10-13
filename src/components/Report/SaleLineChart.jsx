@@ -14,7 +14,7 @@ const SaleLineChart = ({oData}) => {
     oData: PropTypes.object,
   };
   
-  console.log('saleline',oData?.monthly_sales);
+  // console.log('saleline',oData?.monthly_sales);
   const data=oData?.monthly_sales;
 
   return (

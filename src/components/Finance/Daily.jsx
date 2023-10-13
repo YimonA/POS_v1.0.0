@@ -34,7 +34,7 @@ const Daily = () => {
     setDRecords(dData);
     setDate(null);
     // console.log("data", data);
-    console.log("dd", dData);
+    //console.log("dd", dData);
   };
 
   return (

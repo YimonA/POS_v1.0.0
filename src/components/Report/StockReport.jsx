@@ -5,7 +5,6 @@ import { BsPlusLg } from "react-icons/bs";
 import { useContextCustom } from "../../context/stateContext";
 import { IoIosArrowUp } from "react-icons/io";
 import StockPieChart from "./StockPieChart";
-import ProgressBar from "@ramonak/react-progress-bar";
 import StockOverview from "../Inventory/StockOverview";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,9 +41,9 @@ const StockReport = () => {
   // console.log("weekelyBestBrands", weekelyBestBrands);
   // console.log("brandReport", brandReport);
   // console.log("stockReport", stockReport);
-  console.log("weekelyBestBrands", brandReportData);
-  console.log("brandReport", bBData);
-  console.log("stockReport", stockReport);
+  // console.log("weekelyBestBrands", brandReportData);
+  // console.log("brandReport", bBData);
+  // console.log("stockReport", stockReport);
 
   useEffect(() => {
     dispatch(addStockReport({ stockReport }));
@@ -136,9 +135,6 @@ const StockReport = () => {
             {/* Progress bar start */}
             <div className="flex">
               <div className=" basis-2/3 flex w-full">
-                {/* <ProgressBar completed={100} bgColor="#456789" animateOnRender={true} />
-                <ProgressBar completed={100} />
-                <ProgressBar completed={100} /> */}
                 <p className="w-full h-2 ">
                   <span className="w-[70%] h-2 bg-green-500 inline-block border-l-[1px] rounded-full"></span>
                   <span className="w-[20%] h-2 bg-[#8AB4F8] inline-block "></span>
@@ -166,7 +162,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.inStock}
+                  {brandReport?.stocks?.inStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -181,7 +177,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.lowStockoutOfStock}
+                  {brandReport?.stocks?.lowStockoutOfStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -196,7 +192,7 @@ const StockReport = () => {
                 {/* {Math.ceil(v?.total)}{" "} */}
                 100
                 <span className=" flex justify-between items-center gap-3">
-                  {brandReport?.stocks?.outOfStock}
+                  {brandReport?.stocks?.outOfStock?.substring(0,4)}
                   <IoIosArrowUp className=" text-green-500" size={"1.3rem"} />
                 </span>
               </p>
@@ -207,10 +203,10 @@ const StockReport = () => {
         {/* Best Seller Brands start */}
         <div className=" basis-1/2 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
           <p className="text-[22px] font-semibold text-[var(--secondary-color)] mb-4">
-            Best Seller Brands
+            Weekly Best Seller Brands
           </p>
           <p className=" text-right font-semibold text-[26px] text-[var(--secondary-color)] mb-3">
-            28,500 k
+            28,500
           </p>
           <p className=" text-right font-medium text-[14px] text-[var(--gray-color)]">
             Kyats

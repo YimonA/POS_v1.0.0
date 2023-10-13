@@ -71,13 +71,11 @@ const SaleVoucher = () => {
       </div>
       {/* btn */}
       <div className=" h-[40px] flex justify-center gap-3">
-        <Link to={"/recent"}>
-          <button
+          <button onClick={()=>nav('/recent')}
             className={`text-[var(--secondary-color)] px-3 hover:text-[#8AB4F8] active:text-[#8AB4F8] btn-border-table-grid`}
           >
             Recent
           </button>
-        </Link>
           <button onClick={nextSaleHandler}
             className={`text-[var(--secondary-color)] px-3 hover:text-[#8AB4F8] active:text-[#8AB4F8] btn-border-table-grid`}
           >

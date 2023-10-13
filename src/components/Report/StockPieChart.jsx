@@ -2,22 +2,22 @@ import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
 import { IoIosArrowUp } from "react-icons/io";
 
-const COLORS = ["#8AB4F8", "#6a88b8", "#404d64"];
+const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed"];
 
 const StockPieChart = ({ weekelyBrand }) => {
   StockPieChart.propTypes = {
     weekelyBrand: PropTypes.array,
   };
-  // const data = weekelyBrand;
+  const data = weekelyBrand;
   // console.log("weekelyBrand", weekelyBrand);
 
   return (
-      <div className="flex justify-start items-center py-3">
-        {/* <PieChart width={300} height={320} className="">
+      <div className="h-[240px] flex justify-start items-stretch py-3">
+        <PieChart width={300} height={210} className="">
           <Pie
-            data={data}
+            data={data.slice(0,4)}
             cx={120}
-            cy={150}
+            cy={110}
             innerRadius={50}
             outerRadius={80}
             fill="#8ab4f8"
@@ -25,17 +25,16 @@ const StockPieChart = ({ weekelyBrand }) => {
             dataKey="total_brand_sale"
             className=" mx-auto inline-block"
           >
-            {data.slice(0,8)?.map((entry, index) => (
+            {data.slice(0,4)?.map((entry, index) => (
               <Cell
                 key={`cell-${entry?.total_brand_sale}`}
                 fill={COLORS[index % COLORS.length]}
-                // className="bg-blue-300"
               />
             ))}
           </Pie>
         </PieChart>
-        <div className=" w-full flex flex-col justify-start items-center gap-2 ">
-          {weekelyBrand.slice(0,8)?.map((wbrand, index) => {
+        <div className=" w-full h-full flex flex-col justify-center items-center gap-2 ">
+          {weekelyBrand.slice(0,4)?.map((wbrand, index) => {
             return (
               <div
                 key={index}
@@ -55,7 +54,7 @@ const StockPieChart = ({ weekelyBrand }) => {
               </div>
             );
           })}
-        </div> */}
+        </div>
       </div>
   );
 };

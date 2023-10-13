@@ -14,7 +14,7 @@ const StockDetail = () => {
   const { id } = useParams();
   const { data } = useGetSingleStocksQuery({ id, token });
   const singleData = useSelector((state) => state.stockSlice.singleStock);
-  console.log("singleData", singleData);
+  // console.log("singleData", singleData);
 
   useEffect(() => {
     dispatch(addSingleStock(data?.data));
@@ -22,7 +22,7 @@ const StockDetail = () => {
 
   useEffect(() => {
     setSingleStock(singleData);
-    console.log("singleStock", singleStock);
+    // console.log("singleStock", singleStock);
   }, [singleData]);
 
   return (

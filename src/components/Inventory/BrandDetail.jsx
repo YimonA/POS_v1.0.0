@@ -16,7 +16,6 @@ const BrandDetail = () => {
   const { id } = useParams();
   const { data } = useGetSinglBrandQuery({ id, token });
   const singleData = useSelector((state) => state.logoSlice.singleBrand);
-  console.log("singleData", singleData);
 
   useEffect(() => {
     dispatch(addSingleBrand(data?.data));
@@ -24,7 +23,7 @@ const BrandDetail = () => {
 
   useEffect(() => {
     setSingleBrand(singleData);
-    console.log("singleBrand", singleBrand);
+    // console.log("singleBrand", singleBrand);
   }, [singleData]);
 
   return (

@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-// import Routeguard from "../components/Routeguard";
+import Routeguard from "../components/Routeguard";
 import PropTypes from "prop-types";
 
 const Dashboard = ({ view }) => {
@@ -9,7 +9,7 @@ const Dashboard = ({ view }) => {
     view: PropTypes.any,
   };
   return (
-    // <Routeguard>
+    <Routeguard>
       <div className=" container-fluid min-h-screen bg-[--base-color]">
         <Navbar />
         <div className=" h-full bg-[--sidebar-color] flex justify-start items-stretch">
@@ -17,7 +17,7 @@ const Dashboard = ({ view }) => {
           {view}
         </div>
       </div>
-    // </Routeguard>
+    </Routeguard>
   );
 };
 

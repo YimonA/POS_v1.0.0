@@ -26,8 +26,8 @@ const Home = () => {
   const { data } = useGetPhotoQuery(token);
   const oData = useSelector((state) => state?.overviewSlice.oData);
 
-  console.log("photos", data);
-  console.log("overviewData", overviewData);
+  // console.log("photos", data);
+  // console.log("overviewData", overviewData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(addOverview({ oData: overviewData }));
-    console.log("oData", oData);
+    // console.log("oData", oData);
   }, [overviewData]);
 
   return (

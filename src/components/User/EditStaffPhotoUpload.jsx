@@ -1,24 +1,54 @@
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
-import AddProductStepper from "./AddProductStepper";
+import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
+import { useEffect } from "react";
 
-const AddProductPhotoUpload = () => {
-  const { setShowModal, nextStepperHandler, photo, setPhoto } =
-    useContextCustom();
+const EditStaffPhotoUpload = () => {
+  const {
+    setShowModal,
+    nextStepperHandler,
+    editUPhoto,
+    setEditUPhoto,
+    sdata,
+    editUName,
+    editUDOB,
+    editUGender,
+    editUAddress,
+    editUPosition,
+    editUEmail,
+    editUPhone,
+  } = useContextCustom();
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
+  const next = () => {
+    nextStepperHandler(4);
+  };
 
+  useEffect(() => {
+    setEditUPhoto(sdata?.photo);
+    console.log(
+      "edit",
+      editUName,
+      editUDOB,
+      editUGender,
+      editUAddress,
+      editUPosition,
+      editUEmail,
+      editUPhone,
+      editUPhoto
+    );
+  }, []);
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
         <p className=" text-white text-[16px] font-semibold">Upload Photo</p>
-        {photo ? (
+        {editUPhoto ? (
           <img
-            src={photo}
+            src={editUPhoto}
             alt=""
             className=" relative w-[180px] h-[180px] border-[3px] rounded-full flex justify-center items-center cursor-pointer"
           />
@@ -36,16 +66,16 @@ const AddProductPhotoUpload = () => {
         )}
 
         <button
-          onClick={() => setPhoto(null)}
+          onClick={() => setEditUPhoto(null)}
           className=" w-[110px] h-[40px] text-[var(--secondary-color)] border rounded-[5px] border-[var(--secondary-color)] font-medium text-[12px]"
         >
           Clear Photo
         </button>
       </div>
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
-        <AddProductStepper />
+        <CreateUserStepper />
         <button
-          onClick={nextStepperHandler}
+          onClick={next}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />
@@ -55,4 +85,4 @@ const AddProductPhotoUpload = () => {
   );
 };
 
-export default AddProductPhotoUpload;
+export default EditStaffPhotoUpload;

@@ -14,7 +14,7 @@ export const StateContextProvider = ({ children }) => {
 
   const [productName, setProductName] = useState();
   const [brand, setBrand] = useState();
-  const [unit, setUnit] = useState();
+  const [unit, setUnit] = useState('single');
   const [productInfo, setProductInfo] = useState();
   const [stock, setStock] = useState();
   const [actualPrice, setActualPrice] = useState();
@@ -45,6 +45,7 @@ const[editBrandPhoto,setEditBrandPhoto]=useState();
   //pagi
   // const [brandPgNum,setBrandPgNum]=useState(1);
 
+  const [UID, setUID] = useState();
   //for user info
   const[uName,setUName]=useState('');
   const[uDOB,setUDOB]=useState('');
@@ -70,6 +71,7 @@ const[editBrandPhoto,setEditBrandPhoto]=useState();
 
   //for product detail
   const[pdata,setPData]=useState();
+  const[sdata,setSData]=useState();
 
   const [editName, setEditName] = useState();
   const [editBrand, setEditBrand] = useState();
@@ -88,6 +90,8 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
 
 // const[editProduct,setEditProduct]=useState();
   const data = {
+    UID, setUID,
+
     productName,
     setProductName,
     brand,
@@ -104,7 +108,7 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
 
     editUName,setEditUName,editUDOB,setEditUDOB,editUGender,setEditUGender,editUAddress,setEditUAddress,editUPosition,setEditUPosition,editUEmail,setEditUEmail,editUPhone,setEditUPhone,editUPassword,setEditUPassword,editUConfirmPassword,setEditUConfirmPassword,editUPhoto,setEditUPhoto,
 
-    pdata,setPData,
+    pdata,setPData,sdata,setSData,
     // editProduct,setEditProduct,
     editName,
     setEditName,

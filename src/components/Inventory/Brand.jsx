@@ -47,7 +47,7 @@ const Brand = () => {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
         const { data } = await deleteBrand({ id, token });
         nav('/brand')
-        console.log('del',data);
+        // console.log('del',data);
       }
     });
   };
@@ -61,8 +61,8 @@ const Brand = () => {
     });
     const bData = await JSON.parse(data?.data);
     setBrandData(bData);
-    console.log("data", data);
-    console.log("dd", bData);
+    // console.log("data", data);
+    // console.log("dd", bData);
   };
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 relative">

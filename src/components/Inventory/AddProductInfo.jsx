@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addBrands } from "../../redux/services/logoSlice";
 import { useState } from "react";
+import { useGetBrandsQuery } from "../../redux/api/logoApi";
 
 const AddProductInfo = () => {
 
@@ -25,7 +26,7 @@ const AddProductInfo = () => {
   } = useContextCustom();
   const[page,setPage]=useState(1);
   const token = Cookies.get("token");
-  // const { data } = useGetBrandsQuery(token);
+  const { data } = useGetBrandsQuery(token);
   // const { data } = useGetBrandsPerPageQuery({page,token});
 
   const dispatch = useDispatch();
@@ -33,9 +34,9 @@ const AddProductInfo = () => {
   // console.log("brand", data);
   // console.log("bbbrand", data);
 
-  // useEffect(() => {
-  //   dispatch(addBrands({ brands: data?.data }));
-  // }, [data]);
+  useEffect(() => {
+    dispatch(addBrands({ brands: data?.data }));
+  }, [data]);
 
   const nextHandler = () => {
     // const ppp=dispatch(addProduct)
