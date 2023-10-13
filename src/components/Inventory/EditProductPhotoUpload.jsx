@@ -3,25 +3,25 @@ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearEditProductPhoto } from "../../redux/services/productSlice";
 
 const EditProductPhotoUpload = () => {
-  const {pdata, setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
+  const { setShowModal, nextStepperHandler } =
     useContextCustom();
+  const dispatch = useDispatch();
+  const editProduct = useSelector((state) => state.productSlice.editProduct);
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-useEffect(()=>{
-setEditPhoto(pdata?.photo)
-},[])
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
         <p className=" text-white text-[16px] font-semibold">Upload Photo</p>
-        {editPhoto ? (
+        {editProduct?.photo ? (
           <img
-            src={editPhoto}
+            src={editProduct?.photo}
             alt=""
             className=" relative w-[180px] h-[180px] border-[3px] rounded-full flex justify-center items-center cursor-pointer"
           />
@@ -39,7 +39,7 @@ setEditPhoto(pdata?.photo)
         )}
 
         <button
-          onClick={() => setEditPhoto(null)}
+          onClick={() => dispatch(clearEditProductPhoto())}
           className=" w-[110px] h-[40px] text-[var(--secondary-color)] border rounded-[5px] border-[var(--secondary-color)] font-medium text-[12px]"
         >
           Clear Photo
@@ -48,7 +48,7 @@ setEditPhoto(pdata?.photo)
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
         <AddProductStepper />
         <button
-          onClick={()=>nextStepperHandler(4)}
+          onClick={() => nextStepperHandler(4)}
           className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
           Next <BsArrowRightShort size={"1.5rem"} />

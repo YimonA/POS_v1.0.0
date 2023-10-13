@@ -24,12 +24,8 @@ export const StateContextProvider = ({ children }) => {
   const nextStepperHandler = (endpoint) => {
     if (current < endpoint) {
       setCurrent(current + 1);
-      console.log('current',current);
+      // console.log('current',current);
     }
-    
-    //else if (current === 4) {
-    //   setCurrent(1);
-    // }
   };
   // for sidebar
 
@@ -42,8 +38,6 @@ export const StateContextProvider = ({ children }) => {
 const [showBrandAdd,setShowBrandAdd]=useState(false);
 const [showBrandModal,setShowBrandModal]=useState('image');
 const[editBrandPhoto,setEditBrandPhoto]=useState();
-  //pagi
-  // const [brandPgNum,setBrandPgNum]=useState(1);
 
   const [UID, setUID] = useState();
   //for user info
@@ -57,30 +51,6 @@ const[editBrandPhoto,setEditBrandPhoto]=useState();
   const[uPassword,setUPassword]=useState('');
   const[uConfirmPassword,setUConfirmPassword]=useState('');
   const[uPhoto,setUPhoto]=useState('');
-
-  const[editUName,setEditUName]=useState('');
-  const[editUDOB,setEditUDOB]=useState('');
-  const[editUGender,setEditUGender]=useState('male');
-  const[editUAddress,setEditUAddress]=useState('');
-  const[editUPosition,setEditUPosition]=useState('');
-  const[editUEmail,setEditUEmail]=useState('');
-  const[editUPhone,setEditUPhone]=useState('');
-  const[editUPassword,setEditUPassword]=useState('');
-  const[editUConfirmPassword,setEditUConfirmPassword]=useState('');
-  const[editUPhoto,setEditUPhoto]=useState('');
-
-  //for product detail
-  const[pdata,setPData]=useState();
-  const[sdata,setSData]=useState();
-
-  const [editName, setEditName] = useState();
-  const [editBrand, setEditBrand] = useState();
-  const [editUnit, setEditUnit] = useState();
-  const [editProductInfo, setEditProductInfo] = useState();
-  const [editStock, setEditStock] = useState();
-  const [editSalePrice, setEditSalePrice] = useState();
-  const [editActualPrice, setEditActualPrice] = useState();
-  const [editPhoto,setEditPhoto]=useState(null);
 
 //add stock
 const[stockProductID,setStockProductID]=useState();
@@ -106,23 +76,6 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
 
     uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword,uPhoto,setUPhoto,
 
-    editUName,setEditUName,editUDOB,setEditUDOB,editUGender,setEditUGender,editUAddress,setEditUAddress,editUPosition,setEditUPosition,editUEmail,setEditUEmail,editUPhone,setEditUPhone,editUPassword,setEditUPassword,editUConfirmPassword,setEditUConfirmPassword,editUPhoto,setEditUPhoto,
-
-    pdata,setPData,sdata,setSData,
-    // editProduct,setEditProduct,
-    editName,
-    setEditName,
-    editBrand,
-    setEditBrand,
-    editUnit,
-    setEditUnit,
-    editProductInfo,
-    setEditProductInfo,
-    editStock,
-    setEditStock,
-    editActualPrice,setEditActualPrice,
-    editSalePrice,
-    setEditSalePrice,editPhoto,setEditPhoto,
     showBrandAdd,setShowBrandAdd,showBrandModal,setShowBrandModal,
     // brandPgNum,setBrandPgNum
     addBrandPhoto,setAddBrandPhoto,editBrandPhoto,setEditBrandPhoto,

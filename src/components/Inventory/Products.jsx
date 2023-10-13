@@ -26,10 +26,9 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(addProducts({products: data?.data}));
-    // console.log("data", data);
-    // console.log("products", products);
   }, [data]);
 
+  
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">

@@ -18,7 +18,7 @@ import { addUsers } from "../../redux/services/userSlice";
 import Swal from "sweetalert2";
 
 const UserOverview = () => {
-  const { liHandler, setSData } = useContextCustom();
+  const { liHandler } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetUsersQuery(token);
@@ -54,7 +54,6 @@ const UserOverview = () => {
   };
 
   const staffDetailHandler = (user) => {
-    setSData(user);
     nav(`/staff-profile/${user?.id}`);
   };
 
@@ -163,7 +162,6 @@ const UserOverview = () => {
                       />
                     </button>
 
-                    {/* <Link to={`/staff-profile/${user?.id}`}> */}
                     <button
                       onClick={() => staffDetailHandler(user)}
                       className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
@@ -173,7 +171,6 @@ const UserOverview = () => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                    {/* </Link> */}
                   </div>
                 </td>
               </tr>

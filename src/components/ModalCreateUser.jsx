@@ -1,10 +1,15 @@
 import { BsCheckLg } from "react-icons/bs";
 import { useContextCustom } from "../context/stateContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ModalCreateUser = () => {
-  const { liHandler} = useContextCustom();
-
+  const { liHandler, setShowModal } = useContextCustom();
+  const nav = useNavigate();
+  const seeAll = () => {
+    setShowModal(false);
+    liHandler("staff overview");
+    nav(`/staff-overview`);
+  };
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-10">
           <div className=" w-[150px] h-[150px] rounded-full bg-[var(--base-color)] flex justify-center items-center">
@@ -15,11 +20,9 @@ const ModalCreateUser = () => {
           <p className=" text-[18px] font-semibold text-white">
             Successfully created the Staff
           </p>
-          <Link to={'/staff-overview'}>
-          <button onClick={()=>liHandler("staff overview")} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
+          <button onClick={seeAll} className="w-[250px] h-[40px] font-medium text-[14px] myBlueBtn">
             SEE ALL Staff
           </button>
-          </Link>
         </div>
   )
 }

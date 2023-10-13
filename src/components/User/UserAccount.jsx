@@ -8,20 +8,28 @@ import { LuPhoneCall } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useGetSingleUsersQuery } from "../../redux/api/userApi";
-import { addSingleUser } from "../../redux/services/userSlice";
+import {
+  addSingleUser,
+  editUserName,editUserAddress,editUserGender,editUserDOB,editUserEmail,editUserPhone,editUserPhoto
+} from "../../redux/services/userSlice";
 import { useEffect } from "react";
 
 const UserAccount = () => {
   const { liHandler } = useContextCustom();
   const dispatch = useDispatch();
-  const {id}=useParams();
+  const { id } = useParams();
   const token = Cookies.get("token");
-  const {data}=useGetSingleUsersQuery({id,token});
+  const { data } = useGetSingleUsersQuery({ id, token });
   const singleUser = useSelector((state) => state.userSlice.singleUser);
-
   useEffect(() => {
-    dispatch(addSingleUser({ singleUser: data }));
-   
+    dispatch(addSingleUser(data));
+    dispatch(editUserName(data?.name));
+    dispatch(editUserAddress(data?.address));
+    dispatch(editUserGender(data?.gender));
+    dispatch(editUserDOB(data?.date_of_birth));
+    dispatch(editUserEmail(data?.email));
+    dispatch(editUserPhone(data?.phone_number));
+    dispatch(editUserPhoto(data?.photo));
   }, [data]);
 
   return (
@@ -31,17 +39,17 @@ const UserAccount = () => {
         <div>
           <p className="breadcrumb-title	">Staff</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
-          Staff / Information
+            Staff / Information
           </p>{" "}
         </div>
-        {/* <Link to={`/staff-edit/${singleUser?.id}`}>
+        <Link to={`/staff-edit/${singleUser?.id}`}>
           <button
             onClick={() => liHandler("edit")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
             Edit Staff
           </button>
-        </Link> */}
+        </Link>
       </div>
       {/* Breadcrumg end */}
 
@@ -104,9 +112,7 @@ const UserAccount = () => {
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Gender</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Phone</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Mail</p>
-              <p className=" font-medium text-[18px] text-[#B9B9B9]">
-                Address
-              </p>
+              <p className=" font-medium text-[18px] text-[#B9B9B9]">Address</p>
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
               <p className=" font-medium text-[18px] text-white">

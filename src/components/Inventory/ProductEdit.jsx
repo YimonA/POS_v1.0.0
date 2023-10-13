@@ -15,26 +15,12 @@ import { useEffect, useState } from "react";
 import { addSingleProduct } from "../../redux/services/productSlice";
 
 const ProductEdit = () => {
-  // const [item,setItem]=useState();
-  // const location=useLocation();
-  const { showModal, current, setCurrent, liHandler, pdata } =
-    useContextCustom();
+  const { showModal, current, setCurrent, liHandler } = useContextCustom();
   const { id } = useParams();
-  const token = Cookies.get("token");
-  const dispatch = useDispatch();
-
-  // const { data } = useGetSingleProductQuery({id,token});
-  // const singleProduct = useSelector((state) => state.productSlice.singleProduct);
-  // console.log('data',data?.data);
-
-  // useEffect(() => {
-  //   dispatch(addSingleProduct({ singleProduct: data?.data }));
-  // }, [data]);
-  // console.log('singleProduct',singleProduct);
-
+  
   useEffect(() => {
     setCurrent(1);
-  },[]);
+  }, []);
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
@@ -58,8 +44,8 @@ const ProductEdit = () => {
 
       <div className=" flex gap-20 justify-start items-stretch">
         {current === 1 ? <EditProductInfo /> : ""}
-        {current === 2 ? <EditProductPrice  /> : ""}
-        {current === 3 ? <EditProductPhotoUpload  /> : ""}
+        {current === 2 ? <EditProductPrice /> : ""}
+        {current === 3 ? <EditProductPhotoUpload /> : ""}
         {current === 3 && showModal ? (
           <Modal
             title={"Select an image"}

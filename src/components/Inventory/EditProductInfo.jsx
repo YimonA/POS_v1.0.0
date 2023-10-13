@@ -4,26 +4,19 @@ import { BsArrowRightShort } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useGetBrandsQuery } from "../../redux/api/logoApi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { addBrands } from "../../redux/services/logoSlice";
+import { editProductBrandID, editProductName, editProductTStock, editProductUnit ,editProductInfo} from "../../redux/services/productSlice";
 
 const EditProductInfo = () => {
-  const { pdata,nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
+  const { nextStepperHandler } = useContextCustom();
   
   const token = Cookies.get("token");
   const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
   const brands = useSelector((state) => state.logoSlice.brands);
-
-  useEffect(() => {
-    setEditName(pdata?.name);
-    setEditBrand(pdata?.brand_name);
-    setEditUnit(pdata?.unit);
-    setEditStock(pdata?.total_stock);
-    setEditProductInfo(pdata?.more_information);
-  }, []);
-  // console.log("props", pdata);
+  const editProduct = useSelector((state) => state.productSlice.editProduct);
 
   useEffect(() => {
     dispatch(addBrands({ brands: data?.data }));
@@ -45,8 +38,8 @@ const EditProductInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={editName}
-              onChange={(e) => setEditName(e.target.value)}
+              defaultValue={editProduct?.name}
+              onChange={(e) => dispatch(editProductName(e.target.value))}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
@@ -59,8 +52,8 @@ const EditProductInfo = () => {
             </label>
             <select
               name="brand"
-              value={editBrand}
-              onChange={(e) => setEditBrand(e.target.value)}
+              value={editProduct?.brand_name}
+              onChange={(e) => dispatch(editProductBrandID(e.target.value))}
               className="brand-dropdown brand-select "
             >
               {brands?.map((brand) => {
@@ -85,8 +78,8 @@ const EditProductInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={editStock}
-              onChange={(e) => setEditStock(Number(e.target.value))}
+              defaultValue={editProduct?.total_stock}
+              onChange={(e) => dispatch(editProductTStock(Number(e.target.value)))}
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -100,18 +93,18 @@ const EditProductInfo = () => {
             </label>
             <select
               name="unit"
-              value={editUnit}
-              onChange={(e) => setEditUnit(e.target.value)}
+              value={editProduct?.unit}
+              onChange={(e) => dispatch(editProductUnit(e.target.value))}
               className="brand-dropdown "
             >
               <option value="single" className="brand-dropdown brand-option">
                 single
               </option>
               <option value="dozen" className="brand-dropdown brand-option">
-                dozen{" "}
+                dozen
               </option>
             </select>
-          </div>{" "}
+          </div>
           <div className=" flex justify-start items-start">
             <label
               htmlFor=""
@@ -120,8 +113,8 @@ const EditProductInfo = () => {
               More Info
             </label>
             <textarea
-              defaultValue={editProductInfo}
-              onChange={(e) => setEditProductInfo(e.target.value)}
+              defaultValue={editProduct?.more_information}
+              onChange={(e) => dispatch(editProductInfo(e.target.value))}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />

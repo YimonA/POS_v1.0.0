@@ -8,8 +8,8 @@ import Cookies from "js-cookie";
 import { useDeleteProductMutation } from "../../redux/api/productApi";
 
 const ProductsTable = ({ products }) => {
-  const { setPData,setCurrent } = useContextCustom();
-  const nav=useNavigate();
+  const { setPData, setCurrent } = useContextCustom();
+  const nav = useNavigate();
   const token = Cookies.get("token");
   const [deleteProduct] = useDeleteProductMutation();
 
@@ -26,15 +26,12 @@ const ProductsTable = ({ products }) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
         const { data } = await deleteProduct({ id, token });
-        // console.log("del", data);
       }
     });
   };
-
-  // const editProductHandler=(product)=>{
-  //   nav(`/product-edit/${product?.id}`,{state:{item:product}});
-  //   setCurrent(1);
-  // }
+  const productDetailHandler = (id) => {
+    nav(`/product-detail/${id}`);
+  };
   return (
     <div>
       <table className=" w-full text-gray-200 border border-gray-700 text-sm ">
@@ -77,23 +74,21 @@ const ProductsTable = ({ products }) => {
                         className="text-[var(--secondary-color)]"
                       />
                     </button>
-                      {/* <button onClick={()=>editProductHandler(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                    {/* <button onClick={()=>editProductHandler(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
                         <BsPencil
                           size={"0.8rem"}
                           className="text-[var(--secondary-color)]"
                         />
                       </button> */}
-                    <Link to={"/product-detail"}>
-                      <button
-                        onClick={() => setPData(product)}
-                        className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
-                      >
-                        <BsArrowRight
-                          size={"1rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
-                    </Link>
+                    <button
+                      onClick={() => productDetailHandler(product?.id)}
+                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                    >
+                      <BsArrowRight
+                        size={"1rem"}
+                        className="text-[var(--secondary-color)]"
+                      />
+                    </button>
                   </div>
                 </td>
               </tr>

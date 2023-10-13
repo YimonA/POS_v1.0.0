@@ -1,10 +1,16 @@
 import { useContextCustom } from "../context/stateContext";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { FiFolderPlus } from "react-icons/fi";
 
 const ModalSaleClose = () => {
-  const { liHandler, setShowModal } = useContextCustom();
-
+  const { liHandler,setShowModal} = useContextCustom();
+  const nav=useNavigate();
+  
+    const seeAll=()=>{
+      liHandler("products");
+      setShowModal(false);
+      nav('/products')
+    }  
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-10">
       <div className=" w-[150px] h-[150px] rounded-full bg-[var(--base-color)] flex justify-center items-center">
@@ -20,16 +26,14 @@ const ModalSaleClose = () => {
           onClick={() => setShowModal(false)}
           className="w-[150px] h-[40px] font-medium text-[14px] bg-transparent text-[var(--secondary-color)] border-[var(--border-color)] rounded border px-2 py-1"
         >
-          Cancle{" "}
+          Cancle
         </button>
-        <Link to={"/product"}>
           <button
-            onClick={() => liHandler("products")}
+            onClick={seeAll}
             className="w-[150px] h-[40px] font-medium text-[14px] bg-[var(--secondary-color)] text-[var(--base-color)] border-[1px] border-[var(--border-color)] rounded-[5px]"
           >
-            Calculate{" "}
+            Yes, close
           </button>
-        </Link>{" "}
       </div>
     </div>
   );

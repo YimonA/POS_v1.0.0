@@ -1,16 +1,17 @@
 import { FiUploadCloud } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
-import { useEffect } from "react";
+import { editUserPhoto } from "../../redux/services/userSlice";
 
 const EditUserSelectImg = () => {
-  const { liHandler, setShowModal, setEditUPhoto,sdata } = useContextCustom();
+  const { liHandler, setShowModal} = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
   const imgs = useSelector((state) => state.mediaSlice.photos);
+  const dispatch=useDispatch();
 
   const showBtn = (imgId, imgUrl) => {
     setActive(imgId);
@@ -19,7 +20,7 @@ const EditUserSelectImg = () => {
   };
 
   const insertHandler = () => {
-    setEditUPhoto(picture);
+    dispatch(editUserPhoto(picture));
     setShowModal(false);
   };
 

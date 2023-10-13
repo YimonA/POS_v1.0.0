@@ -1,35 +1,21 @@
 import { useContextCustom } from "../../context/stateContext";
 import EditProfileStepper from "./EditProfileStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
-import { DateInput } from "@mantine/dates";
+import { useDispatch, useSelector } from "react-redux";
 import { Group, Radio } from "@mantine/core";
-import { useEffect } from "react";
+import {
+  editUserAddress,
+  editUserDOB,
+  editUserGender,
+  editUserName,
+} from "../../redux/services/userSlice";
 
 const EditProfileInfo = () => {
-  const {
-    sdata,
-    editUName,
-    setEditUName,
-    editUDOB,
-    setEditUDOB,
-    editUGender,
-    setEditUGender,
-    editUAddress,
-    setEditUAddress,
-    nextStepperHandler,
-  } = useContextCustom();
-  const token = Cookies.get("token");
+  const { nextStepperHandler } = useContextCustom();
 
   const dispatch = useDispatch();
+  const editUser = useSelector((state) => state.userSlice.editUser);
 
-  useEffect(() => {
-    setEditUName(sdata?.name);
-    setEditUDOB(sdata?.date_of_birth);
-    setEditUGender(sdata?.gender);
-    setEditUAddress(sdata?.address);
-  }, []);
   const nextHandler = () => {
     nextStepperHandler(4);
   };
@@ -51,8 +37,8 @@ const EditProfileInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={editUName}
-              onChange={(e) => setEditUName(e.target.value)}
+              defaultValue={editUser?.name}
+              onChange={(e) => dispatch(editUserName(e.target.value))}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
@@ -75,8 +61,8 @@ const EditProfileInfo = () => {
             /> */}
             <input
               type="text"
-              defaultValue={editUDOB}
-              onChange={(e) => setEditUDOB(e.target.value)}
+              defaultValue={editUser?.date_of_birth}
+              onChange={(e) => dispatch(editUserDOB(e.target.value))}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
@@ -91,16 +77,14 @@ const EditProfileInfo = () => {
             <Radio.Group name="gender" withAsterisk>
               <Group mt="xs">
                 <Radio
-                  checked={editUGender}
-                  onChange={(e) => setEditUGender(e.target.value)}
+                  checked={editUser?.gender}
+                  onChange={(e) => dispatch(editUserGender(e.target.value))}
                   value="male"
                   label="Male"
                 />
                 <Radio
-                  checked={editUGender}
-                  // checked={editUGender==='female'?true:''}
-
-                  onChange={(e) => setEditUGender(e.target.value)}
+                  checked={editUser?.gender}
+                  onChange={(e) => dispatch(editUserGender(e.target.value))}
                   value="female"
                   label="Female"
                 />
@@ -115,8 +99,8 @@ const EditProfileInfo = () => {
               Address
             </label>
             <textarea
-              value={editUAddress}
-              onChange={(e) => setEditUAddress(e.target.value)}
+              value={editUser?.address}
+              onChange={(e) => dispatch(editUserAddress(e.target.value))}
               placeholder=""
               className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
@@ -125,7 +109,7 @@ const EditProfileInfo = () => {
         <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
           <EditProfileStepper />
           <button
-            onClick={() => nextStepperHandler(4)}
+            onClick={nextHandler}
             className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
           >
             Next <BsArrowRightShort size={"1.5rem"} />
