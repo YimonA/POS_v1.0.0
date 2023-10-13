@@ -17,8 +17,8 @@ const BannedUser = () => {
   const nav=useNavigate();
   const[restoreUser]=useRestoreUserMutation();
   const bannedUsers = useSelector((state) => state.userSlice.bannedUsers);
-  console.log("ddd", data);
-  console.log("bannedUsers", bannedUsers);
+  // console.log("ddd", data);
+  // console.log("bannedUsers", bannedUsers);
 
   useEffect(() => {
     dispatch(addBannedUsers( data?.users));
@@ -38,7 +38,7 @@ const BannedUser = () => {
       if (result.isConfirmed) {
         Swal.fire("Restored!", "The staff has been restored.", "success");
         const { data } = await restoreUser({ id, token });
-        console.log("restore Users", data);
+        // console.log("restore Users", data);
         liHandler("staff overview")
         nav("/staff-overview");
       }

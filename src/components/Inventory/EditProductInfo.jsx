@@ -7,23 +7,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { addBrands } from "../../redux/services/logoSlice";
 
-const EditProductInfo = ({product}) => {
-  const { nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
+const EditProductInfo = () => {
+  const { pdata,nextStepperHandler,editName, setEditName,editBrand, setEditBrand,editUnit, setEditUnit,editProductInfo, setEditProductInfo,editStock, setEditStock } = useContextCustom();
   
   const token = Cookies.get("token");
   const { data } = useGetBrandsQuery(token);
 
   const dispatch = useDispatch();
   const brands = useSelector((state) => state.logoSlice.brands);
-  // console.log("props", props);
 
   useEffect(() => {
-    setEditName(product?.name);
-    setEditBrand(product?.brand_name);
-    setEditUnit(product?.unit);
-    setEditStock(product?.total_stock);
-    setEditProductInfo(product?.more_information);
+    setEditName(pdata?.name);
+    setEditBrand(pdata?.brand_name);
+    setEditUnit(pdata?.unit);
+    setEditStock(pdata?.total_stock);
+    setEditProductInfo(pdata?.more_information);
   }, []);
+  // console.log("props", pdata);
 
   useEffect(() => {
     dispatch(addBrands({ brands: data?.data }));

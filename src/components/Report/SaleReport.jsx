@@ -48,9 +48,9 @@ const SaleReport = () => {
   const brandData = useSelector((state) => state.reportSaleSlice.bData);
 
   // console.log("pdata", productData?.productInfo);
-  console.log("wdata", weekelyData);
-  console.log("mdata", monthlyData);
-  console.log('weeke',weekelyData?.weekly_lowest_sale?.sale_date)
+  // console.log("wdata", weekelyData);
+  // console.log("mdata", monthlyData);
+  // console.log('weeke',weekelyData?.weekly_lowest_sale?.sale_date)
   // console.log("tdata", todayData);
   // console.log("bdata", brandData);
 
@@ -97,12 +97,6 @@ const SaleReport = () => {
   }, [mdata]);
   useEffect(() => {
     dispatch(addYearlySaleReport({ ydata }));
-    console.log("pdata", pdata?.productInfo);
-  console.log("wddata", mdata);
-  console.log("ydata", wdata);
-  console.log("mata", ydata);
-  console.log("tdata", tdata);
-  console.log("bdata", bdata);
   }, [ydata]);
 
   return (

@@ -9,7 +9,7 @@ const StockPieChart = ({ weekelyBrand }) => {
     weekelyBrand: PropTypes.array,
   };
   const data = weekelyBrand;
-  console.log("weekelyBrand", weekelyBrand);
+  // console.log("weekelyBrand", weekelyBrand);
 
   return (
       <div className="h-[240px] flex justify-start items-stretch py-3">

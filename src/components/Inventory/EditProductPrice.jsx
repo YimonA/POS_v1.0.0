@@ -3,20 +3,26 @@ import { useContextCustom } from "../../context/stateContext";
 import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 
-const EditProductPrice = ({product}) => {
-  const { nextStepperHandler,editSalePrice, setEditSalePrice,editActualPrice, setEditActualPrice } = useContextCustom();
-  
+const EditProductPrice = () => {
+  const {
+    pdata,
+    nextStepperHandler,
+    editSalePrice,
+    setEditSalePrice,
+    editActualPrice,
+    setEditActualPrice,
+  } = useContextCustom();
 
   useEffect(() => {
-    setEditSalePrice(product?.sale_price);
-    setEditActualPrice(product?.actual_price);
+    setEditSalePrice(pdata?.sale_price);
+    // setEditActualPrice(pdata?.actual_price);
   }, []);
 
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)]">
         <form action="" className="px-14 py-10 flex flex-col gap-5">
-          <div className=" flex justify-start items-start">
+          {/* <div className=" flex justify-start items-start">
             <label
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
@@ -30,7 +36,7 @@ const EditProductPrice = ({product}) => {
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
-          </div>
+          </div> */}
           <div className=" flex justify-start items-start">
             <label
               htmlFor=""

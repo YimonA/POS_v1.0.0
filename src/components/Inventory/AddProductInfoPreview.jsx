@@ -33,8 +33,8 @@ const AddProductInfoPreview = () => {
       photo: photo,
     };
     const data = await createProduct({ product, token });
-    console.log("dddd", data);
-    console.log("pppp", product);
+    //console.log("dddd", data);
+    //console.log("pppp", product);
 
     setShowModal(true);
   };

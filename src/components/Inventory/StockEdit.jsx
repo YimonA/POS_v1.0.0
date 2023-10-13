@@ -19,14 +19,14 @@ const {UID}=useContextCustom();
   const { data } = useGetSingleStocksQuery({ id, token });
 
   // const userID = useSelector((state) => state.authSlice.user.id);
-  console.log("id", UID);
+  // console.log("id", UID);
   const nav = useNavigate();
   const [addStock] = useAddStockMutation();
 
   useEffect(() => {
     setQty(data?.data?.total_stock);
     setMore(data?.data?.more);
-    console.log("stockData", qty, more);
+    // console.log("stockData", qty, more);
   }, [data]);
 
   const AddStockHandler = async (e) => {
@@ -38,9 +38,9 @@ const {UID}=useContextCustom();
         quantity: Number(qty),
         more,
       };
-      console.log("newData", newData);
+      // console.log("newData", newData);
       const response = await addStock({ newData: newData, token });
-      console.log("response", response);
+      // console.log("response", response);
       nav("/stock-control");
     } catch (err) {
       console.log("err", err);

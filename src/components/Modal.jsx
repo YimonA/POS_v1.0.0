@@ -8,9 +8,6 @@ const Modal = ({ title, modalView }) => {
     modalView: PropTypes.any,
   };
   const { showModal, setShowModal } = useContextCustom();
-
-  // console.log('sm',showModal)
-
   return (
     <div
       className={`${

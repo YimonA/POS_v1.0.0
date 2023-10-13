@@ -7,9 +7,9 @@ import { DateInput } from "@mantine/dates";
 import { Group, Radio } from "@mantine/core";
 import { useEffect } from "react";
 
-const EditProfileInfo = ({ staff }) => {
-  console.log("staff", staff);
+const EditProfileInfo = () => {
   const {
+    sdata,
     editUName,
     setEditUName,
     editUDOB,
@@ -25,10 +25,10 @@ const EditProfileInfo = ({ staff }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setEditUName(staff?.name);
-    setEditUDOB(staff?.date_of_birth);
-    setEditUGender(staff?.gender);
-    setEditUAddress(staff?.address);
+    setEditUName(sdata?.name);
+    setEditUDOB(sdata?.date_of_birth);
+    setEditUGender(sdata?.gender);
+    setEditUAddress(sdata?.address);
   }, []);
   const nextHandler = () => {
     nextStepperHandler(4);
@@ -63,7 +63,7 @@ const EditProfileInfo = ({ staff }) => {
             >
               Date of Birth
             </label>
-            <DateInput
+            {/* <DateInput
               valueFormat="DD-MM-YYYY"
               label="choose Date"
               placeholder={editUDOB}
@@ -72,6 +72,12 @@ const EditProfileInfo = ({ staff }) => {
               maw={400}
               mx="auto"
               className="w-[380px] border-[var(--border-color)] text-[var(--secondary-color)] mx-0"
+            /> */}
+            <input
+              type="text"
+              defaultValue={editUDOB}
+              onChange={(e) => setEditUDOB(e.target.value)}
+              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
 
@@ -85,14 +91,14 @@ const EditProfileInfo = ({ staff }) => {
             <Radio.Group name="gender" withAsterisk>
               <Group mt="xs">
                 <Radio
-                  checked={editUGender==='male'?true:''}
+                  checked={editUGender}
                   onChange={(e) => setEditUGender(e.target.value)}
                   value="male"
                   label="Male"
                 />
                 <Radio
-                  // checked={editUGender}
-                  checked={editUGender==='female'?true:''}
+                  checked={editUGender}
+                  // checked={editUGender==='female'?true:''}
 
                   onChange={(e) => setEditUGender(e.target.value)}
                   value="female"

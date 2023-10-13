@@ -18,7 +18,7 @@ import { addUsers } from "../../redux/services/userSlice";
 import Swal from "sweetalert2";
 
 const UserOverview = () => {
-  const { liHandler } = useContextCustom();
+  const { liHandler, setSData } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetUsersQuery(token);
@@ -44,13 +44,18 @@ const UserOverview = () => {
       if (result.isConfirmed) {
         Swal.fire("Banned!", "The staff has been banned.", "success");
         const { data } = await bannedUsers({ id, token });
-        console.log('banuser',data)
-        setTimeout(()=>{
-          liHandler("staff banned")
+        // console.log("banuser", data);
+        setTimeout(() => {
+          liHandler("staff banned");
           nav("/banned-staff");
-        },1000)
+        }, 1000);
       }
     });
+  };
+
+  const staffDetailHandler = (user) => {
+    setSData(user);
+    nav(`/staff-profile/${user?.id}`);
   };
 
   return (
@@ -59,7 +64,7 @@ const UserOverview = () => {
         <div>
           <p className="breadcrumb-title	">Staff Overview</p>
           <p className=" text-[14px] text-white opacity-70 select-none">
-          Staff / Staff Overview
+            Staff / Staff Overview
           </p>
         </div>
       </div>
@@ -158,14 +163,17 @@ const UserOverview = () => {
                       />
                     </button>
 
-                    <Link to={`/staff-profile/${user?.id}`}>
-                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                        <BsArrowRight
-                          size={"1rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button>
-                    </Link>
+                    {/* <Link to={`/staff-profile/${user?.id}`}> */}
+                    <button
+                      onClick={() => staffDetailHandler(user)}
+                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                    >
+                      <BsArrowRight
+                        size={"1rem"}
+                        className="text-[var(--secondary-color)]"
+                      />
+                    </button>
+                    {/* </Link> */}
                   </div>
                 </td>
               </tr>
@@ -174,8 +182,6 @@ const UserOverview = () => {
         </tbody>
       </table>
       {/* stock table end */}
-
-      
     </div>
   );
 };

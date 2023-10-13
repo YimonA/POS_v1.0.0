@@ -71,6 +71,7 @@ const[editBrandPhoto,setEditBrandPhoto]=useState();
 
   //for product detail
   const[pdata,setPData]=useState();
+  const[sdata,setSData]=useState();
 
   const [editName, setEditName] = useState();
   const [editBrand, setEditBrand] = useState();
@@ -107,7 +108,7 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
 
     editUName,setEditUName,editUDOB,setEditUDOB,editUGender,setEditUGender,editUAddress,setEditUAddress,editUPosition,setEditUPosition,editUEmail,setEditUEmail,editUPhone,setEditUPhone,editUPassword,setEditUPassword,editUConfirmPassword,setEditUConfirmPassword,editUPhoto,setEditUPhoto,
 
-    pdata,setPData,
+    pdata,setPData,sdata,setSData,
     // editProduct,setEditProduct,
     editName,
     setEditName,

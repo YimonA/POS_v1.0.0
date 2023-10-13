@@ -41,7 +41,7 @@ const Sidebar = () => {
     if (data) {
       nav("/login");
     }
-    console.log(data);
+    // console.log(data);
   };
 
   return (

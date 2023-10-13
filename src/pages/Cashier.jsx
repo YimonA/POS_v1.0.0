@@ -28,17 +28,15 @@ const Cashier = () => {
     useSelector((state) => state.cashierSlice);
   const user = useSelector((state) => state.authSlice.user);
 
-  console.log("cartItems", cartItems);
-  console.log("currentItem", currentItem);
-  console.log("currentQty", currentQty);
-  console.log("totalCost", totalCost);
-  // console.log('cartItems',cartItems);
-  // console.log('cartItems',cartItems);
+  // console.log("cartItems", cartItems);
+  // console.log("currentItem", currentItem);
+  // console.log("currentQty", currentQty);
+  // console.log("totalCost", totalCost);
 
   useEffect(() => {
     dispatch(addProducts({ products: data?.data }));
-    console.log("data", data);
-    console.log("products", products);
+    // console.log("data", data);
+    // console.log("products", products);
   }, [data]);
 
   useEffect(()=>{
@@ -66,7 +64,7 @@ dispatch(clearCart());
         quantity: item.quantity,
       };
     });
-    console.log("cart items", items);
+    // console.log("cart items", items);
 
     const content = {
       customer_name: user.name,
@@ -81,8 +79,8 @@ dispatch(clearCart());
     try {
       const strData =await payment();
       const stringData = await voucher({token,strData});
-      console.log('strData',strData);
-      console.log('stringData',stringData);
+      // console.log('strData',strData);
+      // console.log('stringData',stringData);
       if(stringData?.data?.data) {
           nav("/voucher",{state:{voucher:stringData?.data?.data}});
       }

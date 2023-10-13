@@ -47,11 +47,11 @@ const Login = () => {
         <div className="glass-login w-full h-full flex justify-center items-center">
           <form
             onSubmit={form.onSubmit(async (values) => {
-              console.log("value", values);
+              // console.log("value", values);
               try {
                 const data = await login(values);
-                console.log(data?.data?.user?.id);
-                console.log(data);
+                // console.log(data?.data?.user?.id);
+                // console.log(data);
 
                 dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
                 setUID(data?.data?.user?.id)

@@ -25,16 +25,16 @@ const CreateUserPreview = () => {
   const token = Cookies.get("token");
 
   useEffect(()=>{
-    console.log(uName,
-      uDOB,
-      uGender,
-      uAddress,
-      uPosition,
-      uEmail,
-      uPhone,
-      uPassword,
-      uConfirmPassword,
-      uPhoto)
+    // console.log(uName,
+    //   uDOB,
+    //   uGender,
+    //   uAddress,
+    //   uPosition,
+    //   uEmail,
+    //   uPhone,
+    //   uPassword,
+    //   uConfirmPassword,
+    //   uPhoto)
   },[])
 
   const CreateUserHandler = async() => {
@@ -53,10 +53,10 @@ const CreateUserPreview = () => {
       password_confirmation: uConfirmPassword
     };
     const data =await createUser({ user, token });
-    console.log("dddd",data);
-    console.log("dddd",data?.data?.message);
+    // console.log("dddd",data);
+    // console.log("dddd",data?.data?.message);
 
-    console.log("name", user);
+    // console.log("name", user);
     if(data?.data?.message=="Successfully created an account"){
       setShowModal(true);
     }

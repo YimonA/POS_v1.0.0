@@ -26,8 +26,8 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(addProducts({products: data?.data}));
-    console.log("data", data);
-    console.log("products", products);
+    // console.log("data", data);
+    // console.log("products", products);
   }, [data]);
 
   return (

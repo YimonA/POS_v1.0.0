@@ -3,58 +3,53 @@ import { PiStorefrontDuotone } from "react-icons/pi";
 import { useContextCustom } from "../../context/stateContext";
 import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import { useCreateUserMutation } from "../../redux/api/userApi";
+import { useEditUserMutation } from "../../redux/api/userApi";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
+import { useState } from "react";
 
-const EditStaffPreview = ({id}) => {
+const EditStaffPreview = ({ id }) => {
   const {
     setShowModal,
-    editUName,editUDOB,editUGender,editUAddress,editUPosition,editUEmail,editUPhone,editUPhoto
+    editUName,
+    editUDOB,
+    editUGender,
+    editUAddress,
+    editUPosition,
+    editUEmail,
+    editUPhone,
+    editUPhoto,
   } = useContextCustom();
-  const [editUser] = useCreateUserMutation();
+  const [editUser] = useEditUserMutation();
   const token = Cookies.get("token");
+  const [user, setUser] = useState({
+    name: editUName,
+    email: editUEmail,
+    phone_number: editUPhone,
+    address: editUAddress,
+    gender: editUGender,
+    date_of_birth: editUDOB,
+    photo: editUPhoto,
+  });
 
-  useEffect(()=>{
-    // console.log(uName,
-    //   uDOB,
-    //   uGender,
-    //   uAddress,
-    //   uPosition,
-    //   uEmail,
-    //   uPhone,
-    //   uPassword,
-    //   uConfirmPassword,
-    //   uPhoto)
-  },[])
+  useEffect(() => {
+    console.log("staff preview", user);
+  }, []);
 
-  const EditStaffHandler = async() => {
-    // e.preventDefault();
-    const user = {
-      name: editUName,
-      email: editUEmail,
-      phone_number: editUPhone,
-      address: editUAddress,
-      gender: editUGender,
-      date_of_birth:"11/9/1990",
-    //   date_of_birth:new Date(editUDOB).toISOString().slice(0, 10),
-      photo:editUPhoto
-        };
-        // console.log("dddd",data?.data?.message);
-        console.log("id", id);
-        console.log("name", user);
-        const data =await editUser({ id, token,user });
-        console.log("res",data);
-    if(data?.data?.message=="Successfully created an account"){
+  const EditStaffHandler = async () => {
+    console.log("id", id);
+    console.log("user", user);
+    const data = await editUser({ user, id, token });
+    console.log("res", data);
+    if (data?.data?.message === "User Updated successful") {
       setShowModal(true);
     }
-    // console.log("pppp", users);
   };
 
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className="w-[680px]">
-        <div className="px-10 w-[520px] h-fit bg-[var(--sidebar-color)]">
+        <div className="px-10 w-[600px] h-fit bg-[var(--sidebar-color)]">
           <div className=" flex justify-between items-center">
             <div className="relative py-10">
               <img
@@ -65,7 +60,6 @@ const EditStaffPreview = ({id}) => {
                 <PiPencilSimpleLineBold />
               </div>
             </div>
-
           </div>
           <div className=" border-b-2 border-b-[var(--border-color)] h-[50px] flex justify-start items-center gap-5">
             <PiStorefrontDuotone
@@ -80,24 +74,30 @@ const EditStaffPreview = ({id}) => {
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Email</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Phone</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">Address</p>
+              <p className=" font-medium text-[18px] text-[#B9B9B9]">Gender</p>
               <p className=" font-medium text-[18px] text-[#B9B9B9]">
-                Gender
+                Date of Birth
               </p>
-              <p className=" font-medium text-[18px] text-[#B9B9B9]">Date of Birth</p>
-              <p className=" font-medium text-[18px] text-[#B9B9B9]">Role</p>
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
               <p className=" font-medium text-[18px] text-white">
-                : {editUName}
+                : {user?.name}
               </p>
-              <p className=" font-medium text-[18px] text-white">: {editUEmail}</p>
-              <p className=" font-medium text-[18px] text-white">: {editUPhone}</p>
-              <p className=" font-medium text-[18px] text-white">: {editUAddress}</p>
-              <p className=" font-medium text-[18px] text-white">: {editUGender}</p>
               <p className=" font-medium text-[18px] text-white">
-                {/* : {editUDOB.toISOString().substring(0,10)} */}
+                : {user?.email}
               </p>
-              <p className=" font-medium text-[18px] text-white">: {editUPosition}</p>
+              <p className=" font-medium text-[18px] text-white">
+                : {user?.phone_number}
+              </p>
+              <p className=" font-medium text-[18px] text-white">
+                : {user?.address}
+              </p>
+              <p className=" font-medium text-[18px] text-white">
+                : {user?.gender}
+              </p>
+              <p className=" font-medium text-[18px] text-white">
+                : {user?.date_of_birth}
+              </p>
             </div>
           </div>
         </div>
@@ -121,6 +121,3 @@ const EditStaffPreview = ({id}) => {
 };
 
 export default EditStaffPreview;
- //   banned: 0,
-    //   date_of_birth: uDOB,
-    //   role: editUPosition,

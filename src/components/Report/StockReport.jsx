@@ -5,7 +5,6 @@ import { BsPlusLg } from "react-icons/bs";
 import { useContextCustom } from "../../context/stateContext";
 import { IoIosArrowUp } from "react-icons/io";
 import StockPieChart from "./StockPieChart";
-import ProgressBar from "@ramonak/react-progress-bar";
 import StockOverview from "../Inventory/StockOverview";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,9 +41,9 @@ const StockReport = () => {
   // console.log("weekelyBestBrands", weekelyBestBrands);
   // console.log("brandReport", brandReport);
   // console.log("stockReport", stockReport);
-  console.log("weekelyBestBrands", brandReportData);
-  console.log("brandReport", bBData);
-  console.log("stockReport", stockReport);
+  // console.log("weekelyBestBrands", brandReportData);
+  // console.log("brandReport", bBData);
+  // console.log("stockReport", stockReport);
 
   useEffect(() => {
     dispatch(addStockReport({ stockReport }));
@@ -136,9 +135,6 @@ const StockReport = () => {
             {/* Progress bar start */}
             <div className="flex">
               <div className=" basis-2/3 flex w-full">
-                {/* <ProgressBar completed={100} bgColor="#456789" animateOnRender={true} />
-                <ProgressBar completed={100} />
-                <ProgressBar completed={100} /> */}
                 <p className="w-full h-2 ">
                   <span className="w-[70%] h-2 bg-green-500 inline-block border-l-[1px] rounded-full"></span>
                   <span className="w-[20%] h-2 bg-[#8AB4F8] inline-block "></span>

@@ -3,55 +3,45 @@ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { useContextCustom } from "../../context/stateContext";
 import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
-import Cookies from "js-cookie";
-import { useCreateUserMutation } from "../../redux/api/userApi";
+import { useEffect } from "react";
 
 const EditStaffPhotoUpload = () => {
   const {
     setShowModal,
     nextStepperHandler,
-    editUPhoto,setEditUPhoto  } = useContextCustom();
-  // const [createUser] = useCreateUserMutation();
-  // const token = Cookies.get("token");
-
-  // const CreateUserHandler = async(e) => {
-  //   e.preventDefault();
-  //   const user = {
-  //     name: uName,
-  //     email: uEmail,
-  //     password: uPassword,
-  //     phone_number: uPhone,
-  //     address: uAddress,
-  //     gender: uGender,
-  //     date_of_birth: uDOB,
-  //     role: uPosition,
-  //     photo: uPhoto,
-  //     password_confirmation: uConfirmPassword
-  //   };
-  //   const data =await createUser({ user, token });
-  //   console.log("dddd", data);
-  //   console.log("name", user);
-  //   // console.log("pppp", users);
-
-  //   // setShowModal(true);
-  // };
+    editUPhoto,
+    setEditUPhoto,
+    sdata,
+    editUName,
+    editUDOB,
+    editUGender,
+    editUAddress,
+    editUPosition,
+    editUEmail,
+    editUPhone,
+  } = useContextCustom();
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
-  const next=()=>{
-    nextStepperHandler(4)
-    // console.log(uName,
-    //   uDOB,
-    //   uGender,
-    //   uAddress,
-    //   uPosition,
-    //   uEmail,
-    //   uPhone,
-    //   uPassword,
-    //   uConfirmPassword,
-    //   uPhoto)
-  }
+  const next = () => {
+    nextStepperHandler(4);
+  };
+
+  useEffect(() => {
+    setEditUPhoto(sdata?.photo);
+    console.log(
+      "edit",
+      editUName,
+      editUDOB,
+      editUGender,
+      editUAddress,
+      editUPosition,
+      editUEmail,
+      editUPhone,
+      editUPhoto
+    );
+  }, []);
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)] flex flex-col justify-center items-center gap-14 py-10">
@@ -96,5 +86,3 @@ const EditStaffPhotoUpload = () => {
 };
 
 export default EditStaffPhotoUpload;
-
-

@@ -3,21 +3,22 @@ import { BsArrowRightShort } from "react-icons/bs";
 import EditProfileStepper from "./EditProfileStepper";
 import { useEffect } from "react";
 
-const EditContactInfo = ({ staff }) => {
+const EditContactInfo = () => {
   const {
+    sdata,
     editUPosition,
     setEditUPosition,
     editUEmail,
     setEditUEmail,
     editUPhone,
     setEditUPhone,
-    nextStepperHandler
+    nextStepperHandler,
   } = useContextCustom();
 
   useEffect(() => {
-    setEditUPosition(staff?.role);
-    setEditUEmail(staff?.email);
-    setEditUPhone(staff?.phone_number)
+    setEditUPosition(sdata?.role);
+    setEditUEmail(sdata?.email);
+    setEditUPhone(sdata?.phone_number);
   });
 
   return (
@@ -44,7 +45,7 @@ const EditContactInfo = ({ staff }) => {
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Email{" "}
+              Email
             </label>
             <input
               type="text"
@@ -59,7 +60,7 @@ const EditContactInfo = ({ staff }) => {
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
             >
-              Phone{" "}
+              Phone
             </label>
             <input
               type="text"
@@ -68,7 +69,6 @@ const EditContactInfo = ({ staff }) => {
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
-          
         </form>
       </div>
       <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">

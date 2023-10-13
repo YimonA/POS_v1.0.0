@@ -45,7 +45,7 @@ const BrandEdit = () => {
 
   useEffect(() => {
     // setPhoto(editBrandPhoto);
-    console.log("editBrandPhoto", editBrandPhoto);
+    // console.log("editBrandPhoto", editBrandPhoto);
     // console.log("setPhoto", photo);
   }, [editBrandPhoto]);
 
@@ -60,13 +60,13 @@ const BrandEdit = () => {
         phone_no: phone,
         photo:editBrandPhoto,
       };
-      console.log("newData", newData);
+      // console.log("newData", newData);
       const response = await editBrand({
         id: Number(id),
         newData: newData,
         token,
       });
-      console.log("response", response);
+      // console.log("response", response);
       nav("/brand");
     } catch (err) {
       console.log("err", err);

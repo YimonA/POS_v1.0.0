@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  {  useState } from 'react'
 import Navbar from '../components/Navbar'
 import {BsSearch} from 'react-icons/bs'
 import {FiDelete} from 'react-icons/fi'
@@ -8,7 +8,7 @@ import pro3 from '../img/pro3.jpg'
 import pro4 from '../img/pro4.jpg'
 import pro6 from '../img/pro6.jpg'
 import pro7 from '../img/pro7.jpg'
-import { selectProduct,totalPrice,deleteSingleList,createPrice,deleteQty,editPrice} from '../redux/services/shopSlice'
+import { selectProduct,totalPrice,createPrice,deleteQty,editPrice} from '../redux/services/shopSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 let addNum='';
@@ -104,7 +104,7 @@ const Shop = () => {
     const onDeleteHandler=()=>{
         if(selectedAction == 'qty'){
             dispatch(deleteQty(selectedList))
-            console.log('run');
+            // console.log('run');
         }else{
             const data = {id : selectedList,pro : products}
             dispatch(editPrice(data))
@@ -136,7 +136,7 @@ const Shop = () => {
     }
         
 
-    console.log(addNum);
+    // console.log(addNum);
 
   return (
     <div className="">

@@ -7,7 +7,6 @@ import { useEditProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
 
 const EditProductInfoPreview = ({productId}) => {
-  console.log('product id=', productId)
   const {
     editName,
     editBrand,
@@ -28,13 +27,14 @@ const EditProductInfoPreview = ({productId}) => {
       unit: editUnit,
       more_information: editProductInfo,
       total_stock: Number(editStock),
-      actual_price: Number(editActualPrice),
+      actual_price: 1000,
+      // actual_price: Number(editActualPrice),
       sale_price: Number(editSalePrice),
       photo: editPhoto,
     };
-    console.log("pppp", product);
+    // console.log("pppp", product);
     const res = await editProduct({id:productId, token ,product});
-    console.log("res", res);
+    // console.log("res", res);
 
     setShowModal(true);
   };

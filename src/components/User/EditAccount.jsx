@@ -10,23 +10,20 @@ import { useGetSingleUsersQuery } from "../../redux/api/userApi";
 import { useDispatch } from "react-redux";
 import EditStaffPhotoUpload from "./EditStaffPhotoUpload";
 import EditStaffPreview from "./EditStaffPreview";
+import { useEffect } from "react";
 
 const EditAccount = () => {
-  const {
-    showModal,
-    current,
-    liHandler
-  } = useContextCustom();
+  const { showModal, current, setCurrent, liHandler } = useContextCustom();
   const { id } = useParams();
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const { data: staff } = useGetSingleUsersQuery({ id, token });
   // const singleUser=useSelector((state)=>state.userSlice.singleUser);
 
-  // useEffect(()=>{
-  //   dispatch(addSingleUser({singleUser:data}));
-  // },[data]);
-  console.log("staff", staff);
+  useEffect(() => {
+    setCurrent(1);
+  }, []);
+  // console.log("staff", staff);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -50,16 +47,15 @@ const EditAccount = () => {
       {/* Breadcrumg end */}
 
       <div className=" flex gap-20 justify-start items-stretch">
-        {current === 1 ? <EditProfileInfo staff={staff} /> : ""}
-        {current === 2 ? <EditContactInfo staff={staff} /> : ""}
-        {current === 3 ? <EditStaffPhotoUpload staff={staff} /> : ""}
+        {current === 1 ? <EditProfileInfo /> : ""}
+        {current === 2 ? <EditContactInfo /> : ""}
+        {current === 3 ? <EditStaffPhotoUpload /> : ""}
         {current === 3 && showModal ? (
           <Modal title={"Select an image"} modalView={<EditUserSelectImg />} />
         ) : (
           ""
         )}
-                {current === 4 ? <EditStaffPreview id={id}/> : ""}
-
+        {current === 4 ? <EditStaffPreview id={id} /> : ""}
         {current === 4 && showModal ? (
           <Modal title={"Edit Staff"} modalView={<ModalEditUser />} />
         ) : (

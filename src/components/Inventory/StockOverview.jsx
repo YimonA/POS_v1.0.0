@@ -19,12 +19,12 @@ const StockOverview = () => {
   const token = Cookies.get("token");
   const { data } = useGetStocksQuery({ token, page });
   const stocks = useSelector((state) => state.stockSlice.stocks);
-  console.log("data", data);
+  //console.log("data", data);
 
   useEffect(() => {
     dispatch(addStocks({ stocks: data?.data }));
-    console.log("data", data);
-    console.log("stocks", stocks);
+   // console.log("data", data);
+    //console.log("stocks", stocks);
   }, [data]);
 
   // const editStockHandler=(stock)=>{

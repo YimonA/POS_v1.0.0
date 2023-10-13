@@ -32,7 +32,7 @@ export const userApi = createApi({
       invalidatesTags: ["user"],
     }),
     editUser: builder.mutation({
-      query: ({ id, token,user }) => ({
+      query: ({ user,id, token }) => ({
         url: `/user/${id}`,
         method: "PUT",
         headers: { authorization: `Bearer ${token}` },

@@ -5,15 +5,15 @@ import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useEffect } from "react";
 
-const EditProductPhotoUpload = ({product}) => {
-  const { setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
+const EditProductPhotoUpload = () => {
+  const {pdata, setShowModal, nextStepperHandler,setEditPhoto, editPhoto} =
     useContextCustom();
 
   const photoUploadHandler = () => {
     setShowModal(true);
   };
 useEffect(()=>{
-setEditPhoto(product?.photo)
+setEditPhoto(pdata?.photo)
 },[])
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">

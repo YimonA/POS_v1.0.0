@@ -21,8 +21,7 @@ const UserAccount = () => {
 
   useEffect(() => {
     dispatch(addSingleUser({ singleUser: data }));
-    console.log("data", data);
-    console.log("singleUser", singleUser);
+   
   }, [data]);
 
   return (
@@ -35,14 +34,14 @@ const UserAccount = () => {
           Staff / Information
           </p>{" "}
         </div>
-        <Link to={`/staff-edit/${singleUser?.id}`}>
+        {/* <Link to={`/staff-edit/${singleUser?.id}`}>
           <button
             onClick={() => liHandler("edit")}
             className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
             Edit Staff
           </button>
-        </Link>
+        </Link> */}
       </div>
       {/* Breadcrumg end */}
 

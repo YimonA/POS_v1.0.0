@@ -30,7 +30,7 @@ const MediaGrid = ({ imgs }) => {
 
   const deletePhotoHandler = async (id) => {
     const { data } = await deletePhoto({ id, token });
-    console.log("del", data);
+    // console.log("del", data);
 
     Swal.fire({
       title: "Are you sure?",
@@ -44,7 +44,7 @@ const MediaGrid = ({ imgs }) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
         const { data } = await deletePhoto({ id, token });
-        console.log('del',data);
+        // console.log('del',data);
       }
     });
   };
