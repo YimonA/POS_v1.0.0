@@ -38,11 +38,11 @@ const StockReport = () => {
     (state) => state.reportStockSlice.stockReport
   );
 
-  // console.log("weekelyBestBrands", weekelyBestBrands);
+   //console.log("weekelyBestBrands", weekelyBestBrands);
   // console.log("brandReport", brandReport);
   // console.log("stockReport", stockReport);
   // console.log("weekelyBestBrands", brandReportData);
-  // console.log("brandReport", bBData);
+   //console.log("brandReport", bBData);
   // console.log("stockReport", stockReport);
 
   useEffect(() => {

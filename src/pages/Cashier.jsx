@@ -67,8 +67,8 @@ dispatch(clearCart());
     // console.log("cart items", items);
 
     const content = {
-      customer_name: user.name,
-      phone_number: user.phone_number,
+      customer_name: user?.name,
+      phone_number: user?.phone_number,
       items: items,
     };
     const strData = JSON.stringify(content);
@@ -77,12 +77,10 @@ dispatch(clearCart());
 
   const paymentHandler = async () => {
     try {
-      const strData =await payment();
-      const stringData = await voucher({token,strData});
-      // console.log('strData',strData);
-      // console.log('stringData',stringData);
-      if(stringData?.data?.data) {
-          nav("/voucher",{state:{voucher:stringData?.data?.data}});
+      const strData = payment();
+      const res = await voucher({token,strData});
+      if(res?.data?.products) {
+          nav("/voucher");
       }
     } catch (error) {
       console.log(error);
@@ -147,7 +145,7 @@ dispatch(clearCart());
                       {product?.sale_price} Ks
                     </p>
                     <p className=" text-[14px] text-red-500 opacity-70 px-5 font-bold text-right">
-                      {product?.total_stock === 0 ? "Out of Stock" : ""}
+                      {product?.total_stock <= 0 ? "Out of Stock" : ""}
                     </p>
                   </div>
                 </div>
