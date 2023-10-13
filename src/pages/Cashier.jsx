@@ -77,7 +77,7 @@ dispatch(clearCart());
 
   const paymentHandler = async () => {
     try {
-      const strData =await payment();
+      const strData = payment();
       const stringData = await voucher({token,strData});
       // console.log('strData',strData);
       // console.log('stringData',stringData);
