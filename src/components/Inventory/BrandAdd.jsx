@@ -43,8 +43,7 @@ const BrandAdd = () => {
     };
     // console.log("new brand", newBrand);
     const response = await createBrand({ newBrand, token });
-    // console.log("response", response);
-
+    //console.log("response", response);
     nav("/brand");
 
     setShowModal(true);

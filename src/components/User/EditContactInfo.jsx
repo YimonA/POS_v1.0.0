@@ -1,31 +1,18 @@
 import { useContextCustom } from "../../context/stateContext";
 import { BsArrowRightShort } from "react-icons/bs";
 import EditProfileStepper from "./EditProfileStepper";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editUserEmail, editUserPhone } from "../../redux/services/userSlice";
 
 const EditContactInfo = () => {
-  const {
-    sdata,
-    editUPosition,
-    setEditUPosition,
-    editUEmail,
-    setEditUEmail,
-    editUPhone,
-    setEditUPhone,
-    nextStepperHandler,
-  } = useContextCustom();
-
-  useEffect(() => {
-    setEditUPosition(sdata?.role);
-    setEditUEmail(sdata?.email);
-    setEditUPhone(sdata?.phone_number);
-  });
-
+  const { nextStepperHandler } = useContextCustom();
+  const dispatch = useDispatch();
+  const editUser = useSelector((state) => state.userSlice.editUser);
   return (
     <div className="flex gap-20 justify-start items-stretch bg-[--base-color]">
       <div className=" w-[680px] h-fit bg-[var(--sidebar-color)]">
         <form action="" className="px-14 py-10 flex flex-col gap-5">
-          <div className=" flex justify-start items-start">
+          {/* <div className=" flex justify-start items-start">
             <label
               htmlFor=""
               className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
@@ -39,7 +26,7 @@ const EditContactInfo = () => {
               placeholder=""
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
-          </div>
+          </div> */}
           <div className=" flex justify-start items-start">
             <label
               htmlFor=""
@@ -49,8 +36,8 @@ const EditContactInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={editUEmail}
-              onChange={(e) => setEditUEmail(e.target.value)}
+              defaultValue={editUser?.email}
+              onChange={(e) => dispatch(editUserEmail(e.target.value))}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>
@@ -64,8 +51,8 @@ const EditContactInfo = () => {
             </label>
             <input
               type="text"
-              defaultValue={editUPhone}
-              onChange={(e) => setEditUPhone(e.target.value)}
+              defaultValue={editUser?.phone_number}
+              onChange={(e) => dispatch(editUserPhone(e.target.value))}
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>

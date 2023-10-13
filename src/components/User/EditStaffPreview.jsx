@@ -5,42 +5,16 @@ import CreateUserStepper from "./CreateUserStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useEditUserMutation } from "../../redux/api/userApi";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const EditStaffPreview = ({ id }) => {
-  const {
-    setShowModal,
-    editUName,
-    editUDOB,
-    editUGender,
-    editUAddress,
-    editUPosition,
-    editUEmail,
-    editUPhone,
-    editUPhoto,
-  } = useContextCustom();
+  const { setShowModal } = useContextCustom();
   const [editUser] = useEditUserMutation();
   const token = Cookies.get("token");
-  const [user, setUser] = useState({
-    name: editUName,
-    email: editUEmail,
-    phone_number: editUPhone,
-    address: editUAddress,
-    gender: editUGender,
-    date_of_birth: editUDOB,
-    photo: editUPhoto,
-  });
-
-  useEffect(() => {
-    console.log("staff preview", user);
-  }, []);
+  const editUserData = useSelector((state) => state.userSlice.editUser);
 
   const EditStaffHandler = async () => {
-    console.log("id", id);
-    console.log("user", user);
-    const data = await editUser({ user, id, token });
-    console.log("res", data);
+    const data = await editUser({ user: editUserData, id, token });
     if (data?.data?.message === "User Updated successful") {
       setShowModal(true);
     }
@@ -53,7 +27,7 @@ const EditStaffPreview = ({ id }) => {
           <div className=" flex justify-between items-center">
             <div className="relative py-10">
               <img
-                src={editUPhoto}
+                src={editUserData?.photo}
                 className="-mt-[70px] w-[140px] h-[140px] rounded-full  flex justify-center items-center object-cover object-center"
               />
               <div className="absolute bottom-[40px] right-3 w-[30px] h-[30px] rounded-full bg-white flex justify-center items-center">
@@ -81,22 +55,22 @@ const EditStaffPreview = ({ id }) => {
             </div>
             <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
               <p className=" font-medium text-[18px] text-white">
-                : {user?.name}
+                : {editUserData?.name}
               </p>
               <p className=" font-medium text-[18px] text-white">
-                : {user?.email}
+                : {editUserData?.email}
               </p>
               <p className=" font-medium text-[18px] text-white">
-                : {user?.phone_number}
+                : {editUserData?.phone_number}
               </p>
               <p className=" font-medium text-[18px] text-white">
-                : {user?.address}
+                : {editUserData?.address}
               </p>
               <p className=" font-medium text-[18px] text-white">
-                : {user?.gender}
+                : {editUserData?.gender}
               </p>
               <p className=" font-medium text-[18px] text-white">
-                : {user?.date_of_birth}
+                : {editUserData?.date_of_birth}
               </p>
             </div>
           </div>

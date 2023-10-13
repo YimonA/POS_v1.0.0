@@ -1,15 +1,17 @@
 import { FiUploadCloud } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
+import { editProductPhoto } from "../../redux/services/productSlice";
 
 const EditProductSelectImg = () => {
-  const { liHandler, setShowModal, setEditPhoto } = useContextCustom();
+  const { liHandler, setShowModal } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
   const imgs = useSelector((state) => state.mediaSlice.photos);
+  const dispatch = useDispatch();
 
   const showBtn = (imgId, imgUrl) => {
     setActive(imgId);
@@ -18,15 +20,17 @@ const EditProductSelectImg = () => {
   };
 
   const insertHandler = () => {
-    setEditPhoto(picture);
+    dispatch(editProductPhoto(picture));
     setShowModal(false);
   };
 
   return (
     <div className="w-[900px] h-[500px] flex flex-col justify-center items-center gap-10 px-5 ">
-      <div className="h-[400px] flex flex-wrap gap-5 justify-start items-center 
-      ">
-         {/* overflow-y-scroll */}
+      <div
+        className="h-[400px] flex flex-wrap gap-5 justify-start items-center 
+      "
+      >
+        {/* overflow-y-scroll */}
         {/* Upload img start */}
         <div onClick={() => liHandler("media")} className=" cursor-pointer">
           <Link to={"/media"}>

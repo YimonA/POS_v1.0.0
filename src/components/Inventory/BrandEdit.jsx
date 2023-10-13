@@ -36,7 +36,7 @@ const BrandEdit = () => {
     setName(data?.data?.name);
     setAgent(data?.data?.agent);
     setCompany(data?.data?.agent);
-    setDescription(data?.data?.agent);
+    setDescription(data?.data?.description);
     setPhone(data?.data?.phone_no);
     setEditBrandPhoto(data?.data?.photo);
     // setPhoto(data?.data?.photo)
@@ -66,7 +66,7 @@ const BrandEdit = () => {
         newData: newData,
         token,
       });
-      // console.log("response", response);
+      //console.log("response", response);
       nav("/brand");
     } catch (err) {
       console.log("err", err);

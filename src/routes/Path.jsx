@@ -116,7 +116,7 @@ const Path = () => {
         />
         <Route path="/products" element={<Dashboard view={<Products />} />} />
         <Route
-          path="/product-detail"
+          path="/product-detail/:id"
           element={<Dashboard view={<ProductDetail />} />}
         />
         <Route

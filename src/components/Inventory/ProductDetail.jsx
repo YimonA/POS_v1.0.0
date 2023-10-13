@@ -1,9 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
-import { PiPencilSimpleLineBold } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useGetSingleProductQuery } from "../../redux/api/productApi";
+import { editProductName,
+  editProductAPrice,
+  editProductSPrice,
+  editProductUnit,
+  editProductInfo,
+  editProductBrandID,
+  editProductPhoto,
+  editProductTStock,
+  addSingleProduct, } from "../../redux/services/productSlice";
 
 const ProductDetail = () => {
-  const { liHandler, pdata } = useContextCustom();
+  const { liHandler } = useContextCustom();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const token = Cookies.get("token");
+  const { data } = useGetSingleProductQuery({ id, token });
+  const singleProduct = useSelector((state) => state.productSlice.singleProduct);
+  useEffect(() => {
+    dispatch(addSingleProduct(data?.data));
+    dispatch(editProductName(data?.data?.name));
+    dispatch(editProductAPrice(data?.data?.actual_price));
+    dispatch(editProductSPrice(data?.data?.sale_price));
+    dispatch(editProductUnit(data?.data?.unit));
+    dispatch(editProductInfo(data?.data?.more_information));
+    dispatch(editProductBrandID(data?.data?.brand_name));
+    dispatch(editProductPhoto(data?.data?.photo));
+    dispatch(editProductTStock(data?.data?.total_stock));
+  }, [data]);
 
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -24,7 +52,7 @@ const ProductDetail = () => {
               Products Overview
             </button>
           </Link>
-          <Link to={`/product-edit/${pdata?.id}`}>
+          <Link to={`/product-edit/${singleProduct?.id}`}>
             <button
               onClick={() => liHandler("products")}
               className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
@@ -44,13 +72,13 @@ const ProductDetail = () => {
             <div className=" flex justify-between items-center border-b-2 border-b-[var(--border-color)]">
               <div className="relative py-10">
                 <img
-                  src={pdata?.photo}
+                  src={singleProduct?.photo}
                   className="-mt-[70px] w-[140px] h-[140px] rounded-full  flex justify-center items-center object-cover object-center"
                 />
               </div>
               <div>
                 <h1 className=" text-[26px] text-white font-semibold me-28">
-                  {pdata?.name}
+                  {singleProduct?.name}
                 </h1>
               </div>
             </div>
@@ -70,19 +98,19 @@ const ProductDetail = () => {
               </div>
               <div className="w-fit flex flex-col gap-5 basis-1/2 ps-10">
                 <p className=" font-medium text-[18px] text-white">
-                  : {pdata?.brand_name}
+                  : {singleProduct?.brand_name}
                 </p>
                 <p className=" font-medium text-[18px] text-white">
-                  : {pdata?.total_stock}
+                  : {singleProduct?.total_stock}
                 </p>
                 <p className=" font-medium text-[18px] text-white">
-                  : {pdata?.unit}
+                  : {singleProduct?.unit}
                 </p>
                 <p className=" font-medium text-[18px] text-white">
-                  : {pdata?.sale_price}
+                  : {singleProduct?.sale_price}
                 </p>
                 <p className=" font-medium text-[18px] text-white">
-                  : {pdata?.more_information}
+                  : {singleProduct?.more_information}
                 </p>
               </div>
             </div>
