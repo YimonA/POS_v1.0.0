@@ -2,12 +2,12 @@ import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
 import { IoIosArrowUp } from "react-icons/io";
 
-const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed"];
 
 const StockPieChart = ({ weekelyBrand }) => {
   StockPieChart.propTypes = {
     weekelyBrand: PropTypes.array,
   };
+  const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed"];
   const data = weekelyBrand;
   // console.log("weekelyBrand", weekelyBrand);
 
@@ -15,7 +15,7 @@ const StockPieChart = ({ weekelyBrand }) => {
       <div className="h-[240px] flex justify-start items-stretch py-3">
         <PieChart width={300} height={210} className="">
           <Pie
-            data={data.slice(0,4)}
+            data={data?.slice(0,4)}
             cx={120}
             cy={110}
             innerRadius={50}
@@ -25,7 +25,7 @@ const StockPieChart = ({ weekelyBrand }) => {
             dataKey="total_brand_sale"
             className=" mx-auto inline-block"
           >
-            {data.slice(0,4)?.map((entry, index) => (
+            {data?.slice(0,4)?.map((entry, index) => (
               <Cell
                 key={`cell-${entry?.total_brand_sale}`}
                 fill={COLORS[index % COLORS.length]}
@@ -34,7 +34,7 @@ const StockPieChart = ({ weekelyBrand }) => {
           </Pie>
         </PieChart>
         <div className=" w-full h-full flex flex-col justify-center items-center gap-2 ">
-          {weekelyBrand.slice(0,4)?.map((wbrand, index) => {
+          {weekelyBrand?.slice(0,4)?.map((wbrand, index) => {
             return (
               <div
                 key={index}
