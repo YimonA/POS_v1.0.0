@@ -31,6 +31,7 @@ const Monthly = () => {
   const [monthTag, setMonthTag] = useState(null);
   const [mRecords, setMRecords] = useState(null);
   const [allYear, setAllYear] = useState();
+  const [exportValue, setExportValue] = useState();
 
   useEffect(() => {
     fetchYearData();
@@ -61,7 +62,7 @@ const Monthly = () => {
     // console.log("monthTag", monthTag.slice(3, monthTag.length));
   };
 
-  const pageChange = async(link) => {
+  const pageChange = async (link) => {
     const { data } = await axios({
       method: "get",
       url: link,
@@ -73,16 +74,16 @@ const Monthly = () => {
     // setMonthTag(mdata?.data.monthly_sale_overview[0]?.date);
   };
 
-  const next=()=>{
-    if(mRecords?.next_page_url){
-      pageChange(mRecords?.next_page_url)
+  const next = () => {
+    if (mRecords?.next_page_url) {
+      pageChange(mRecords?.next_page_url);
     }
-  }
-  const prev=()=>{
-    if(mRecords?.prev_page_url){
-      pageChange(mRecords?.prev_page_url)
+  };
+  const prev = () => {
+    if (mRecords?.prev_page_url) {
+      pageChange(mRecords?.prev_page_url);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -112,25 +113,25 @@ const Monthly = () => {
         </p>
         <div className=" flex items-baseline gap-4">
           <div className=" flex justify-start items-baseline gap-2">
-            <select
+            {/* <select
               name="sort"
-              value={sortValue}
-              onChange={(e) => setSortValue(e.target.value)}
+              value={exportValue}
+            onChange={(e) => setExportValue(e.target.value)}
               className="recent-dropdown "
             >
               <option value="" className="recent-dropdown hidden">
-                Export
-              </option>
-              <option value="last" className="recent-dropdown">
-                PDF
-              </option>
-              <option value="first" className="recent-dropdown">
-                Print
-              </option>
-              <option value="copy" className="recent-dropdown">
-                Copy
-              </option>
-            </select>
+              Export
+            </option>
+            <option value="PDF" className="recent-dropdown">
+              PDF
+            </option>
+            <option value="print" className="recent-dropdown">
+              Print
+            </option>
+            <option value="Excel" className="recent-dropdown">
+              Excel
+            </option>
+            </select> */}
           </div>
 
           <div className=" flex justify-start items-baseline gap-2">
@@ -306,8 +307,7 @@ const Monthly = () => {
             </Button>
 
             <Button
-              onClick={next
-            }
+              onClick={next}
               variant="default"
               className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}

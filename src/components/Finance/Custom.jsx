@@ -97,7 +97,7 @@ const Custom = () => {
           Sale Overview
         </p>
         <div className=" flex items-baseline gap-4">
-          <select
+          {/* <select
             placeholder="Export"
             name="sort"
             value={exportValue}
@@ -113,13 +113,10 @@ const Custom = () => {
             <option value="print" className="recent-dropdown">
               Print
             </option>
-            <option value="CSV" className="recent-dropdown">
-              CSV
-            </option>
             <option value="Excel" className="recent-dropdown">
               Excel
             </option>
-          </select>
+          </select> */}
           <div className=" flex justify-start items-baseline gap-2">
             <DateInput
               valueFormat="YYYY-MM-DD"

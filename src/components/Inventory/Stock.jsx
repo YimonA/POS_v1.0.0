@@ -1,9 +1,13 @@
+import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
 import StockOverview from "./StockOverview";
 import { useEffect } from "react";
 
 const Stock = () => {
   const { showStockAdd, setShowStockAdd } = useContextCustom();
+  const stocks = useSelector((state) => state.stockSlice.stocks);
+
+
   useEffect(() => {
     // console.log('setShowStockAdd',showStockAdd)
   }, [showStockAdd]);
@@ -18,8 +22,7 @@ const Stock = () => {
           </p>
         </div>
       </div>
-      {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
-      <StockOverview />
+      <StockOverview stocks={stocks}/>
     </div>
   );
 };

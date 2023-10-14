@@ -66,7 +66,6 @@ const SaleReport = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
 
   const fetchData = async () => {
     const data = await axios({
@@ -97,6 +96,12 @@ const SaleReport = () => {
   }, [mdata]);
   useEffect(() => {
     dispatch(addYearlySaleReport({ ydata }));
+    //   console.log("pdata", pdata?.productInfo);
+    // console.log("wddata", mdata);
+    // console.log("ydata", wdata);
+    // console.log("mata", ydata);
+    // console.log("tdata", tdata);
+    // console.log("bdata", bdata);
   }, [ydata]);
 
   return (
@@ -130,7 +135,7 @@ const SaleReport = () => {
               show === "monthly"
                 ? " text-[--font-color]"
                 : " text-[--secondary-color]"
-            }  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
+            } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
           >
             Month
           </Button>
@@ -210,7 +215,7 @@ const SaleReport = () => {
             </p>
             <div className="flex items-stretch gap-3">
               <div className="basis-3/5">
-                <SaleTinyBarChart wdata={wdata?.weekely_sale} tag={show}/>
+                <SaleTinyBarChart wdata={wdata?.weekly_sale} tag={show} />
               </div>
               <div className="basis-2/5 flex flex-col gap-5">
                 <div className=" flex justify-center gap-2">
@@ -228,9 +233,7 @@ const SaleReport = () => {
                         size={"1.3rem"}
                       />
                       <span className=" text-green-500">
-                        {
-                          weeklyData?.weekly_highest_percentage
-                        }
+                        {weeklyData?.weekly_highest_percentage}
                       </span>
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
@@ -239,8 +242,7 @@ const SaleReport = () => {
                   </div>
                   <div className="ms-auto">
                     <p className=" text-white text-[14px] font-semibold">
-                      {weeklyData?.weekly_highest_sale?.total}
-                      k
+                      {weeklyData?.weekly_highest_sale?.total}k
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                       kyats
@@ -271,10 +273,7 @@ const SaleReport = () => {
                 </div>
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                    {weeklyData?.weekly_lowest_sale?.sale_date.substring(
-                      0,
-                      1
-                    )}
+                    {weeklyData?.weekly_lowest_sale?.sale_date.substring(0, 1)}
                   </p>
                   <div className="px-3">
                     <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
@@ -333,7 +332,6 @@ const SaleReport = () => {
                         size={"1.3rem"}
                       />
                       <span className=" text-green-500">
-                      
                         {monthlyData?.MonthlyHighestSale[0]?.percentage}
                       </span>
                     </p>
@@ -351,7 +349,7 @@ const SaleReport = () => {
                   </div>
                 </div>
 
-               <div className=" flex justify-center gap-2">
+                <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
                     A
                   </p>
@@ -372,7 +370,7 @@ const SaleReport = () => {
                     </p>
                   </div>
                 </div>
-                  
+
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
                     {monthlyData?.MonthlyLowestSale[0]?.lowest_sale_month}
@@ -402,7 +400,7 @@ const SaleReport = () => {
                       kyats
                     </p>
                   </div>
-                </div> 
+                </div>
               </div>
             </div>
           </div>
