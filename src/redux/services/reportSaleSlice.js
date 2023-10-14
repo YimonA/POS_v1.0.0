@@ -19,7 +19,7 @@ export const reportSaleSlice = createSlice({
     addBrandSaleReport: (state, { payload }) => {
       state.bData = payload.bdata;
     },
-    addWeekelySaleReport: (state, { payload }) => {
+    addWeeklySaleReport: (state, { payload }) => {
       state.wData = payload.wdata;
     },
     addMonthlySaleReport: (state, { payload }) => {
@@ -34,5 +34,5 @@ export const reportSaleSlice = createSlice({
   },
 });
 
-export const { addProductSaleReport,addBrandSaleReport,addWeekelySaleReport,addMonthlySaleReport,addYearlySaleReport,addTodaySaleReport } = reportSaleSlice.actions;
+export const { addProductSaleReport,addBrandSaleReport,addWeeklySaleReport,addMonthlySaleReport,addYearlySaleReport,addTodaySaleReport } = reportSaleSlice.actions;
 export default reportSaleSlice.reducer;

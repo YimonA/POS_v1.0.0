@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -30,6 +30,22 @@ const Monthly = () => {
   const token = Cookies.get("token");
   const [monthTag, setMonthTag] = useState(null);
   const [mRecords, setMRecords] = useState(null);
+  const [allYear, setAllYear] = useState();
+
+  useEffect(() => {
+    fetchYearData();
+  }, []);
+
+  const fetchYearData = async () => {
+    const { data } = await axios({
+      method: "get",
+      url: `https://h.mmsdev.site/api/v1/year`,
+      headers: { authorization: `Bearer ${token}` },
+      responseType: "getYear",
+    });
+    const ydata = JSON.parse(data);
+    setAllYear(ydata);
+  };
 
   const fetchData = async () => {
     const { data } = await axios({
@@ -137,26 +153,23 @@ const Monthly = () => {
                 </option>
               ))}
             </select>
-            {/* </div>
-            <div className=" flex justify-start items-baseline gap-2"> */}
             <select
               name="sort"
               value={year}
               onChange={(e) => setYear(e.target.value)}
               className="recent-dropdown "
             >
-              <option value="" className="recent-dropdown hidden">
+              <option value="null" className="recent-dropdown hidden">
                 Year
               </option>
-              {/* <option value={2021} className="recent-dropdown">
-                2021
-              </option>
-              <option value={2022} className="recent-dropdown">
-                2022
-              </option> */}
-              <option value={2023} className="recent-dropdown">
-                2023
-              </option>
+
+              {allYear?.map((y) => {
+                return (
+                  <option key={y} value={y} className="recent-dropdown">
+                    {y}
+                  </option>
+                );
+              })}
             </select>
           </div>
 

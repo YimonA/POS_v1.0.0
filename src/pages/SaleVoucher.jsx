@@ -5,11 +5,10 @@ import { BsPrinter } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearCart } from "../redux/services/cashierSlice";
+import { useContextCustom } from "../context/stateContext";
 
 const SaleVoucher = () => {
-  // const location = useLocation();
-  // const voucherList = location.state?.voucher;
-  // const [voucher, setVoucher] = useState(voucherList);
+  const{liHandler}=useContextCustom();
   const nav=useNavigate();
   const dispatch=useDispatch();
   const tax = useSelector((state)=>state.cashierSlice.tax)
@@ -21,6 +20,10 @@ const SaleVoucher = () => {
   const nextSaleHandler=()=>{
     dispatch(clearCart());
     nav('/cashier');
+  }
+  const goToRecent=()=>{
+    liHandler('recent')
+    nav('/recent')
   }
   return (
     <div className=" min-h-screen min-w-full bg-[--base-color]">
@@ -71,7 +74,7 @@ const SaleVoucher = () => {
       </div>
       {/* btn */}
       <div className=" h-[40px] flex justify-center gap-3">
-          <button onClick={()=>nav('/recent')}
+          <button onClick={goToRecent}
             className={`text-[var(--secondary-color)] px-3 hover:text-[#8AB4F8] active:text-[#8AB4F8] btn-border-table-grid`}
           >
             Recent
