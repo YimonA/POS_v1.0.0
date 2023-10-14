@@ -1,6 +1,5 @@
 import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
-import { useState } from "react";
 
 const COLORS = ["#8AB4F8", "#6a88b8", "#404d64", "#e8eaed", "#6a88b8"];
 
@@ -9,8 +8,7 @@ const SalePieChart = ({ bdata }) => {
     bdata: PropTypes.object,
   };
   const data = bdata?.brandsInfo;
-  // console.log("bdata", bdata?.brandsInfo);
-  // console.log("bdata", bdata);
+  console.log("bdata", bdata?.brandsInfo);
 
   return (
     <div>
@@ -42,13 +40,15 @@ const SalePieChart = ({ bdata }) => {
           return (
             <span key={index}>
               <span
-                className={`inline-block mr-2 w-3 h-3 rounded-full bg-[${COLORS[index % COLORS.length]}] `}
+                className={`inline-block mr-2 w-3 h-3 rounded-full bg-[${COLORS[index]}] `}
               >
               </span>
               <span className=" text-[var(--gray-color)]">{bdata?.name}</span>
             </span>
           );
         })}
+
+       
       </div>
     </div>
   );
