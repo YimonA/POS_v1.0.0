@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { useDeleteProductMutation } from "../../redux/api/productApi";
 
-const ProductsTable = ({ products }) => {
+const ProductsTable = ({ products, sortV }) => {
   const { setPData, setCurrent } = useContextCustom();
   const nav = useNavigate();
   const token = Cookies.get("token");
@@ -51,49 +51,97 @@ const ProductsTable = ({ products }) => {
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {products?.map((product, index) => {
-            return (
-              <tr
-                key={product?.id}
-                className=" border-b border-b-gray-700 cursor-pointer"
-              >
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4 ">{product?.name}</td>
-                <td className="px-1 text-end py-4">{product.brand_name}</td>
-                <td className="px-1 py-4 text-end">{product?.unit}</td>
-                <td className="px-1 py-4 text-end">{product?.sale_price}</td>
-                <td className="px-1 py-4 text-end">{product?.total_stock}</td>
-                <td>
-                  <div className="me-20 flex justify-end items-center gap-2 z-20">
-                    <button
-                      onClick={() => deleteProductHandler(product?.id)}
-                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+          {sortV === "low-price"
+            ? products
+                ?.sort((a, b) => a.sale_price - b.sale_price)
+                ?.map((product, index) => {
+                  return (
+                    <tr
+                      key={product?.id}
+                      className=" border-b border-b-gray-700 cursor-pointer"
                     >
-                      <ImBin
-                        size={"1rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
-                    {/* <button onClick={()=>editProductHandler(product)} className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                        <BsPencil
-                          size={"0.8rem"}
-                          className="text-[var(--secondary-color)]"
-                        />
-                      </button> */}
-                    <button
-                      onClick={() => productDetailHandler(product?.id)}
-                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                      <td className="px-1 text-center  py-4">{index + 1}</td>
+                      <td className="px-1 text-end py-4 ">{product?.name}</td>
+                      <td className="px-1 text-end py-4">
+                        {product.brand_name}
+                      </td>
+                      <td className="px-1 py-4 text-end">{product?.unit}</td>
+                      <td className="px-1 py-4 text-end">
+                        {product?.sale_price}
+                      </td>
+                      <td className="px-1 py-4 text-end">
+                        {product?.total_stock}
+                      </td>
+                      <td>
+                        <div className="me-20 flex justify-end items-center gap-2 z-20">
+                          <button
+                            onClick={() => deleteProductHandler(product?.id)}
+                            className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                          >
+                            <ImBin
+                              size={"1rem"}
+                              className="text-[var(--secondary-color)]"
+                            />
+                          </button>
+                          <button
+                            onClick={() => productDetailHandler(product?.id)}
+                            className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                          >
+                            <BsArrowRight
+                              size={"1rem"}
+                              className="text-[var(--secondary-color)]"
+                            />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+            : products
+                ?.sort((a, b) => b.sale_price-a.sale_price)
+                ?.map((product, index) => {
+                  return (
+                    <tr
+                      key={product?.id}
+                      className=" border-b border-b-gray-700 cursor-pointer"
                     >
-                      <BsArrowRight
-                        size={"1rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+                      <td className="px-1 text-center  py-4">{index + 1}</td>
+                      <td className="px-1 text-end py-4 ">{product?.name}</td>
+                      <td className="px-1 text-end py-4">
+                        {product.brand_name}
+                      </td>
+                      <td className="px-1 py-4 text-end">{product?.unit}</td>
+                      <td className="px-1 py-4 text-end">
+                        {product?.sale_price}
+                      </td>
+                      <td className="px-1 py-4 text-end">
+                        {product?.total_stock}
+                      </td>
+                      <td>
+                        <div className="me-20 flex justify-end items-center gap-2 z-20">
+                          <button
+                            onClick={() => deleteProductHandler(product?.id)}
+                            className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                          >
+                            <ImBin
+                              size={"1rem"}
+                              className="text-[var(--secondary-color)]"
+                            />
+                          </button>
+                          <button
+                            onClick={() => productDetailHandler(product?.id)}
+                            className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                          >
+                            <BsArrowRight
+                              size={"1rem"}
+                              className="text-[var(--secondary-color)]"
+                            />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
         </tbody>
       </table>
     </div>

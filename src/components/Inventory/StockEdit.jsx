@@ -5,10 +5,10 @@ import {
   useGetSingleStocksQuery,
 } from "../../redux/api/stockApi";
 import Cookies from "js-cookie";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useContextCustom } from "../../context/stateContext";
+import {BsArrowRight} from 'react-icons/bs'
 
 const StockEdit = () => {
   const [qty, setQty] = useState();
@@ -51,11 +51,16 @@ const {UID}=useContextCustom();
     <div
       className={`w-full h-full bg-[var(--base-color)] p-5 z-20 top-0 border-[3px] border-[var(--border-color)] flex flex-col justify-between `}
     >
-      <div className=" mb-5">
+      <div className=" mb-5 flex justify-between items-center">
+        <div>
         <p className="breadcrumb-title	">Add Stock</p>
         <p className=" text-[14px] text-white opacity-70  select-none">
           Inventory / Add Stock
-        </p>{" "}
+        </p></div>
+        <Link to={'/stock-control'}>
+        <button className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn">
+          Stock List
+        </button></Link>
       </div>
       <div className="w-[680px] bg-[var(--sidebar-color)] px-10 py-5">
         <form onSubmit={AddStockHandler} className="flex flex-col gap-2 ">

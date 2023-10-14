@@ -6,23 +6,11 @@ import AddProductInfoPreview from "./AddProductInfoPreview";
 import Modal from "../Modal";
 import AddProductSelectImg from "./AddProductSelectImg";
 import { useContextCustom } from "../../context/stateContext";
-import { useGetProductsQuery } from "../../redux/api/productApi";
-import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { addProducts } from "../../redux/services/productSlice";
-// import { useGetBrandsQuery } from "../../redux/api/brandApi";
-import { logoSlice } from "../../redux/services/logoSlice";
 
 const AddProduct = () => {
   const { showModal, current, liHandler } = useContextCustom();
-  const token = Cookies.get("token");
-  // const { data } = useGetBrandsQuery(token);
-  const dispatch = useDispatch();
-  const brandsList = useSelector((state) => state.logoSlice.brands);
-
+  
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}

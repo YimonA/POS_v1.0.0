@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const initialState = {
+  searchTerm: "",
+searchBannedUser:'',
   users: null,
   singleUser: null,
   bannedUsers: null,
@@ -54,11 +55,32 @@ export const userSlice = createSlice({
     addBannedUsers: (state, { payload }) => {
       state.bannedUsers = payload;
     },
+    setSearchTerm: (state, { payload }) => {
+      state.searchTerm = payload;
+    },
+    clearSearchTerm: (state) => {
+      state.searchTerm = "";
+    },
+    setSearchBannedUser: (state, { payload }) => {
+      state.searchBannedUser = payload;
+    },
+    clearSearchBannedUser: (state) => {
+      state.searchBannedUser = "";
+    },
   },
 });
 
 export const {
-  editUserName,editUserAddress,editUserGender,editUserDOB,editUserEmail,editUserPhone,editUserPhoto,clearEditUserPhoto,
+  setSearchTerm,
+  clearSearchTerm,setSearchBannedUser,clearSearchBannedUser,
+  editUserName,
+  editUserAddress,
+  editUserGender,
+  editUserDOB,
+  editUserEmail,
+  editUserPhone,
+  editUserPhoto,
+  clearEditUserPhoto,
   addUsers,
   addSingleUser,
   addBannedUsers,

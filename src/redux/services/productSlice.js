@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  searchTerm: "",
   products: null,
   singleProduct: null,
   editProduct: {
@@ -53,10 +54,15 @@ export const productSlice = createSlice({
     clearEditProductPhoto: (state) => {
       state.editProduct.photo = null;
     },
+    setSearchTerm:(state,{payload})=>{
+      state.searchTerm=payload;
+  },clearSearchTerm:(state)=>{
+    state.searchTerm='';
+}
   },
 });
 
-export const {
+export const {setSearchTerm,clearSearchTerm,
   editProductName,
   editProductAPrice,
   editProductSPrice,
