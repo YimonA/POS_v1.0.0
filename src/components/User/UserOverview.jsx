@@ -1,11 +1,7 @@
 import { BsArrowRight } from "react-icons/bs";
-// import { BsPencil } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
-import { Button } from "@mantine/core";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -14,10 +10,13 @@ import {
   useGetUsersQuery,
 } from "../../redux/api/userApi";
 import { useEffect } from "react";
-import { addUsers } from "../../redux/services/userSlice";
+import { addUsers, setSearchTerm } from "../../redux/services/userSlice";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 const UserOverview = () => {
+  const [sortValue, setSortValue] = useState("A-Z");
+
   const { liHandler } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
@@ -25,6 +24,7 @@ const UserOverview = () => {
   const [bannedUsers] = useBannedUsersMutation();
   const nav = useNavigate();
   const users = useSelector((state) => state.userSlice.users);
+  const searchTerm = useSelector((state) => state.userSlice.searchTerm);
 
   useEffect(() => {
     dispatch(addUsers(data?.users));
@@ -57,6 +57,16 @@ const UserOverview = () => {
     nav(`/staff-profile/${user?.id}`);
   };
 
+  const rows = users?.filter((user) => {
+    if (searchTerm === "") {
+      return user;
+    } else if (
+      user?.name.toLowerCase().includes(searchTerm?.toLocaleLowerCase())
+    ) {
+      return users;
+    }
+  });
+
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
@@ -76,6 +86,8 @@ const UserOverview = () => {
           <input
             type="text"
             placeholder="search"
+            value={searchTerm}
+            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
             className=" w-[250px] outline-none bg-transparent text-gray-300 text-sm font-semibold"
           />
         </div>
@@ -84,27 +96,27 @@ const UserOverview = () => {
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Sort:{" "}
+            Sort:
           </label>
           <select
             placeholder="Export"
             name="sort"
-            // value={sortValue}
-            // onChange={(e) => setSortValue(e.target.value)}
+            value={sortValue}
+            onChange={(e) => setSortValue(e.target.value)}
             className="recent-dropdown "
           >
-            {/* <option value="" className="hidden">
-              Export
-            </option> */}
-            <option value="last" className="recent-dropdown">
-              Last
+            <option value="A-Z" className="recent-dropdown">
+              A-Z
+            </option>
+            <option value="Z-A" className="recent-dropdown">
+              Z-A
             </option>
           </select>
           <label
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Filter:{" "}
+            Filter:
           </label>
           <select
             placeholder="Export"
@@ -140,42 +152,80 @@ const UserOverview = () => {
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {users?.map((user, index) => {
-            return (
-              <tr key={user?.id} className=" border-b border-b-gray-700">
-                <td className="px-1 text-center  py-4">{index + 1}</td>
-                <td className="px-1 text-end py-4 ">{user?.name}</td>
-                <td className="px-1 text-end py-4">{user?.role}</td>
-                <td className="px-1 py-4 text-end">{user?.email}</td>
-                <td className="px-1 py-4 text-end">
-                  {user?.created_at.substring(0, 10)}
-                </td>
-                <td className="px-1 py-4 text-end">
-                  <div className=" pe-20 flex justify-end items-center gap-2 z-20">
-                    <button
-                      onClick={(e) => bannedHandler(e, user?.id)}
-                      className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer"
-                    >
-                      <BiMinus
-                        size={"1.3rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
+          {sortValue === "A-Z"
+            ? rows
+                ?.sort((a, b) => a.name.localeCompare(b.name))
+                ?.map((user, index) => (
+                  <tr key={user?.id} className=" border-b border-b-gray-700">
+                    <td className="px-1 text-center  py-4">{index + 1}</td>
+                    <td className="px-1 text-end py-4 ">{user?.name}</td>
+                    <td className="px-1 text-end py-4">{user?.role}</td>
+                    <td className="px-1 py-4 text-end">{user?.email}</td>
+                    <td className="px-1 py-4 text-end">
+                      {user?.created_at.substring(0, 10)}
+                    </td>
+                    <td className="px-1 py-4 text-end">
+                      <div className=" pe-20 flex justify-end items-center gap-2 z-20">
+                        <button
+                          onClick={(e) => bannedHandler(e, user?.id)}
+                          className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer"
+                        >
+                          <BiMinus
+                            size={"1.3rem"}
+                            className="text-[var(--secondary-color)]"
+                          />
+                        </button>
 
-                    <button
-                      onClick={() => staffDetailHandler(user)}
-                      className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
-                    >
-                      <BsArrowRight
-                        size={"1rem"}
-                        className="text-[var(--secondary-color)]"
-                      />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+                        <button
+                          onClick={() => staffDetailHandler(user)}
+                          className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                        >
+                          <BsArrowRight
+                            size={"1rem"}
+                            className="text-[var(--secondary-color)]"
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+            : rows
+                ?.sort((a, b) => b.name.localeCompare(a.name))
+                ?.map((user, index) => (
+                  <tr key={user?.id} className=" border-b border-b-gray-700">
+                    <td className="px-1 text-center  py-4">{index + 1}</td>
+                    <td className="px-1 text-end py-4 ">{user?.name}</td>
+                    <td className="px-1 text-end py-4">{user?.role}</td>
+                    <td className="px-1 py-4 text-end">{user?.email}</td>
+                    <td className="px-1 py-4 text-end">
+                      {user?.created_at.substring(0, 10)}
+                    </td>
+                    <td className="px-1 py-4 text-end">
+                      <div className=" pe-20 flex justify-end items-center gap-2 z-20">
+                        <button
+                          onClick={(e) => bannedHandler(e, user?.id)}
+                          className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer"
+                        >
+                          <BiMinus
+                            size={"1.3rem"}
+                            className="text-[var(--secondary-color)]"
+                          />
+                        </button>
+
+                        <button
+                          onClick={() => staffDetailHandler(user)}
+                          className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer"
+                        >
+                          <BsArrowRight
+                            size={"1rem"}
+                            className="text-[var(--secondary-color)]"
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+          }
         </tbody>
       </table>
       {/* stock table end */}

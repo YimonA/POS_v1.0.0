@@ -15,6 +15,7 @@ import { Badge } from "@mantine/core";
 
 const StockOverview = () => {
   const dispatch = useDispatch();
+  const[sortValue,setSortValue]=useState('in-stock')
   const [page, setPage] = useState(1);
   const token = Cookies.get("token");
   const { data } = useGetStocksQuery({ token, page });
@@ -23,31 +24,14 @@ const StockOverview = () => {
 
   useEffect(() => {
     dispatch(addStocks({ stocks: data?.data }));
-   // console.log("data", data);
+    // console.log("data", data);
     //console.log("stocks", stocks);
   }, [data]);
-
-  // const editStockHandler=(stock)=>{
-  //   setShowStockAdd(true);
-  //   setStockProductID(stock?.id);
-  //   setStockUserID(1);
-
-  // }
 
   return (
     <div>
       <p className="breadcrumb-title mb-5">Stocks Overview</p>
-
-      <div className=" flex justify-between items-center mb-[30px]">
-        <div className="basis-1/3 h-[34px] border-gray-700 rounded border flex items-center px-2 py-1">
-          <BsSearch className=" text-gray-400 me-3" />
-          <input
-            type="text"
-            placeholder="search"
-            className=" w-[250px] outline-none bg-transparent text-gray-300 text-sm font-semibold"
-          />
-        </div>
-        <div className=" flex gap-5 items-center">
+        <div className=" flex gap-5 justify-end items-center  mb-[30px] ">
           <label
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
@@ -57,22 +41,25 @@ const StockOverview = () => {
           <select
             placeholder="Export"
             name="sort"
-            // value={sortValue}
-            // onChange={(e) => setSortValue(e.target.value)}
-            className="recent-dropdown "
+            value={sortValue}
+            onChange={(e) => setSortValue(e.target.value)}
+            className="recent-dropdown w-40"
           >
-            {/* <option value="" className="hidden">
-        Export
-      </option> */}
-            <option value="last" className="recent-dropdown">
-              Last
+            <option value="in-stock" className="recent-dropdown">
+              in stock
+            </option>
+            <option value="low-stock" className="recent-dropdown">
+              low stock
+            </option>
+            <option value="out-of-stock" className="recent-dropdown">
+              out of stock
             </option>
           </select>
           <label
             htmlFor=""
             className=" text-[var(--gray-color)] text-[14px] font-normal"
           >
-            Filter:{" "}
+            Filter:
           </label>
           <select
             placeholder="Export"
@@ -89,7 +76,6 @@ const StockOverview = () => {
             </option>
           </select>
         </div>
-      </div>
       {/* stock table start */}
       <table className=" w-full text-gray-200 border border-gray-700 text-sm ">
         <thead>

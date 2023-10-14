@@ -28,8 +28,20 @@ const BrandDetail = () => {
 
   return (
     <div className="w-full p-5 bg-[--base-color]">
-      <div className="p-10 w-[680px] h-fit bg-[var(--sidebar-color)] pb-10">
-        <div className=" border-b-2 border-b-[var(--border-color)] h-[50px] flex justify-start items-center gap-2">
+      <div className=" mb-5 flex justify-between items-center">
+        <div >
+        <p className="breadcrumb-title	">Manage Brand</p>
+        <p className=" text-[14px] text-white opacity-70  select-none">
+          Inventory / Manage Brand / Brand Information
+        </p></div>
+        <Link to={'/brand'}>
+        <button className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn">
+          Brand List
+        </button></Link>
+      </div>
+
+      <div className="px-10 py-5 w-[680px] h-fit bg-[var(--sidebar-color)]">
+        <div className=" border-b-2 border-b-[var(--border-color)] h-[50px] flex justify-start items-center gap-2 pb-4">
           <PiStorefrontDuotone
             size={"1.8rem"}
             className="text-[var(--font-color)]"
@@ -73,11 +85,7 @@ const BrandDetail = () => {
             </p>
           </div>
         </div>
-        <Link to={"/brand"}>
-          <button className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2 ms-auto ">
-            Back <BsArrowRightShort size={"1.5rem"} />
-          </button>
-        </Link>
+        
       </div>
     </div>
   );

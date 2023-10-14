@@ -4,9 +4,6 @@ import { PiGridFour } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import ProductsTable from "./ProductsTable";
 import ProductsGrid from "./ProductsGrid";
-import { Button } from "@mantine/core";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
@@ -14,21 +11,33 @@ import { BsPlusLg } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useGetProductsQuery } from "../../redux/api/productApi";
-import { addProducts } from "../../redux/services/productSlice";
+import { addProducts, setSearchTerm } from "../../redux/services/productSlice";
 
 const Products = () => {
+  const [sortValue,setSortValue]=useState('high-price')
   const [btnTableIsActive, setBtnTableIsActive] = useState(true);
   const { liHandler } = useContextCustom();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
   const { data } = useGetProductsQuery(token);
   const products = useSelector((state) => state.productSlice.products);
+  const searchTerm = useSelector((state) => state.productSlice.searchTerm);
 
   useEffect(() => {
     dispatch(addProducts({products: data?.data}));
   }, [data]);
 
-  
+  const rows = products
+    ?.filter((item) => {
+      if (searchTerm === "") {
+        return item;
+      } else if (
+        item?.name.toLowerCase().includes(searchTerm?.toLocaleLowerCase())
+      ) {
+        return products;
+      }
+    });
+
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
@@ -67,6 +76,8 @@ const Products = () => {
           <input
             type="text"
             placeholder="search"
+            value={searchTerm}
+            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
             className=" w-[250px] outline-none bg-transparent text-gray-300 text-sm font-semibold"
           />
         </div>
@@ -80,15 +91,15 @@ const Products = () => {
           <select
             placeholder="Export"
             name="sort"
-            // value={sortValue}
-            // onChange={(e) => setSortValue(e.target.value)}
-            className="recent-dropdown "
+            value={sortValue}
+            onChange={(e) => setSortValue(e.target.value)}
+            className="recent-dropdown w-32"
           >
-            {/* <option value="" className="hidden">
-              Export
-            </option> */}
-            <option value="last" className="recent-dropdown">
-              last
+            <option value="high-price" className="recent-dropdown">
+              high price
+            </option>
+            <option value="low-price" className="recent-dropdown">
+              low price
             </option>
           </select>
           <label
@@ -134,10 +145,10 @@ const Products = () => {
       <div>
         {btnTableIsActive ? (
           <ProductsTable
-            products={products}
+            products={rows} sortV={sortValue}
           />
         ) : (
-          <ProductsGrid products={products}/>
+          <ProductsGrid products={rows} sortV={sortValue}/>
         )}
       </div>
 

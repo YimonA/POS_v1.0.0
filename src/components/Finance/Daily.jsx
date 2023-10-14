@@ -17,6 +17,7 @@ const Daily = () => {
   const [dRecords, setDRecords] = useState(null);
   const [date, setDate] = useState(null);
   const [dateTag, setDateTag] = useState(null);
+  const [exportValue, setExportValue] = useState();
 
   useEffect(() => {
     const a = date?.toISOString().slice(0, 10);
@@ -66,21 +67,24 @@ const Daily = () => {
           <select
             placeholder="Export"
             name="sort"
-            // value={sortValue}
-            // onChange={(e) => setSortValue(e.target.value)}
+            value={exportValue}
+            onChange={(e) => setExportValue(e.target.value)}
             className="recent-dropdown "
           >
             <option value="" className="recent-dropdown hidden">
               Export
             </option>
-            <option value="last" className="recent-dropdown">
+            <option value="PDF" className="recent-dropdown">
               PDF
             </option>
-            <option value="first" className="recent-dropdown">
+            <option value="print" className="recent-dropdown">
               Print
             </option>
-            <option value="copy" className="recent-dropdown">
-              Copy
+            <option value="CSV" className="recent-dropdown">
+              CSV
+            </option>
+            <option value="Excel" className="recent-dropdown">
+              Excel
             </option>
           </select>
 
@@ -202,36 +206,41 @@ const Daily = () => {
         {/* total calculate end*/}
 
         {/* pagination start*/}
-      <div>
-        <Button.Group className=" pt-10 flex justify-end">
-          <Button
-            onClick={() => setPage(page>1?page - 1:page)}
-            variant="default"
-            className={`
+        <div>
+          <Button.Group className=" pt-10 flex justify-end">
+            <Button
+              onClick={() => setPage(page > 1 ? page - 1 : page)}
+              variant="default"
+              className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-          >
-            <MdArrowBackIosNew />
-          </Button>
-          <Button
-            variant="default"
-            className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-          >
-             page {dRecords?.daily_sale_records?.current_page} / {dRecords?.daily_sale_records?.last_page}
-          </Button>
+            >
+              <MdArrowBackIosNew />
+            </Button>
+            <Button
+              variant="default"
+              className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
+            >
+              page {dRecords?.daily_sale_records?.current_page} /{" "}
+              {dRecords?.daily_sale_records?.last_page}
+            </Button>
 
-          <Button
-            onClick={() =>
-              setPage(page < dRecords?.daily_sale_records?.last_page? page + 1 : page)
-            }
-            variant="default"
-            className={`
+            <Button
+              onClick={() =>
+                setPage(
+                  page < dRecords?.daily_sale_records?.last_page
+                    ? page + 1
+                    : page
+                )
+              }
+              variant="default"
+              className={`
                  text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-          >
-            <MdArrowForwardIos />
-          </Button>
-        </Button.Group>
-      </div>
-      {/* pagination end*/}
+            >
+              <MdArrowForwardIos />
+            </Button>
+          </Button.Group>
+        </div>
+        {/* pagination end*/}
       </div>
     </div>
   );
