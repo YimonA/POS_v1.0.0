@@ -95,7 +95,7 @@ const Home = () => {
             Quick Actions
           </p>
           <div className=" flex items-stretch justify-between gap-10">
-            <Link to={"/add-product"}>
+            {/* <Link to={"/add-product"}> */}
               <div
                 onClick={() => liHandler("add product")}
                 className="basis-2/5 border-[1px] border-[var(--border-color)] flex items-center gap-5 p-5 rounded-[3px]"
@@ -113,7 +113,7 @@ const Home = () => {
                   </p>
                 </div>
               </div>{" "}
-            </Link>
+            {/* </Link> */}
             <Link to={"/cashier"}>
               <div className="basis-3/5 border-[1px] border-[var(--border-color)] flex items-center gap-5 p-5 rounded-[3px]">
                 <BsShop

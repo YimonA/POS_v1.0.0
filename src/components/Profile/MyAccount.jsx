@@ -1,6 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
-import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { BsClockFill } from "react-icons/bs";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { LuMailOpen } from "react-icons/lu";
@@ -14,18 +13,18 @@ import { removeUser } from "../../redux/services/authSlice";
 import { Loader } from "@mantine/core";
 
 const MyAccount = () => {
-  const { liHandler } = useContextCustom();
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState();
   const [changePassword, setChangePassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const token = Cookies.get("token");
-  const [changeProfilePW,{isLoading}] = useChangeProfilePWMutation();
+  const [changeProfilePW, { isLoading }] = useChangeProfilePWMutation();
   const nav = useNavigate();
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.authSlice.user);
+  const user =JSON.parse(Cookies.get("user"));
+  //console.log('user',user)
 
   const logoutHandler = async () => {
     const data = await logout(token);
@@ -117,8 +116,12 @@ const MyAccount = () => {
               size={"1rem"}
               className="text-[var(--font-color)]"
             />
-            <p onClick={() => setShowChangePassword(false)}
- className="text-white text-[16px] cursor-pointer">Personal</p>
+            <p
+              onClick={() => setShowChangePassword(false)}
+              className="text-white text-[16px] cursor-pointer"
+            >
+              Personal
+            </p>
             <BsInfoCircleFill
               size={"1rem"}
               className="ms-4 text-[var(--font-color)] "
@@ -155,7 +158,6 @@ const MyAccount = () => {
                   htmlFor=""
                   className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
                 >
-                  
                   Change Password
                 </label>
                 <input
@@ -180,13 +182,15 @@ const MyAccount = () => {
                 />
               </div>
               <button className="w-[200px] h-[40px] myBlueBtn font-medium text-[14px] my-5 ms-auto">
-              {isLoading ? (
-            <div className=" flex justify-center items-center gap-2">
-              <Loader color="white" size="xs" />
-              <span>Loading....</span>
-            </div>
-          ) : (
-                'Change Password')}              </button>
+                {isLoading ? (
+                  <div className=" flex justify-center items-center gap-2">
+                    <Loader color="white" size="xs" />
+                    <span>Loading....</span>
+                  </div>
+                ) : (
+                  "Change Password"
+                )}{" "}
+              </button>
             </form>
           ) : (
             <div className=" flex justify-between items-center py-10">

@@ -28,7 +28,7 @@ import {
 } from "../../redux/services/reportSaleSlice";
 
 const SaleReport = () => {
-  const [show, setShow] = useState("monthly");
+  const [show, setShow] = useState("weekly");
   const [vouchers, setVouchers] = useState();
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
@@ -56,11 +56,9 @@ const SaleReport = () => {
 
   // console.log("pdata", pdata?.productInfo);
   // console.log("wddata", mdata);
-  // console.log("ydata", wdata);
   // console.log("mata", ydata);
   // console.log("tdata", tdata);
   // console.log("bdata", bdata);
-  // console.log("monthlyData", monthlyData);
   // console.log("yearlyData", yearlyData);
 
   useEffect(() => {
@@ -93,17 +91,14 @@ const SaleReport = () => {
   }, [wdata]);
   useEffect(() => {
     dispatch(addMonthlySaleReport({ mdata }));
+    console.log("mdata", mdata);
+  console.log("monthlyData", monthlyData);
   }, [mdata]);
   useEffect(() => {
     dispatch(addYearlySaleReport({ ydata }));
-    //   console.log("pdata", pdata?.productInfo);
-    // console.log("wddata", mdata);
-    // console.log("ydata", wdata);
-    // console.log("mata", ydata);
-    // console.log("tdata", tdata);
-    // console.log("bdata", bdata);
   }, [ydata]);
 
+  
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
@@ -313,16 +308,16 @@ const SaleReport = () => {
               Monthly Sales
             </p>
             <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
-              Total {monthlyData?.TotalMonthlySalesAmount.toFixed(2)} k Sales
+              Total {monthlyData?.monthly_sale_total.toFixed(2)} k Sales
             </p>
             <div className="flex items-stretch gap-3">
               <div className="basis-3/5">
-                <SaleTinyBarChart wdata={mdata?.monthly_sales} tag={show} />
+                <SaleTinyBarChart wdata={mdata?.monthly_sale} tag={show} />
               </div>
               <div className="basis-2/5 flex flex-col gap-5">
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
-                    {monthlyData?.MonthlyHighestSale[0]?.highest_sale_month}
+                    {monthlyData?.monthly_highest_sale?.sale_date}
                   </p>
                   <div className="px-3">
                     <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
@@ -332,7 +327,7 @@ const SaleReport = () => {
                         size={"1.3rem"}
                       />
                       <span className=" text-green-500">
-                        {monthlyData?.MonthlyHighestSale[0]?.percentage}
+                        {monthlyData?.monthly_highest_percentage}
                       </span>
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
@@ -409,7 +404,7 @@ const SaleReport = () => {
         )}
 
         {/* yearly sale */}
-        {show === "yearly" ? (
+        {/* {show === "yearly" ? (
           <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
             <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
               Yearly Sales
@@ -501,7 +496,7 @@ const SaleReport = () => {
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </div>
 
       {/* sale week end */}
