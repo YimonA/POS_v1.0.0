@@ -27,7 +27,7 @@ const staffHandler=()=>{
       <div className=" flex gap-2.5 items-center ">
         <BiSolidBellRing size={"1.5rem"}/>
         <PiMoonStarsFill size={"1.7rem"}/>
-        <button onClick={staffHandler}>
+        <button className="hover:bg-zinc-600 border rounded-full" onClick={staffHandler}>
 
         <BiUserCircle size={"1.7rem"}/>
         </button>

@@ -75,7 +75,7 @@ const Sidebar = () => {
             </Accordion.Control>
 
             <Link to={"/cashier"} onClick={() => liHandler("cashier")}>
-              <Accordion.Panel className="accordion-bg li-text w-full">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg accordion-li li-text w-full">
                 <p
                   className={`${
                     sidebarActived === "cashier" && saleClose===false
@@ -89,7 +89,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/recent"} onClick={() => liHandler("recent")}>
-              <Accordion.Panel className="accordion-bg li-text ">
+              <Accordion.Panel className="accordion-bg hover:border-l-4 border-zinc-500 li-text ">
                 <p
                   className={`${
                     sidebarActived === "recent"
@@ -121,7 +121,7 @@ const Sidebar = () => {
               </p>
             </Accordion.Control>
             <Link to={"/products"} onClick={() => liHandler("products")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "products"
@@ -134,10 +134,10 @@ const Sidebar = () => {
                 </p>
               </Accordion.Panel>
             </Link>
-            {/* <Link to={"/add-product"} onClick={addProductHandler}>
-              <Accordion.Panel className="accordion-bg li-text">
+            <Link to={"/add-product"} onClick={addProductHandler} className=" ">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
-                  className={`${
+                  className={` ${
                     sidebarActived === "add product"
                       ? "text-[var(--font-color)]"
                       : "text-[var(--secondary-color)]"
@@ -147,12 +147,12 @@ const Sidebar = () => {
                   Add Product
                 </p>
               </Accordion.Panel>
-            </Link> */}
+            </Link>
             <Link
               to={"/stock-control"}
               onClick={() => liHandler("stock control")}
             >
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "stock control"
@@ -166,7 +166,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={`/brand`} onClick={() => liHandler("brand")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "brand"
@@ -198,7 +198,7 @@ const Sidebar = () => {
               </p>
             </Accordion.Control>
             <Link to={"/report-stock"} onClick={() => liHandler("stock")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "stock"
@@ -212,7 +212,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/report-sale"} onClick={() => liHandler("sale")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "sale"
@@ -244,7 +244,7 @@ const Sidebar = () => {
               </p>
             </Accordion.Control>
             <Link to={"/finance-daily"} onClick={() => liHandler("daily")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "daily"
@@ -258,7 +258,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/finance-monthly"} onClick={() => liHandler("monthly")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "monthly"
@@ -272,7 +272,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/finance-yearly"} onClick={() => liHandler("yearly")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "yearly"
@@ -286,7 +286,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/finance-custom"} onClick={() => liHandler("custom")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "custom"
@@ -319,7 +319,7 @@ const Sidebar = () => {
               to={"/staff-overview"}
               onClick={() => liHandler("staff overview")}
             >
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "staff overview"
@@ -333,7 +333,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/create-staff"} onClick={() => liHandler("staff create")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "staff create"
@@ -347,7 +347,7 @@ const Sidebar = () => {
               </Accordion.Panel>
             </Link>
             <Link to={"/banned-staff"} onClick={() => liHandler("staff banned")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "staff banned"
@@ -401,7 +401,7 @@ const Sidebar = () => {
               </p>
             </Accordion.Control>
             <Link to={"/my-profile"} onClick={() => liHandler("my account")}>
-              <Accordion.Panel className="accordion-bg li-text">
+              <Accordion.Panel className="hover:border-l-4 border-zinc-500 accordion-bg li-text">
                 <p
                   className={`${
                     sidebarActived === "my account"

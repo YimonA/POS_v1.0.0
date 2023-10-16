@@ -16,13 +16,17 @@ const StockOverview = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const token = Cookies.get("token");
-  const { data } = useGetStocksQuery({ token, page });
+  const { data, refetch } = useGetStocksQuery({ token, page });
   const stocks = useSelector((state) => state.stockSlice.stocks);
 
   useEffect(() => {
     dispatch(addStocks({ stocks: data?.data }));
   }, [data]);
+  
   //console.log("data", stocks);
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div>
@@ -178,17 +182,16 @@ const StockOverview = () => {
                         {stock?.total_stock}
                       </td>
                       <td className="px-1 py-4 text-end">
-                        {stock?.total_stock >= 10 ? (
+                        {stock?.total_stock > 10 ? (
                           <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
                             In Stock
                           </p>
-                        ) : null}
-                        {stock?.total_stock <= 10 && stock?.total_stock > 0 ? (
+                        ) : stock?.total_stock <= 10 &&
+                          stock?.total_stock > 0 ? (
                           <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
                             Low Stock
                           </p>
-                        ) : null}
-                        {stock?.total_stock <= 0 ? (
+                        ) : stock?.total_stock <= 0 ? (
                           <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
                             Out of Stock
                           </p>

@@ -97,13 +97,13 @@ const MyAccount = () => {
               </div>
             </div>
             <div className=" flex justify-end items-center gap-5 z-20">
-              <button className="inline-block bg-gray-700 w-10 h-10 p-3 rounded-full cursor-pointer">
+              <button className="hover:bg-zinc-600 inline-block bg-gray-700 w-10 h-10 p-3 rounded-full cursor-pointer">
                 <LuMailOpen
                   size={"1rem"}
                   className="text-[var(--secondary-color)]"
                 />
               </button>
-              <button className="inline-block bg-gray-700 w-10 h-10 p-3 rounded-full cursor-pointer">
+              <button className="hover:bg-zinc-600 inline-block bg-gray-700 w-10 h-10 p-3 rounded-full cursor-pointer">
                 <LuPhoneCall
                   size={"1rem"}
                   className="text-[var(--secondary-color)]"
