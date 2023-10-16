@@ -25,9 +25,9 @@ const EditProductSelectImg = () => {
   };
 
   return (
-    <div className="w-[900px] h-[500px] flex flex-col justify-center items-center gap-10 px-5 ">
+    <div className="w-[700px] h-[420px] flex flex-col justify-center items-center gap-10 px-5 ">
       <div
-        className="h-[400px] flex flex-wrap gap-5 justify-start items-center 
+        className="h-[330px] flex flex-wrap gap-5 justify-center items-start overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-800 
       "
       >
         {/* overflow-y-scroll */}
@@ -76,7 +76,7 @@ const EditProductSelectImg = () => {
         onClick={insertHandler}
         className={`${
           showInsertBtn ? "opacity-100" : "opacity-0"
-        } w-[100px] h-[40px] font-semibold text-[16px] myBlueBtn ml-auto`}
+        } w-[100px] h-[40px] font-semibold text-[16px] myBlueBtn ml-auto mb-5`}
       >
         insert
       </button>

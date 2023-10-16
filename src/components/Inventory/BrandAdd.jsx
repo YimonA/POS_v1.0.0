@@ -70,7 +70,7 @@ const BrandAdd = () => {
   return (
     <div className={`${showBrandAdd ? "" : "delay-[3000ms] hidden"}`}>
       <div
-        className={`sidebar-height bg-[var(--base-color)] p-5 z-20 w-[30%] absolute top-0 border-[3px] border-[var(--border-color)] ease-in-out duration-1000 ${
+        className={`sidebar-height bg-[var(--base-color)] p-5 z-20 w-[320px] mt-[45px] absolute top-0 border-[3px] border-[var(--border-color)] ease-in-out duration-1000 ${
           showBrandAdd ? "right-0 " : "-right-[100%]"
         }`}
       >
