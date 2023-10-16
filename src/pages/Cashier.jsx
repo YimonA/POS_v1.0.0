@@ -130,9 +130,9 @@ dispatch(clearCart());
           <div className=" flex flex-wrap gap-10 p-5 py-10 sidebar-height overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-800 ">
             {
             loading ? (
-              <div className=" flex justify-center items-center gap-2">
+              <div className="w-full h-full flex justify-center items-center gap-2">
                 <Loader color="white" size="xs" />
-                <span>Loading....</span>
+                <span className="text-white">Loading....</span>
               </div>
             ) : (
             products?.map((product) => {

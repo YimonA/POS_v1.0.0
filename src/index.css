@@ -143,7 +143,7 @@ body {
   } */
 
   .li-text {
-    @apply text-sm bg-[var(--sidebar-color)] text-[var(--secondary-color)] font-medium flex justify-start items-center px-5;
+    @apply text-sm bg-[var(--sidebar-color)]  text-[var(--secondary-color)] font-medium flex justify-start items-center px-5;
   }
   .myBtn:hover .myBtnGroup {
     opacity: 1;
@@ -156,10 +156,6 @@ body {
   }
   .accordion-bg {
     @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)] select-none;
-  }
-
-  .accordion-bg:hover {
-    @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)];
   }
 
   .media-img {
