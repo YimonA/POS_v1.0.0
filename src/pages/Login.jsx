@@ -16,7 +16,7 @@ import { useContextCustom } from "../context/stateContext";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
-  const{ setUID}=useContextCustom();
+  const{ setUID,liHandler}=useContextCustom();
   const nav = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
@@ -55,6 +55,8 @@ const Login = () => {
 
                 dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
                 setUID(data?.data?.user?.id)
+                liHandler("overview");
+
                 if (data?.data?.token) {
                   nav("/");
                 }

@@ -27,7 +27,6 @@ import BrandDetail from "../components/Inventory/BrandDetail";
 // import Shop from "../pages/Shop";
 import Cashier from "../pages/Cashier";
 import SaleVoucher from "../pages/SaleVoucher";
-import VoucherDetail from "../pages/VoucherDetail";
 import Recent from "../components/Recent";
 
 import Daily from "../components/Finance/Daily";
@@ -81,7 +80,6 @@ const Path = () => {
 
         {/* sale routes start*/}
         <Route path="/voucher" element={<SaleVoucher />} />
-        <Route path="/voucher-detail" element={<VoucherDetail />} />
         <Route path="/cashier" element={<Cashier />} />
         {/* sale routes end*/}
 

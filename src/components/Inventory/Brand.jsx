@@ -57,6 +57,7 @@ const Brand = () => {
   };
 
   const fetchDataPerPage = async (link) => {
+    try{
     dispatch(clearSearchTerm());
     const data = await axios({
       method: "get",
@@ -66,8 +67,9 @@ const Brand = () => {
     });
     const bData = await JSON.parse(data?.data);
     setBrandData(bData);
-    // console.log("data", data);
-    // console.log("dd", bData);
+  }catch(err){
+    console.log('err',err)
+  }
   };
 
   const rows = brandData?.data?.filter((brand) => {
@@ -81,7 +83,7 @@ const Brand = () => {
   });
 
   return (
-    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 relative">
+    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       <div className=" flex justify-between items-center mb-5">
         <div>
           <p className="breadcrumb-title	">Manage Brand</p>

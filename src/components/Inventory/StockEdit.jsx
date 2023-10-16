@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   useAddStockMutation,
@@ -8,12 +7,12 @@ import Cookies from "js-cookie";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useContextCustom } from "../../context/stateContext";
-import {BsArrowRight} from 'react-icons/bs'
+import { Loader } from "@mantine/core";
 
 const StockEdit = () => {
   const [qty, setQty] = useState();
   const [more, setMore] = useState();
-const {UID}=useContextCustom();
+  const { UID } = useContextCustom();
   const token = Cookies.get("token");
   const { id } = useParams();
   const { data } = useGetSingleStocksQuery({ id, token });
@@ -21,7 +20,7 @@ const {UID}=useContextCustom();
   // const userID = useSelector((state) => state.authSlice.user.id);
   // console.log("id", UID);
   const nav = useNavigate();
-  const [addStock] = useAddStockMutation();
+  const [addStock, { isLoading }] = useAddStockMutation();
 
   useEffect(() => {
     setQty(data?.data?.total_stock);
@@ -53,14 +52,16 @@ const {UID}=useContextCustom();
     >
       <div className=" mb-5 flex justify-between items-center">
         <div>
-        <p className="breadcrumb-title	">Add Stock</p>
-        <p className=" text-[14px] text-white opacity-70  select-none">
-          Inventory / Add Stock
-        </p></div>
-        <Link to={'/stock-control'}>
-        <button className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn">
-          Stock List
-        </button></Link>
+          <p className="breadcrumb-title	">Add Stock</p>
+          <p className=" text-[14px] text-white opacity-70  select-none">
+            Inventory / Add Stock
+          </p>
+        </div>
+        <Link to={"/stock-control"}>
+          <button className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn">
+            Stock List
+          </button>
+        </Link>
       </div>
       <div className="w-[680px] bg-[var(--sidebar-color)] px-10 py-5">
         <form onSubmit={AddStockHandler} className="flex flex-col gap-2 ">
@@ -92,7 +93,14 @@ const {UID}=useContextCustom();
             type="submit"
             className="w-[200px] h-[35px] font-normal text-[14px] myBlueBtn my-6 ms-auto"
           >
-            Add
+            {isLoading ? (
+              <div className=" flex justify-center items-center gap-2">
+                <Loader color="white" size="xs" />
+                <span>Loading....</span>
+              </div>
+            ) : (
+              "Add"
+            )}
           </button>
         </form>
       </div>

@@ -32,7 +32,7 @@ const CreateUserContactInfo = () => {
               type="text"
               value={uPosition}
               onChange={(e) => setUPosition(e.target.value)}
-              placeholder=""
+              placeholder="admin or staff"
               className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
             />
           </div>

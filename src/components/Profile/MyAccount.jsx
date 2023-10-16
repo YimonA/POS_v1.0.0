@@ -11,6 +11,7 @@ import { useChangeProfilePWMutation } from "../../redux/api/profileApi";
 import Cookies from "js-cookie";
 import { useLogoutMutation } from "../../redux/api/authApi";
 import { removeUser } from "../../redux/services/authSlice";
+import { Loader } from "@mantine/core";
 
 const MyAccount = () => {
   const { liHandler } = useContextCustom();
@@ -19,7 +20,7 @@ const MyAccount = () => {
   const [changePassword, setChangePassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const token = Cookies.get("token");
-  const [changeProfilePW] = useChangeProfilePWMutation();
+  const [changeProfilePW,{isLoading}] = useChangeProfilePWMutation();
   const nav = useNavigate();
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
@@ -154,6 +155,7 @@ const MyAccount = () => {
                   htmlFor=""
                   className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
                 >
+                  
                   Change Password
                 </label>
                 <input
@@ -177,9 +179,14 @@ const MyAccount = () => {
                   className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
                 />
               </div>
-              <button className="w-[200px] h-[40px] myBlueBtn font-medium text-[14px] my-5 mx-auto">
-                Change Password
-              </button>
+              <button className="w-[200px] h-[40px] myBlueBtn font-medium text-[14px] my-5 ms-auto">
+              {isLoading ? (
+            <div className=" flex justify-center items-center gap-2">
+              <Loader color="white" size="xs" />
+              <span>Loading....</span>
+            </div>
+          ) : (
+                'Change Password')}              </button>
             </form>
           ) : (
             <div className=" flex justify-between items-center py-10">

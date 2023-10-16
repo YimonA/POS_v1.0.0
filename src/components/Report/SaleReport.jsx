@@ -166,7 +166,7 @@ const SaleReport = () => {
             />
           </span>
           <p className=" text-[42px] font-medium text-[var(--secondary-color)] mb-3 flex justify-between items-center">
-            {todayData?.total_amount}
+          {todayData?Math.round(todayData?.total_amount):null}
             <span className=" text-[16px] font-normal text-[var(--gray-color)]">
               Kyats
             </span>

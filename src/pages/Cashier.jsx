@@ -16,13 +16,15 @@ import {
 } from "../redux/services/cashierSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useVoucherMutation } from "../redux/api/cashierApi";
+import SaleCloseGuard from "./SaleCloseGuard";
+import { Loader } from "@mantine/core";
 
 const Cashier = () => {
   const nav = useNavigate();
-  const [voucher] = useVoucherMutation();
+  const [voucher,{isLoading}] = useVoucherMutation();
   const dispatch = useDispatch();
   const token = Cookies.get("token");
-  const { data } = useGetProductsQuery(token);
+  const { data ,isLoading:loading} = useGetProductsQuery(token);
   const products = useSelector((state) => state.productSlice.products);
   const { cartItems, currentItem, currentQty, tax, totalCost, taxCost } =
     useSelector((state) => state.cashierSlice);
@@ -88,6 +90,8 @@ dispatch(clearCart());
   };
 
   return (
+    <SaleCloseGuard>
+
     <div className="w-full min-h-screen">
       <div className=" flex justify-center items-stretch ">
         {/* left section start*/}
@@ -124,7 +128,14 @@ dispatch(clearCart());
           </div>
           {/* product card start*/}
           <div className=" flex flex-wrap gap-10 p-5 py-10 sidebar-height overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-800 ">
-            {products?.map((product) => {
+            {
+            loading ? (
+              <div className=" flex justify-center items-center gap-2">
+                <Loader color="white" size="xs" />
+                <span>Loading....</span>
+              </div>
+            ) : (
+            products?.map((product) => {
               return (
                 <div
                   key={product?.id}
@@ -150,7 +161,7 @@ dispatch(clearCart());
                   </div>
                 </div>
               );
-            })}
+            }))}
             {/* product card end*/}
           </div>
         </div>
@@ -302,13 +313,21 @@ dispatch(clearCart());
               onClick={paymentHandler}
               className=" w-full h-[60px] border-[1px] border-[var(--border-color)] text-[16px] font-semibold flex justify-center items-center text-[var(--font-color)]"
             >
-              Payment
+              {isLoading ? (
+                <div className=" flex justify-center items-center gap-2">
+                  <Loader color="white" size="xs" />
+                  <span>Loading....</span>
+                </div>
+              ) : (
+              'Payment')}
             </button>
           </div>
           {/* calculator end */}
         </div>
       </div>
     </div>
+     </SaleCloseGuard>
+
   );
 };
 
