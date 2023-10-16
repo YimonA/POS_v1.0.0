@@ -6,12 +6,12 @@ import { useContextCustom } from "../../context/stateContext";
 import { editUserPhoto } from "../../redux/services/userSlice";
 
 const EditUserSelectImg = () => {
-  const { liHandler, setShowModal} = useContextCustom();
+  const { liHandler, setShowModal } = useContextCustom();
   const [showInsertBtn, setShowInsertBtn] = useState(false);
   const [picture, setPicture] = useState();
   const [active, setActive] = useState();
   const imgs = useSelector((state) => state.mediaSlice.photos);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const showBtn = (imgId, imgUrl) => {
     setActive(imgId);
@@ -24,18 +24,18 @@ const EditUserSelectImg = () => {
     setShowModal(false);
   };
 
-  const selectImgHandler=()=>{
+  const selectImgHandler = () => {
     liHandler("media");
     setShowModal(false);
-  }
-
- 
+  };
 
   return (
-    <div className="w-[900px] h-[500px] flex flex-col justify-center items-center gap-10 px-5 ">
-      <div className="h-[400px] flex flex-wrap gap-5 justify-start items-center 
-      ">
-         {/* overflow-y-scroll */}
+    <div className="w-[700px] h-[420px] flex flex-col justify-center items-center gap-10 px-5 ">
+      <div
+        className="h-[330px] flex flex-wrap gap-5 justify-center items-start overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-800
+      "
+      >
+        {/* overflow-y-scroll */}
         {/* Upload img start */}
         <div onClick={selectImgHandler} className=" cursor-pointer">
           <Link to={"/media"}>
@@ -81,7 +81,7 @@ const EditUserSelectImg = () => {
         onClick={insertHandler}
         className={`${
           showInsertBtn ? "opacity-100" : "opacity-0"
-        } w-[100px] h-[40px] font-semibold text-[16px] myBlueBtn ml-auto`}
+        } w-[100px] h-[40px] font-semibold text-[16px] myBlueBtn ml-auto mb-5`}
       >
         insert
       </button>
