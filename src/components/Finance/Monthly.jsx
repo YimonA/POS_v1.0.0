@@ -272,7 +272,7 @@ const Monthly = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?.total_tax}
+              {mRecords?Math.round(mRecords?.total_tax):null}
             </p>
           </div>
           <div
@@ -282,7 +282,7 @@ const Monthly = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?.total}
+              {mRecords?Math.round(mRecords?.total):null}
             </p>
           </div>
         </div>

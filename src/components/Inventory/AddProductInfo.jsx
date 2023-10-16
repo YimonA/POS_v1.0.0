@@ -1,164 +1,74 @@
+import AddProductInfo from "./AddProductInfo";
+import AddProductPrice from "./AddProductPrice";
+import AddProductPhotoUpload from "./AddProductPhotoUpload";
+import ModalCreateProduct from "../ModalCreateProduct";
+import AddProductInfoPreview from "./AddProductInfoPreview";
+import Modal from "../Modal";
+import AddProductSelectImg from "./AddProductSelectImg";
 import { useContextCustom } from "../../context/stateContext";
-import AddProductStepper from "./AddProductStepper";
-import { BsArrowRightShort } from "react-icons/bs";
-import Cookies from "js-cookie";
-// import { useGetBrandsPerPageQuery } from "../../redux/api/brandApi";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { addBrands } from "../../redux/services/logoSlice";
-import { useState } from "react";
-import { useGetBrandsQuery } from "../../redux/api/logoApi";
 
-const AddProductInfo = () => {
-
-  const {
-    productName,
-    setProductName,
-    brand,
-    setBrand,
-    unit,
-    setUnit,
-    productInfo,
+const AddProduct = () => {
+  const { showModal, current, liHandler ,setProductName,setCurrent,
+    setPhoto,
     setProductInfo,
-    stock,
-    setStock,
-    nextStepperHandler,
-  } = useContextCustom();
-  const[page,setPage]=useState(1);
-  const token = Cookies.get("token");
-  const { data } = useGetBrandsQuery(token);
-  // const { data } = useGetBrandsPerPageQuery({page,token});
-
-  const dispatch = useDispatch();
-  const brands = useSelector((state) => state.logoSlice.brands);
-  // console.log("brand", data);
-  // console.log("bbbrand", data);
-
-  useEffect(() => {
-    dispatch(addBrands({ brands: data?.data }));
-  }, [data]);
-
-  const nextHandler = () => {
-    // const ppp=dispatch(addProduct)
-    nextStepperHandler(4);
-  };
-
-  // useMemo(() => {
-  //   console.log("first", brand);
-  // }, [brand]);
+    setActualPrice,
+    setSalePrice,
+    setStock} = useContextCustom();
+  
+  useEffect(()=>{
+    setProductName()
+    setPhoto()
+    setProductInfo()
+    setActualPrice()
+    setSalePrice()
+    setStock()
+    setCurrent(1);
+  },[])
 
   return (
-    <div className=" ">
-      <form
-        onSubmit={nextHandler}
-        action=""
-        className=" flex gap-20 justify-start items-stretch bg-[--base-color]"
-      >
-        <div className=" flex flex-col gap-5 px-14 py-10 w-[680px] h-fit bg-[var(--sidebar-color)]">
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />
-          </div>
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Brand
-            </label>
-            <select
-              name="brand"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              className="brand-dropdown brand-select "
-            >
-              {brands?.map((brand) => {
-                return (
-                  <option
-                    key={brand?.id}
-                    value={brand?.id}
-                    className="brand-dropdown"
-                  >
-                    {brand?.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Stock
-            </label>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              placeholder=""
-              className="w-[380px] h-[50px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />
-          </div>{" "}
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              Unit
-            </label>
-            <select
-              name="unit"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
-              className="brand-dropdown "
-            >
-              <option value="single" className="brand-dropdown brand-option">
-                single
-              </option>
-              <option value="dozen" className="brand-dropdown brand-option">
-                dozen{" "}
-              </option>
-            </select>
-          </div>{" "}
-          <div className=" flex justify-start items-start">
-            <label
-              htmlFor=""
-              className="text-white w-[170px] pt-[2px] h-[24px] text-[16px] font-semibold"
-            >
-              More Info
-            </label>
-            <textarea
-              value={productInfo}
-              onChange={(e) => setProductInfo(e.target.value)}
-              placeholder=""
-              className="w-[380px] h-[100px] px-5 py-1 border-2 rounded-[5px] border-[var(--border-color)] bg-[var(--base-color)] text-[var(--secondary-color)]"
-            />
-          </div>
+    <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
+      {/* Breadcrumg start */}
+      <div className=" flex justify-between items-center mb-20">
+        <div>
+          <p className="breadcrumb-title	">Add Product</p>
+          <p className=" text-[14px] text-white opacity-70  select-none">
+            Inventory / Add Product
+          </p>
         </div>
-        <div className="w-[150px] h-[460px] flex flex-col justify-between items-center">
-          <AddProductStepper />
+        <Link to={"/products"}>
           <button
-            type="submit"
-            // onClick={nextStepperHandler}
-            className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
+            onClick={() => liHandler("products")}
+            className="w-[140px] h-[40px] font-semibold text-[16px] myBlueBtn"
           >
-            Next <BsArrowRightShort size={"1.5rem"} />
+            Product List
           </button>
-        </div>
-      </form>
+        </Link>
+      </div>
+      {/* Breadcrumg end */}
+
+      <div className=" flex gap-20 justify-start items-stretch">
+        {current === 1 ? <AddProductInfo /> : ""}
+        {current === 2 ? <AddProductPrice /> : ""}
+        {current === 3 ? <AddProductPhotoUpload /> : ""}
+        {current === 3 && showModal ? (
+          <Modal
+            title={"Select an image"}
+            modalView={<AddProductSelectImg />}
+          />
+        ) : (
+          ""
+        )}
+        {current === 4 ? <AddProductInfoPreview /> : ""}
+        {current === 4 && showModal ? (
+          <Modal title={"Create Product"} modalView={<ModalCreateProduct />} />
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };
 
-export default AddProductInfo;
+export default AddProduct;

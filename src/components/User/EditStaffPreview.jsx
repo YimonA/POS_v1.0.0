@@ -6,17 +6,21 @@ import { BsArrowRightShort } from "react-icons/bs";
 import { useEditUserMutation } from "../../redux/api/userApi";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
+import { Loader } from "@mantine/core";
 
 const EditStaffPreview = ({ id }) => {
   const { setShowModal } = useContextCustom();
-  const [editUser] = useEditUserMutation();
+  const [editUser,{isLoading}] = useEditUserMutation();
   const token = Cookies.get("token");
   const editUserData = useSelector((state) => state.userSlice.editUser);
 
   const EditStaffHandler = async () => {
+    try{
     const data = await editUser({ user: editUserData, id, token });
     if (data?.data?.message === "User Updated successful") {
       setShowModal(true);
+    }}catch(err){
+      console.log('err',err)
     }
   };
 
@@ -83,10 +87,18 @@ const EditStaffPreview = ({ id }) => {
         <CreateUserStepper />
         <button
           onClick={EditStaffHandler}
-          className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
+          className="w-[150px] h-[40px] myBlueBtn font-medium text-[14px]"
         >
-          Edit <BsArrowRightShort size={"1.5rem"} />
-        </button>
+{isLoading ? (
+            <div className=" flex justify-center items-center gap-2">
+              <Loader color="white" size="xs" />
+              <span>Loading....</span>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center gap-1">
+              <span>Edit</span> <BsArrowRightShort size={"1.5rem"} />
+            </div>
+          )}        </button>
       </div>
 
       {/* Stepper end */}

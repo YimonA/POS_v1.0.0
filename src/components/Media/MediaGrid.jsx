@@ -29,9 +29,6 @@ const MediaGrid = ({ imgs }) => {
   }, [imgs]);
 
   const deletePhotoHandler = async (id) => {
-    const { data } = await deletePhoto({ id, token });
-    // console.log("del", data);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

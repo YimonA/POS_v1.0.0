@@ -16,14 +16,9 @@ import { removeUser } from "../redux/services/authSlice";
 import Cookies from "js-cookie";
 import { useContextCustom } from "../context/stateContext";
 import { TfiStatsUp } from "react-icons/tfi";
-// import { BrandingWatermarkOutlined } from "@mui/icons-material";
 
 const Sidebar = () => {
-  // const theme = useMantineTheme();
-  // const getColor = (color) =>
-  //   theme.colors[color][theme.colorScheme === "dark" ? 5 : 7];
-
-  const { setCurrent, liHandler, sidebarActived,brandPgNum} = useContextCustom();
+  const { setCurrent, liHandler, sidebarActived,saleClose} = useContextCustom();
 
   const token = Cookies.get("token");
   const [logout] = useLogoutMutation();
@@ -83,7 +78,7 @@ const Sidebar = () => {
               <Accordion.Panel className="accordion-bg li-text w-full">
                 <p
                   className={`${
-                    sidebarActived === "cashier"
+                    sidebarActived === "cashier" && saleClose===false
                       ? "text-[var(--font-color)]"
                       : "text-[var(--secondary-color)]"
                   } text-sm font-['Montserrat'] font-medium w-full`}

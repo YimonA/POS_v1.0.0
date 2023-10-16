@@ -8,7 +8,7 @@ const SalePieChart = ({ bdata }) => {
     bdata: PropTypes.object,
   };
   const data = bdata?.brandsInfo;
-  console.log("bdata", bdata?.brandsInfo);
+  //console.log("bdata", bdata?.brandsInfo);
 
   return (
     <div>

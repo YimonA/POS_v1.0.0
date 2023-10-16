@@ -1,3 +1,5 @@
+import React, { useRef } from "react";
+
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
@@ -8,10 +10,11 @@ import { MdArrowForwardIos } from "react-icons/md";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useEffect } from "react";
-// import url from "./table2excel.js";
-const Table2Excel = window.Table2Excel;
-import { jsPDF } from "jspdf";
-import jsPDFInvoiceTemplate from "jspdf-invoice-template";
+
+// import ReactTOPdf from "react-to-pdf";
+// import { DownloadTableExcel } from "react-export-table-to-excel";
+
+// const ref = React.createRef();
 
 const Yearly = () => {
   const token = Cookies.get("token");
@@ -22,6 +25,8 @@ const Yearly = () => {
   const [yRecords, setYRecords] = useState();
   const [yearTag, setYearTag] = useState(null);
   const [exportValue, setExportValue] = useState();
+
+  // const tableRef = useRef(null);
 
   useEffect(() => {
     fetchYearData();
@@ -86,145 +91,14 @@ const Yearly = () => {
     }
   };
 
-  const exporExceltHandler = () => {
-    var table2excel = new Table2Excel();
-    table2excel.export(document.querySelectorAll("#daily-table"));
-  };
-
   const exportHandler = (value) => {
     setExportValue(value);
     console.log("ev", exportValue);
     if (exportValue === "Excel") {
-      exporExceltHandler();
     } else if (exportValue === "print") {
       window.print();
     } else if (exportValue === "PDF") {
-      exportPDF();
     }
-  };
-
-  const exportPDF = () => {
-    const pdfObject = jsPDFInvoiceTemplate(props);
-    // var pdfObject = jsPDFInvoiceTemplate.default(props); //returns number of pages created
-    console.log("pdfObject", pdfObject);
-    var props = {
-      // outputType: OutputType.Save,
-      returnJsPDFDocObject: true,
-      fileName: "Invoice 2021",
-      orientationLandscape: false,
-      compress: true,
-      logo: {
-        src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png",
-        type: "PNG", //optional, when src= data:uri (nodejs case)
-        width: 53.33, //aspect ratio = width/height
-        height: 26.66,
-        margin: {
-          top: 0, //negative or positive num, from the current position
-          left: 0, //negative or positive num, from the current position
-        },
-      },
-      stamp: {
-        inAllPages: true, //by default = false, just in the last page
-        src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-        type: "JPG", //optional, when src= data:uri (nodejs case)
-        width: 20, //aspect ratio = width/height
-        height: 20,
-        margin: {
-          top: 0, //negative or positive num, from the current position
-          left: 0, //negative or positive num, from the current position
-        },
-      },
-      business: {
-        name: "MMS",
-        address: "Albania, Tirane ish-Dogana, Durres 2001",
-        phone: "(+355) 069 11 11 111",
-        email: "email@example.com",
-        email_1: "info@example.al",
-        website: "www.example.al",
-      },
-      contact: {
-        label: "Invoice issued for:",
-        name: "Moe Moe",
-        address: "Albania, Tirane, Astir",
-        phone: "(+355) 069 22 22 222",
-        email: "moemoe@website.al",
-        otherInfo: "www.website.al",
-      },
-      invoice: {
-        label: "Invoice #: ",
-        num: 19,
-        headerBorder: false,
-        tableBodyBorder: false,
-        header: [
-          {
-            title: "#",
-            style: {
-              width: 10,
-            },
-          },
-          {
-            title: "Title",
-            style: {
-              width: 30,
-            },
-          },
-          {
-            title: "Description",
-            style: {
-              width: 80,
-            },
-          },
-          { title: "Price" },
-          { title: "Quantity" },
-          { title: "Unit" },
-          { title: "Total" },
-        ],
-        table: Array.from(
-          Array(yRecords?.yearly_sale_overviews?.data.length),
-          (item, index) => [
-            index + 1,
-            "There are many variations ",
-            "Lorem Ipsum is simply dummy text dummy text ",
-            200.5,
-            4.5,
-            "m2",
-            400.5,
-          ]
-        ),
-        additionalRows: [
-          {
-            col1: "Total:",
-            col2: "145,250.50",
-            col3: "ALL",
-            style: {
-              fontSize: 14, //optional, default 12
-            },
-          },
-          {
-            col1: "VAT:",
-            col2: "20",
-            col3: "%",
-            style: {
-              fontSize: 10, //optional, default 12
-            },
-          },
-          {
-            col1: "SubTotal:",
-            col2: "116,199.90",
-            col3: "ALL",
-            style: {
-              fontSize: 10, //optional, default 12
-            },
-          },
-        ],
-        invDescLabel: "Invoice Note",
-        invDesc:
-          "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
-      },
-      footer: {
-        text: "The invoice is created on a computer and is valid without the signature and stamp.",
-      },
-    };
   };
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
@@ -309,7 +183,19 @@ const Yearly = () => {
         </div>
       </div>
       {/* showList start */}
-      <table className="w-full text-gray-300 border border-gray-700 text-sm mb-20 daily-table">
+      {/* <DownloadTableExcel
+        filename="users table"
+        sheet="users"
+        currentTableRef={tableRef.current}
+      >
+        <button> Export excel </button>
+      </DownloadTableExcel> */}
+
+      <table
+        className="pdf_container w-full text-gray-300 border border-gray-700 text-sm mb-20 daily-table"
+        // ref={ref}  
+        // tblref={tableRef}
+      >
         <thead>
           <tr className="">
             <th className=" py-4 border-b text-center border-gray-600 px-1 uppercase font-medium">
@@ -361,6 +247,13 @@ const Yearly = () => {
             </tr>
           )}
         </tbody>
+        {/* <ReactTOPdf targetRef={ref}>
+          {({ toPdf }) => (
+            <button onClick={toPdf} className="get_started">
+              Download
+            </button>
+          )}
+        </ReactTOPdf> */}
       </table>
       {/* showList end */}
 
@@ -405,7 +298,9 @@ const Yearly = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total_tax?Math.round(yRecords?.yearly_total_sale_overview?.total_tax):null}
+              {yRecords?.yearly_total_sale_overview?.total_tax
+                ? Math.round(yRecords?.yearly_total_sale_overview?.total_tax)
+                : null}
             </p>
           </div>
           <div
@@ -415,7 +310,7 @@ const Yearly = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total}
+              {yRecords?Math.round(yRecords?.yearly_total_sale_overview?.total):null}
             </p>
           </div>
         </div>

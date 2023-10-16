@@ -9,11 +9,12 @@ import { useSelector } from "react-redux";
 import { editProductBrandID } from "../../redux/services/productSlice";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Loader } from "@mantine/core";
 
 const EditProductInfoPreview = ({ productId }) => {
   const [bName, setBName] = useState();
   const { setShowModal } = useContextCustom();
-  const [editProduct] = useEditProductMutation();
+  const [editProduct,{isLoading}] = useEditProductMutation();
   const token = Cookies.get("token");
   const editProductData = useSelector(
     (state) => state.productSlice.editProduct
@@ -125,10 +126,18 @@ const EditProductInfoPreview = ({ productId }) => {
         <AddProductStepper />
         <button
           onClick={editProductHandler}
-          className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
+          className="w-[140px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
-          Edit <BsArrowRightShort size={"1.5rem"} />
-        </button>
+{isLoading ? (
+            <div className=" flex justify-center items-center gap-2">
+              <Loader color="white" size="xs" />
+              <span>Loading....</span>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center gap-1">
+              <span>Edit</span> <BsArrowRightShort size={"1.5rem"} />
+            </div>
+          )}        </button>
       </div>
 
       {/* Stepper end */}

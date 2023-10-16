@@ -3,14 +3,15 @@ import {  useNavigate } from "react-router-dom";
 import { FiFolderPlus } from "react-icons/fi";
 
 const ModalSaleClose = () => {
-  const { liHandler,setShowModal} = useContextCustom();
+  const { liHandler,setShowModal,setSaleClose} = useContextCustom();
   const nav=useNavigate();
   
-    const seeAll=()=>{
-      liHandler("products");
-      setShowModal(false);
-      nav('/products')
-    }  
+  const salCloseHandler=()=>{
+    setSaleClose(true);
+    setShowModal(false);
+    liHandler("overview");
+    nav('/');
+  }
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-10">
       <div className=" w-[150px] h-[150px] rounded-full bg-[var(--base-color)] flex justify-center items-center">
@@ -29,7 +30,7 @@ const ModalSaleClose = () => {
           Cancle
         </button>
           <button
-            onClick={seeAll}
+            onClick={salCloseHandler}
             className="w-[150px] h-[40px] font-medium text-[14px] bg-[var(--secondary-color)] text-[var(--base-color)] border-[1px] border-[var(--border-color)] rounded-[5px]"
           >
             Yes, close

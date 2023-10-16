@@ -5,6 +5,7 @@ import AddProductStepper from "./AddProductStepper";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useCreateProductMutation } from "../../redux/api/productApi";
 import Cookies from "js-cookie";
+import { Loader } from "@mantine/core";
 
 const AddProductInfoPreview = () => {
   const {
@@ -18,7 +19,7 @@ const AddProductInfoPreview = () => {
     photo,
     setShowModal,
   } = useContextCustom();
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const createProductHandler = async () => {
     const token = Cookies.get("token");
@@ -110,9 +111,18 @@ const AddProductInfoPreview = () => {
         <AddProductStepper />
         <button
           onClick={createProductHandler}
-          className="w-[110px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
+          className="w-[140px] h-[40px] myBlueBtn font-medium text-[14px] flex justify-center items-center gap-2"
         >
-          Create <BsArrowRightShort size={"1.5rem"} />
+          {isLoading ? (
+            <div className=" flex justify-center items-center gap-2">
+              <Loader color="white" size="xs" />
+              <span>Loading....</span>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center gap-1">
+              <span>Create</span> <BsArrowRightShort size={"1.5rem"} />
+            </div>
+          )}{" "}
         </button>
       </div>
 

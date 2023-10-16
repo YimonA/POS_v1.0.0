@@ -7,10 +7,30 @@ import Modal from "../Modal";
 import AddProductSelectImg from "./AddProductSelectImg";
 import { useContextCustom } from "../../context/stateContext";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const AddProduct = () => {
-  const { showModal, current, liHandler } = useContextCustom();
+  const { showModal, current, liHandler ,setProductName,setCurrent,
+    setPhoto,
+    setBrand,
+    setUnit,
+    setProductInfo,
+    setActualPrice,
+    setSalePrice,
+    setStock} = useContextCustom();
   
+  useEffect(()=>{
+    setProductName()
+    setPhoto()
+    setBrand()
+    setUnit()
+    setProductInfo()
+    setActualPrice()
+    setSalePrice()
+    setStock()
+    setCurrent(1);
+  },[])
+
   return (
     <div className=" container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}

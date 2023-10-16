@@ -12,6 +12,7 @@ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import BrandEditSelectImg from "./BrandEditSelectImg";
 import Modal from "../Modal";
+import { Loader } from "@mantine/core";
 
 const BrandEdit = () => {
   const { setShowModal, showModal, editBrandPhoto, setEditBrandPhoto } =
@@ -28,7 +29,7 @@ const BrandEdit = () => {
   const { data } = useGetSinglBrandQuery({ id, token });
 
   const nav = useNavigate();
-  const [editBrand] = useEditBrandMutation();
+  const [editBrand, { isLoading }] = useEditBrandMutation();
 
   // console.log("data", data?.data);
 
@@ -58,7 +59,7 @@ const BrandEdit = () => {
         description,
         agent,
         phone_no: phone,
-        photo:editBrandPhoto,
+        photo: editBrandPhoto,
       };
       // console.log("newData", newData);
       const response = await editBrand({
@@ -163,7 +164,14 @@ const BrandEdit = () => {
             type="submit"
             className="w-[200px] h-[35px] font-normal text-[14px] myBlueBtn my-6 ms-auto"
           >
-            Edit
+            {isLoading ? (
+              <div className=" flex justify-center items-center gap-2">
+                <Loader color="white" size="xs" />
+                <span>Loading....</span>
+              </div>
+            ) : (
+              "Edit"
+            )}
           </button>
         </form>
       </div>

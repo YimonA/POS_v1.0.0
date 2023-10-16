@@ -8,6 +8,7 @@ export const StateContextProvider = ({ children }) => {
     children: PropTypes.any,
   };
 
+  const[saleClose,setSaleClose]=useState(false);
   const [showModal, setShowModal] = useState();
   const [current, setCurrent] = useState(1);
   // for add product
@@ -59,7 +60,7 @@ const[stockProductID,setStockProductID]=useState();
 const[addBrandPhoto,setAddBrandPhoto]=useState();
 
 // const[editProduct,setEditProduct]=useState();
-  const data = {
+  const data = {saleClose,setSaleClose,
     UID, setUID,
 
     productName,
