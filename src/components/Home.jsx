@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useGetPhotoQuery } from "../redux/api/mediaApi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addPhotos } from "../redux/services/mediaSlice";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsShop } from "react-icons/bs";
@@ -20,6 +20,7 @@ import { useGetOverviewQuery } from "../redux/api/overviewApi";
 import { addOverview } from "../redux/services/overviewSlice";
 
 const Home = () => {
+  const [show, setShow] = useState("monthly");
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
   const { data: overviewData } = useGetOverviewQuery(token);
@@ -95,7 +96,7 @@ const Home = () => {
             Quick Actions
           </p>
           <div className=" flex items-stretch justify-between gap-10">
-            {/* <Link to={"/add-product"}> */}
+            <Link to={"/add-product"}>
               <div
                 onClick={() => liHandler("add product")}
                 className="basis-2/5 border-[1px] border-[var(--border-color)] flex items-center gap-5 p-5 rounded-[3px]"
@@ -112,8 +113,8 @@ const Home = () => {
                     stock update
                   </p>
                 </div>
-              </div>{" "}
-            {/* </Link> */}
+              </div>
+            </Link>
             <Link to={"/cashier"}>
               <div className="basis-3/5 border-[1px] border-[var(--border-color)] flex items-center gap-5 p-5 rounded-[3px]">
                 <BsShop
@@ -147,22 +148,38 @@ const Home = () => {
             <p className="breadcrumb-title w-fit">Monthly Sales</p>
 
             {/* btn group start */}
-            <Button.Group className="w-[50%] border-[--border-color] flex justify-end basis-1/3">
+
+            <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
               <Button
+                onClick={() => setShow("yearly")}
                 variant="default"
-                className=" text-[var(--font-color)] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+                className={`${
+                  show === "yearly"
+                    ? " text-[--font-color]"
+                    : " text-[--secondary-color]"
+                } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
               >
                 Year
               </Button>
               <Button
+                onClick={() => setShow("monthly")}
                 variant="default"
-                className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+                className={`${
+                  show === "monthly"
+                    ? " text-[--font-color]"
+                    : " text-[--secondary-color]"
+                } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
               >
                 Month
               </Button>
               <Button
+                onClick={() => setShow("weekly")}
                 variant="default"
-                className=" text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]"
+                className={`${
+                  show === "weekly"
+                    ? " text-[--font-color]"
+                    : " text-[--secondary-color]"
+                }  text-[--font-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
               >
                 week
               </Button>
@@ -170,8 +187,7 @@ const Home = () => {
             {/* btn group end */}
           </div>
           {/* Breadcrumgbend */}
-
-          <SaleLineChart oData={oData} />
+          <SaleLineChart oData={oData} tag={show} />
         </div>
         <div className=" basis-1/3 px-5">
           <p className=" text-[24px] text-[var(--secondary-color)] mb-3">
@@ -185,10 +201,10 @@ const Home = () => {
             />
             <div>
               <p className="font-normal text-[16px] text-[var(--secondary-color)]">
-                45,675,20{" "}
+                45,675,20
               </p>
               <p className="font-normal text-[12px] text-[var(--gray-color)]">
-                Total Profit{" "}
+                Total Profit
               </p>
             </div>
           </div>
@@ -199,10 +215,10 @@ const Home = () => {
             />
             <div>
               <p className="font-normal text-[16px] text-[var(--secondary-color)]">
-                42,456,20{" "}
+                42,456,20
               </p>
               <p className="font-normal text-[12px] text-[var(--gray-color)]">
-                Total Income{" "}
+                Total Income
               </p>
             </div>
           </div>
@@ -221,6 +237,7 @@ const Home = () => {
               </p>
             </div>
           </div>
+
           <Link to={"/report-sale"}>
             <button
               onClick={() => liHandler("sale")}

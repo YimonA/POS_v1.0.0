@@ -1,7 +1,6 @@
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -35,17 +34,19 @@ const SaleTinyBarChart = ({ wdata,tag }) => {
         <CartesianGrid strokeDasharray="3 3" />
         {tag==="weekely"?
         <>
-        <XAxis dataKey="dayName"/>
+        <XAxis dataKey="sale_date"/>
         <YAxis dataKey="total" /></>:''}
 
         {tag==="monthly"?
         <>
-        <XAxis dataKey="month"/>
+        <XAxis 
+        // dataKey="sale_date"
+        />
         <YAxis dataKey="total" /></>:''}
 
         {tag==="yearly"?
         <>
-        <XAxis dataKey="year"/>
+        <XAxis dataKey="month"/>
         <YAxis dataKey="total" /></>:''}
         <Tooltip />
         <Legend />
@@ -56,4 +57,3 @@ const SaleTinyBarChart = ({ wdata,tag }) => {
 };
 
 export default SaleTinyBarChart;
-        //dayName

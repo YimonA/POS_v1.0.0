@@ -56,7 +56,7 @@ const Products = () => {
               Go to Shop
             </button>
           </Link>
-          {/* <Link to={"/add-product"}> */}
+          <Link to={"/add-product"}>
             <button
               onClick={() => liHandler("add product")}
               className="w-[170px] h-[40px] font-semibold text-[16px] myBlueBtn flex items-center justify-center gap-2"
@@ -64,7 +64,7 @@ const Products = () => {
               <BsPlusLg size={"1.3rem"} />
               Add Product
             </button>
-          {/* </Link> */}
+          </Link>
         </div>
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
