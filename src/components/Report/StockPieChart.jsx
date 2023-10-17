@@ -1,36 +1,34 @@
 import { PieChart, Pie, Cell } from "recharts";
 import PropTypes from "prop-types";
 import { IoIosArrowUp } from "react-icons/io";
-import { useState } from "react";
 
 const COLORS = ["#8AB4F8", "#56CA00", "#aa4d64", "#e8eaed", "#6a88b8"];
-
+const colors=[
+  "bg-[#8AB4F8]",
+  "bg-[#56CA00]",
+  "bg-[#aa4d64]",
+  "bg-[#e8eaed]",
+  "bg-[#6a88b8]",
+]
 
 const StockPieChart = ({ weekelyBrand }) => {
   StockPieChart.propTypes = {
     weekelyBrand: PropTypes.array,
   };
-  const w = weekelyBrand;
-
-  const [colors, setColors] = useState([
-    "bg-[#8AB4F8]",
-    "bg-[#56CA00]",
-    "bg-[#aa4d64]",
-    "bg-[#e8eaed]",
-    "bg-[#6a88b8]",
-  ]);
-  const [data, setData] = useState(
-    [...weekelyBrand].sort((a, b) => b.total_brand_sale - a.total_brand_sale)
-  );
-
-  console.log("weekelyBrand", weekelyBrand);
-  console.log("w", data);
+  const data = weekelyBrand;
+  //  const [colors, setColors] = useState([
+  //   "bg-[#8AB4F8]",
+  //   "bg-[#56CA00]",
+  //   "bg-[#aa4d64]",
+  //   "bg-[#e8eaed]",
+  //   "bg-[#6a88b8]",
+  // ]);
 
   return (
     <div className="h-[240px] flex justify-start items-stretch py-3">
       <PieChart width={300} height={210} className="">
         <Pie
-          data={data?.slice(0, 4)}
+          data={data}
           cx={120}
           cy={110}
           innerRadius={50}
@@ -40,7 +38,7 @@ const StockPieChart = ({ weekelyBrand }) => {
           dataKey="total_brand_sale"
           className=" mx-auto inline-block"
         >
-          {data?.slice(0, 4)?.map((entry, index) => (
+          {data?.map((entry, index) => (
             <Cell
               key={`cell-${entry?.total_brand_sale}`}
               fill={COLORS[index]}
@@ -49,7 +47,7 @@ const StockPieChart = ({ weekelyBrand }) => {
         </Pie>
       </PieChart>
       <div className=" w-full h-full flex flex-col justify-center items-center gap-2 ">
-        {data?.slice(0, 4)?.map((wbrand, index) => {
+        {data?.map((wbrand, index) => {
           return (
             <div
               key={index}

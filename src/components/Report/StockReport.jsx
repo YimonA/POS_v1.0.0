@@ -38,10 +38,8 @@ const StockReport = () => {
     (state) => state.reportStockSlice.stockReport
   );
 
-   //console.log("weekelyBestBrands", weekelyBestBrands);
   // console.log("brandReport", brandReport);
   // console.log("stockReport", stockReport);
-  // console.log("weekelyBestBrands", brandReportData);
    //console.log("brandReport", bBData);
   // console.log("stockReport", stockReport);
 
@@ -50,13 +48,18 @@ const StockReport = () => {
   }, [stockReport]);
 
   useEffect(() => {
-    dispatch(addWeekelyBestBrands({ bBData }));
+    if(bBData){
+      const sortD=[...bBData].sort((a, b) => b.total_brand_sale - a.total_brand_sale).slice(0,4);
+      // console.log('ss',sortD)
+      dispatch(addWeekelyBestBrands(sortD));
+    }
   }, [bBData]);
 
   useEffect(() => {
     dispatch(addBrandReport({ brandReportData }));
   }, [brandReportData]);
 
+  //console.log("weekelyBestBrands", weekelyBestBrands);
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
