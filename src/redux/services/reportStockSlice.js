@@ -14,7 +14,7 @@ export const reportStockSlice = createSlice({
       state.stockReport = payload.stockReport;
     },
     addWeekelyBestBrands: (state, { payload }) => {
-      state.weekelyBestBrands = payload.bBData;
+      state.weekelyBestBrands = payload;
     },
     addBrandReport: (state, { payload }) => {
       state.brandReport = payload.brandReportData;
