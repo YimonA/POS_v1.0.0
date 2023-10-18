@@ -12,7 +12,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { useState } from "react";
 
 const StockOverview = () => {
-  const [sortValue, setSortValue] = useState();
+  const [sortValue, setSortValue] = useState("in-stock");
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const token = Cookies.get("token");
@@ -22,11 +22,20 @@ const StockOverview = () => {
   useEffect(() => {
     dispatch(addStocks({ stocks: data?.data }));
   }, [data]);
-  
-  //console.log("data", stocks);
+  console.log("data", stocks);
   useEffect(() => {
+    instock();
     refetch();
   }, []);
+
+  const instock = () => {
+    if(stocks){
+    if (sortValue === "in-stock") {
+      return [...stocks].sort((a, b) => b.total_stock - a.total_stock);
+    } else {
+      return [...stocks].sort((a, b) => a.total_stock - b.total_stock);
+    }}
+  };
 
   return (
     <div>
@@ -94,189 +103,58 @@ const StockOverview = () => {
           </tr>
         </thead>
         <tbody className=" text-gray-100">
-          {sortValue == "low-stock"
-            ? [...stocks]
-                .sort((a, b) => a.total_stock - b.total_stock)
-                .map((stock, index) => {
-                  return (
-                    <tr
-                      key={stock?.id}
-                      className=" border-b border-b-gray-700 cursor-pointer"
-                    >
-                      <td className="px-1 text-center  py-4">{index + 1}</td>
-                      <td className="px-1 text-end py-4 ">
-                        {stock?.product_name}
-                      </td>
-                      <td className="px-1 text-end py-4">
-                        {stock?.brand_name}
-                      </td>
-                      <td className="px-1 py-4 text-end">{stock?.unit}</td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.sale_price}
-                      </td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.total_stock}
-                      </td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.total_stock >= 10 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
-                            In Stock
-                          </p>
-                        ) : null}
-                        {stock?.total_stock <= 10 && stock?.total_stock > 0 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
-                            Low Stock
-                          </p>
-                        ) : null}
-                        {stock?.total_stock <= 0 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
-                            Out of Stock
-                          </p>
-                        ) : null}
-                      </td>
-                      <td>
-                        <div className="me-20 flex justify-end items-center gap-2 z-20">
-                          <Link to={`/stock-add/${stock?.id}`}>
-                            <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                              <BsPlusLg
-                                size={"1.3rem"}
-                                className="text-[var(--secondary-color)]"
-                              />
-                            </button>
-                          </Link>
-                          <Link to={`/stock-detail/${stock?.id}`}>
-                            <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                              <BsArrowRight
-                                size={"1rem"}
-                                className="text-[var(--secondary-color)]"
-                              />
-                            </button>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-            : null}
-          {sortValue == "in-stock"
-            ? [...stocks]
-                .sort((a, b) => b.total_stock - a.total_stock)
-                .map((stock, index) => {
-                  return (
-                    <tr
-                      key={stock?.id}
-                      className=" border-b border-b-gray-700 cursor-pointer"
-                    >
-                      <td className="px-1 text-center  py-4">{index + 1}</td>
-                      <td className="px-1 text-end py-4 ">
-                        {stock?.product_name}
-                      </td>
-                      <td className="px-1 text-end py-4">
-                        {stock?.brand_name}
-                      </td>
-                      <td className="px-1 py-4 text-end">{stock?.unit}</td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.sale_price}
-                      </td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.total_stock}
-                      </td>
-                      <td className="px-1 py-4 text-end">
-                        {stock?.total_stock > 10 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
-                            In Stock
-                          </p>
-                        ) : stock?.total_stock <= 10 &&
-                          stock?.total_stock > 0 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
-                            Low Stock
-                          </p>
-                        ) : stock?.total_stock <= 0 ? (
-                          <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
-                            Out of Stock
-                          </p>
-                        ) : null}
-                      </td>
-                      <td>
-                        <div className="me-20 flex justify-end items-center gap-2 z-20">
-                          <Link to={`/stock-add/${stock?.id}`}>
-                            <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                              <BsPlusLg
-                                size={"1.3rem"}
-                                className="text-[var(--secondary-color)]"
-                              />
-                            </button>
-                          </Link>
-                          <Link to={`/stock-detail/${stock?.id}`}>
-                            <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                              <BsArrowRight
-                                size={"1rem"}
-                                className="text-[var(--secondary-color)]"
-                              />
-                            </button>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-            : null}
-          {sortValue !== "low-stock" && sortValue !== "in-stock"
-            ? stocks?.map((stock, index) => {
-                return (
-                  <tr
-                    key={stock?.id}
-                    className=" border-b border-b-gray-700 cursor-pointer"
-                  >
-                    <td className="px-1 text-center  py-4">{index + 1}</td>
-                    <td className="px-1 text-end py-4 ">
-                      {stock?.product_name}
-                    </td>
-                    <td className="px-1 text-end py-4">{stock?.brand_name}</td>
-                    <td className="px-1 py-4 text-end">{stock?.unit}</td>
-                    <td className="px-1 py-4 text-end">{stock?.sale_price}</td>
-                    <td className="px-1 py-4 text-end">{stock?.total_stock}</td>
-                    <td className="px-1 py-4 text-end">
-                      {stock?.total_stock >= 10 ? (
-                        <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
-                          In Stock
-                        </p>
-                      ) : null}
-                      {stock?.total_stock <= 10 && stock?.total_stock > 0 ? (
-                        <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
-                          Low Stock
-                        </p>
-                      ) : null}
-                      {stock?.total_stock <= 0 ? (
-                        <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
-                          Out of Stock
-                        </p>
-                      ) : null}
-                    </td>
-                    <td>
-                      <div className="me-20 flex justify-end items-center gap-2 z-20">
-                        <Link to={`/stock-add/${stock?.id}`}>
-                          <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
-                            <BsPlusLg
-                              size={"1.3rem"}
-                              className="text-[var(--secondary-color)]"
-                            />
-                          </button>
-                        </Link>
-                        <Link to={`/stock-detail/${stock?.id}`}>
-                          <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
-                            <BsArrowRight
-                              size={"1rem"}
-                              className="text-[var(--secondary-color)]"
-                            />
-                          </button>
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
+          {instock()?.map((stock, index) => {
+            return (
+              <tr
+                key={stock?.id}
+                className=" border-b border-b-gray-700 cursor-pointer"
+              >
+                <td className="px-1 text-center  py-4">{index + 1}</td>
+                <td className="px-1 text-end py-4 ">{stock?.product_name}</td>
+                <td className="px-1 text-end py-4">{stock?.brand_name}</td>
+                <td className="px-1 py-4 text-end">{stock?.unit}</td>
+                <td className="px-1 py-4 text-end">{stock?.sale_price}</td>
+                <td className="px-1 py-4 text-end">{stock?.total_stock}</td>
+                <td className="px-1 py-4 text-end">
+                  {stock?.total_stock >= 10 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#56CA00] text-[#56CA00] bg-[#B4F88A33]">
+                      In Stock
+                    </p>
+                  ) : null}
+                  {stock?.total_stock <= 10 && stock?.total_stock > 0 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border border-[#F8CE8A] text-[#F8CE8A] bg-[#7b5c2b33]">
+                      Low Stock
+                    </p>
+                  ) : null}
+                  {stock?.total_stock <= 0 ? (
+                    <p className="ms-auto w-32 py-1 text-center rounded-full border-2 border-[#fa311f] text-[#fa311f] bg-[#b45c2b40]">
+                      Out of Stock
+                    </p>
+                  ) : null}
+                </td>
+                <td>
+                  <div className="me-20 flex justify-end items-center gap-2 z-20">
+                    <Link to={`/stock-add/${stock?.id}`}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-1 rounded-full cursor-pointer">
+                        <BsPlusLg
+                          size={"1.3rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                    </Link>
+                    <Link to={`/stock-detail/${stock?.id}`}>
+                      <button className="inline-block bg-gray-700 w-8 h-8 p-2 rounded-full cursor-pointer">
+                        <BsArrowRight
+                          size={"1rem"}
+                          className="text-[var(--secondary-color)]"
+                        />
+                      </button>
+                    </Link>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* stock table end */}
