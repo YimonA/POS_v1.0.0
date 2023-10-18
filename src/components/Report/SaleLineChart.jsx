@@ -10,7 +10,6 @@ import {
 import PropTypes from "prop-types";
 import { PureComponent, useEffect, useState } from "react";
 
-
 const SaleLineChart = ({ oData, tag }) => {
   SaleLineChart.propTypes = {
     oData: PropTypes.object,
@@ -28,13 +27,13 @@ const SaleLineChart = ({ oData, tag }) => {
 
   function graphHandler() {
     if (tag === "weekly") {
-      const data = oData?.weekely_sales;
+      const data = oData?.total_sales;
       setData(data);
     } else if (tag === "monthly") {
-      const data = oData?.monthly_sales;
+      const data = oData?.total_sales;
       setData(data);
     } else if (tag === "yearly") {
-      const data = oData?.yearly_sales;
+      const data = oData?.total_sales;
       setData(data);
     }
   }
@@ -56,15 +55,19 @@ const SaleLineChart = ({ oData, tag }) => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           {tag === "weeekly" ? (
-            <XAxis dataKey="sale_date" />
+            <XAxis
+            // dataKey="sale_date"
+            />
           ) : tag === "monthly" ? (
-            <XAxis 
-            // dataKey='sale_date' 
+            <XAxis
+            // dataKey='sale_date'
             />
           ) : tag === "yearly" ? (
-            <XAxis dataKey="month" />
+            <XAxis
+            // dataKey="sale_date"
+            />
           ) : null}
-          <YAxis />
+          <YAxis dataKey="total" />
           <Tooltip />
           <Line
             type="monotone"

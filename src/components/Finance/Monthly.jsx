@@ -10,7 +10,7 @@ import axios from "axios";
 
 const Monthly = () => {
   const { liHandler } = useContextCustom();
-  const [sortValue, setSortValue] = useState();
+  // const [sortValue, setSortValue] = useState();
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [monthContainer, setMonthContainer] = useState([
@@ -31,7 +31,7 @@ const Monthly = () => {
   const [monthTag, setMonthTag] = useState(null);
   const [mRecords, setMRecords] = useState(null);
   const [allYear, setAllYear] = useState();
-  const [exportValue, setExportValue] = useState();
+  // const [exportValue, setExportValue] = useState();
 
   useEffect(() => {
     fetchYearData();
@@ -49,39 +49,40 @@ const Monthly = () => {
   };
 
   const fetchData = async () => {
-    const { data } = await axios({
+    const {data} = await axios({
       method: "get",
       url: `https://h.mmsdev.site/api/v1/monthly_sale_record?month=${month}&year=${year}&page=1`,
       headers: { authorization: `Bearer ${token}` },
       responseType: "finance",
     });
     const mdata = JSON.parse(data);
-    setMRecords(mdata?.data);
-    setMonthTag(mdata?.data.monthly_sale_overview[0]?.date);
-    // console.log("data", data);
+    console.log("mdata", mdata);
+    setMRecords(mdata);
+    setMonthTag(monthContainer[month-1]);
     // console.log("monthTag", monthTag.slice(3, monthTag.length));
   };
 
   const pageChange = async (link) => {
-    const { data } = await axios({
+    const {data} = await axios({
       method: "get",
       url: link,
       headers: { authorization: `Bearer ${token}` },
       responseType: "finance",
     });
     const mdata = JSON.parse(data);
-    setMRecords(mdata?.data);
+    // console.log('mdata')
+    setMRecords(mdata);
     // setMonthTag(mdata?.data.monthly_sale_overview[0]?.date);
   };
 
   const next = () => {
-    if (mRecords?.next_page_url) {
-      pageChange(mRecords?.next_page_url);
+    if (mRecords?.links?.next) {
+      pageChange(mRecords?.links?.next);
     }
   };
   const prev = () => {
-    if (mRecords?.prev_page_url) {
-      pageChange(mRecords?.prev_page_url);
+    if (mRecords?.links?.prev) {
+      pageChange(mRecords?.links?.prev);
     }
   };
 
@@ -108,7 +109,7 @@ const Monthly = () => {
 
       <div className=" flex justify-between items-center py-5">
         <p className="breadcrumb-title	">
-          {monthTag ? monthTag.slice(3, monthTag.length) : "Monthly"} Sale
+          {monthTag ? monthTag : "Monthly"} Sale
           Overview
         </p>
         <div className=" flex items-baseline gap-4">
@@ -207,8 +208,8 @@ const Monthly = () => {
           </tr>
         </thead>
         <tbody>
-          {mRecords?.monthly_sale_overview.length > 0 ? (
-            mRecords?.monthly_sale_overview.map((record, index) => {
+          {mRecords?.data?.length > 0 ? (
+            mRecords?.data.map((record, index) => {
               return (
                 <tr key={record?.id} className=" ">
                   <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -241,7 +242,7 @@ const Monthly = () => {
               Total Days
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?.total_days}
+              {mRecords?.data.length}
             </p>
           </div>
           <div
@@ -251,7 +252,7 @@ const Monthly = () => {
               Total Vouchers
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?.total_vouchers}
+              {mRecords?.total?.total_voucher}
             </p>
           </div>
 
@@ -262,7 +263,7 @@ const Monthly = () => {
               Total Cash
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?.total_cash}
+              {mRecords?.total?Math.round(mRecords?.total?.total_cash):''}
             </p>
           </div>
           <div
@@ -272,7 +273,7 @@ const Monthly = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?Math.round(mRecords?.total_tax):null}
+              {mRecords?.total?Math.round(mRecords?.total?.total_tax):null}
             </p>
           </div>
           <div
@@ -282,7 +283,7 @@ const Monthly = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {mRecords?Math.round(mRecords?.total):null}
+              {mRecords?.total?Math.round(mRecords?.total?.total):null}
             </p>
           </div>
         </div>
@@ -303,7 +304,7 @@ const Monthly = () => {
               variant="default"
               className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
             >
-              page {mRecords?.current_page} / {mRecords?.last_page}
+              page {mRecords?.meta?.current_page} / {mRecords?.meta?.last_page}
             </Button>
 
             <Button
