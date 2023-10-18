@@ -177,11 +177,11 @@ const Custom = () => {
               return (
                 <tr key={record?.id} className=" ">
                   <td className="px-1 text-center  py-4">{index + 1}</td>
-                  <td className="px-1 text-end py-4">{record?.voucher}</td>
+                  <td className="px-1 text-end py-4">{record?.voucher_number}</td>
                   <td className="px-1 text-end py-4">{record?.cash}</td>
                   <td className="px-1 py-4 text-end">{record?.tax}</td>
                   <td className="px-1 py-4 text-end">{record?.total}</td>
-                  <td className="px-1 py-4 text-end"></td>
+                  <td className="px-1 py-4 text-end">{record?.created_at}</td>
                   <td className=" px-1 py-4 text-end">{record?.time}</td>
               
                 </tr>

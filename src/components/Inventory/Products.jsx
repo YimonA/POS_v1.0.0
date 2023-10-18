@@ -89,7 +89,7 @@ const Products = () => {
             Sort:
           </label>
           <select
-            placeholder="Export"
+            placeholder="Sort"
             name="sort"
             value={sortValue}
             onChange={(e) => setSortValue(e.target.value)}

@@ -145,8 +145,8 @@ const Daily = () => {
             dRecords?.data?.map((dRecord, index) => {
               return (
                 <tr key={dRecord?.id}>
-                  <td className="px-1 text-center  py-4">{index}</td>
-                  <td className="px-1 text-end py-4">{dRecord?.voucher}</td>
+                  <td className="px-1 text-center  py-4">{index+1}</td>
+                  <td className="px-1 text-end py-4">{dRecord?.voucher_number}</td>
                   <td className="px-1 text-end py-4">{dRecord?.cash}</td>
                   <td className="px-1 py-4 text-end">{dRecord?.tax}</td>
                   <td className="px-1 py-4 text-end">{dRecord?.total}</td>
