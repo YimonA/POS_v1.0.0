@@ -57,11 +57,11 @@ const SaleReport = () => {
   // console.log("pdata", pdata?.productInfo);
   // console.log("wddata", mdata);
   // console.log("ydata", ydata);
-  console.log("mata", mdata);
+  //console.log("mata", mdata);
   // console.log("tdata", tdata);
   // console.log("bdata", bdata);
-  console.log("monthlyData", monthlyData);
-  // console.log("yearlyData", yearlyData);
+  //console.log("monthlyData", monthlyData);
+  //console.log("yearlyData", yearlyData);
 
   useEffect(() => {
     fetchData();
@@ -157,7 +157,7 @@ const SaleReport = () => {
 
       {/* sale week start */}
       <div className=" flex items-stretch gap-5">
-        <div className="basis-1/3 border-[1px] border-[var(--border-color)] p-5 flex flex-col gap-3 rounded-[3px]">
+        <div className="basis-3/12 border-[1px] border-[var(--border-color)] p-5 flex flex-col gap-3 rounded-[3px]">
           <span className=" text-[20px] font-medium text-[var(--secondary-color)] flex justify-between items-center mb-3">
             Today Sales
             <BsThreeDotsVertical
@@ -206,7 +206,7 @@ const SaleReport = () => {
         </div>
         {/* weekly sale */}
         {show === "weekly" ? (
-          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+          <div className="basis-9/12 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
             <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
               Weekly Sales
             </p>
@@ -214,10 +214,10 @@ const SaleReport = () => {
               Total {weeklyData?.weekly_sale_total} k Sales
             </p>
             <div className="flex items-stretch gap-3">
-              <div className="basis-3/5">
+              <div className="basis-9/12">
                 <SaleTinyBarChart wdata={wdata?.weekly_sale} tag={show} />
               </div>
-              <div className="basis-2/5 flex flex-col gap-5">
+              <div className="basis-3/12 flex flex-col gap-5">
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
                     {weeklyData?.weekly_highest_sale?.sale_date.substring(0, 2)}
@@ -305,7 +305,7 @@ const SaleReport = () => {
 
         {/* monthly sale */}
         {show === "monthly" ? (
-          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+          <div className="basis-9/12 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
             <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
               Monthly Sales
             </p>
@@ -313,10 +313,10 @@ const SaleReport = () => {
               Total {monthlyData?.monthly_sale_total.toFixed(2)} k Sales
             </p>
             <div className="flex items-stretch gap-3">
-              <div className="basis-3/5">
+              <div className="basis-9/12">
                 <SaleTinyBarChart wdata={mdata?.monthly_sale} tag={show} />
               </div>
-              <div className="basis-2/5 flex flex-col gap-5">
+              <div className="basis-3/12 flex flex-col gap-5">
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
                     {monthlyData?.monthly_highest_sale?.sale_date.substring(0,2)}
@@ -405,21 +405,21 @@ const SaleReport = () => {
 
         {/* yearly sale */}
         {show === "yearly" ? (
-          <div className="basis-2/3 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
+          <div className="basis-9/12 border-[1px] border-[var(--border-color)] p-5 rounded-[3px]">
             <p className=" text-[20px] font-medium text-[var(--secondary-color)] mb-3">
               Yearly Sales
             </p>
             <p className=" text-[14px] font-normal text-[var(--gray-color)]  mb-3">
-              Total {yearlyData?.TotalMonthlySalesAmount.toFixed(2)} k Sales
+              Total {yearlyData?.yearly_sale_total.toFixed(2)} k Sales
             </p>
             <div className="flex items-stretch gap-3">
-              <div className="basis-3/5">
-                <SaleTinyBarChart wdata={ydata?.monthly_sales} tag={show} />
+              <div className="basis-9/12">
+                <SaleTinyBarChart wdata={ydata?.yearly_sale} tag={show} />
               </div>
-              <div className="basis-2/5 flex flex-col gap-5">
+              <div className="basis-3/12 flex flex-col gap-5">
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] text-[var(--secondary-color)] flex justify-center items-center rounded-[5px]">
-                    {yearlyData?.MonthlyHighestSale[0]?.highest_sale_month}
+                    {yearlyData?.yearly_highest_sale?.sale_date.substring(0,2)}
                   </p>
                   <div className="px-3">
                     <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
@@ -429,13 +429,16 @@ const SaleReport = () => {
                         size={"1.3rem"}
                       />
                       <span className=" text-green-500">
-                        {yearlyData?.MonthlyHighestSale[0]?.percentage}
+                        {yearlyData?.yearly_highest_percentage}
                       </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {yearlyData?.yearly_highest_sale?.sale_date}
                     </p>
                   </div>
                   <div className="ms-auto">
                     <p className=" text-white text-[14px] font-semibold">
-                      {yearlyData?.MonthlyHighestSale[0]?.highest_sale}
+                      {yearlyData?.yearly_highest_sale?.total}
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                       kyats
@@ -457,7 +460,7 @@ const SaleReport = () => {
                   </div>
                   <div className="ms-auto">
                     <p className=" text-white text-[14px] font-semibold">
-                      {yearlyData?.MonthlyAverageAmount.toFixed(2)}
+                      {yearlyData?.average.toFixed(2)}
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                       kyats
@@ -466,7 +469,7 @@ const SaleReport = () => {
                 </div>
                 <div className=" flex justify-center gap-2">
                   <p className=" w-12 h-12 border-[1px] border-[var(--border-color)] flex justify-center items-center text-[var(--secondary-color)] rounded-[5px]">
-                    {yearlyData?.MonthlyLowestSale[0]?.lowest_sale_month}
+                    {yearlyData?.yearly_lowest_sale?.sale_date.substring(0,2)}
                   </p>
                   <div className="px-3">
                     <p className=" text-white text-[14px] font-semibold flex items-center gap-5">
@@ -476,13 +479,16 @@ const SaleReport = () => {
                         size={"1.3rem"}
                       />
                       <span className=" text-red-500">
-                        {yearlyData?.MonthlyLowestSale[0]?.percentage}
+                        {yearlyData?.yearly_lowest_percentage}
                       </span>
+                    </p>
+                    <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
+                      {yearlyData?.yearly_lowest_sale?.sale_date}
                     </p>
                   </div>
                   <div className="ms-auto">
                     <p className=" text-white text-[14px] font-semibold">
-                      {yearlyData?.MonthlyLowestSale[0]?.lowest_sale.toFixed(2)}
+                      {yearlyData?.yearly_lowest_sale?.total.toFixed(2)}
                     </p>
                     <p className=" text-[var(--secondary-color)] font-normal text-[12px]">
                       kyats

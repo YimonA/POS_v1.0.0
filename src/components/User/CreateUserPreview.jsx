@@ -46,13 +46,13 @@ const CreateUserPreview = () => {
       phone_number: uPhone,
       address: uAddress,
       gender: uGender,
-      date_of_birth: new Date(uDOB).toISOString().slice(0, 10),
+      date_of_birth: new Date(uDOB).toLocaleDateString("es-CL"),
       role: uPosition,
       photo: uPhoto,
       password_confirmation: uConfirmPassword,
     };
     const data = await createUser({ user, token });
-    // console.log("dddd",data);
+    console.log("dddd",data);
     // console.log("dddd",data?.data?.message);
 
     // console.log("name", user);
@@ -105,7 +105,7 @@ const CreateUserPreview = () => {
               </p>
               <p className=" font-medium text-[18px] text-white">: {uGender}</p>
               <p className=" font-medium text-[18px] text-white">
-              : {uDOB?uDOB.toISOString().substring(0, 10):null}
+              : {uDOB?uDOB.toLocaleDateString("es-CL"):null}
               </p>
               <p className=" font-medium text-[18px] text-white">
                 : {uPosition}

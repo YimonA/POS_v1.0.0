@@ -32,18 +32,6 @@ const Yearly = () => {
     fetchYearData();
   }, []);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "table2excel.js";
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   const fetchData = async (year) => {
     const { data } = await axios({
       method: "get",
@@ -52,8 +40,9 @@ const Yearly = () => {
       responseType: "financeData",
     });
     const ydata = JSON.parse(data);
+    console.log('ydata',ydata)
     setYRecords(ydata);
-    setYearTag(ydata.yearly_sale_overviews[0].year);
+    setYearTag(year);
   };
 
   const fetchYearData = async () => {
@@ -91,15 +80,6 @@ const Yearly = () => {
     }
   };
 
-  const exportHandler = (value) => {
-    setExportValue(value);
-    console.log("ev", exportValue);
-    if (exportValue === "Excel") {
-    } else if (exportValue === "print") {
-      window.print();
-    } else if (exportValue === "PDF") {
-    }
-  };
   return (
     <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
       {/* Breadcrumg start */}
@@ -182,19 +162,9 @@ const Yearly = () => {
           </button>
         </div>
       </div>
-      {/* showList start */}
-      {/* <DownloadTableExcel
-        filename="users table"
-        sheet="users"
-        currentTableRef={tableRef.current}
-      >
-        <button> Export excel </button>
-      </DownloadTableExcel> */}
 
       <table
         className="pdf_container w-full text-gray-300 border border-gray-700 text-sm mb-20 daily-table"
-        // ref={ref}  
-        // tblref={tableRef}
       >
         <thead>
           <tr className="">
@@ -223,8 +193,8 @@ const Yearly = () => {
         </thead>
 
         <tbody>
-          {yRecords?.yearly_sale_overviews?.data.length > 0 ? (
-            yRecords?.yearly_sale_overviews?.data?.map((record, index) => {
+          {yRecords?.length > 0 ? (
+            yRecords?.map((record, index) => {
               return (
                 <tr key={record?.id} className=" ">
                   <td className="px-1 text-center  py-4">{index + 1}</td>
@@ -247,13 +217,7 @@ const Yearly = () => {
             </tr>
           )}
         </tbody>
-        {/* <ReactTOPdf targetRef={ref}>
-          {({ toPdf }) => (
-            <button onClick={toPdf} className="get_started">
-              Download
-            </button>
-          )}
-        </ReactTOPdf> */}
+      
       </table>
       {/* showList end */}
 
@@ -310,14 +274,14 @@ const Yearly = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?Math.round(yRecords?.yearly_total_sale_overview?.total):null}
+              {yRecords?.yearly_total_sale_overview?Math.round(yRecords?.yearly_total_sale_overview?.total):""}
             </p>
           </div>
         </div>
         {/* total calculate end*/}
 
         {/* pagination start*/}
-        <div>
+        {/* <div>
           <Button.Group className=" pt-10 flex justify-end">
             <Button
               onClick={prev}
@@ -344,7 +308,7 @@ const Yearly = () => {
               <MdArrowForwardIos />
             </Button>
           </Button.Group>
-        </div>
+        </div> */}
         {/* pagination end*/}
       </div>
     </div>
