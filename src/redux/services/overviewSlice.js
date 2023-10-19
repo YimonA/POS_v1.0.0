@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     oData: null,
+    oRecords:null,
 };
 
 export const overviewSlice = createSlice({
@@ -11,8 +12,11 @@ export const overviewSlice = createSlice({
     addOverview: (state, { payload }) => {
       state.oData = payload.oData;
     },
+    addORecords: (state, { payload }) => {
+      state.oRecords = payload;
+    },
   },
 });
 
-export const { addOverview } = overviewSlice.actions;
+export const { addOverview,addORecords } = overviewSlice.actions;
 export default overviewSlice.reducer;

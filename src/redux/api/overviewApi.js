@@ -9,8 +9,8 @@ export const overviewApi = createApi({
 
   endpoints: (builder) => ({
     getOverview: builder.query({
-      query: (token) => ({
-        url: `/overview?year`,
+      query: ({token,show}) => ({
+        url: `/overview?${show}`,
         headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["overview"],

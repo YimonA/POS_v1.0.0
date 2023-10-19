@@ -8,35 +8,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import PropTypes from "prop-types";
-import { PureComponent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const SaleLineChart = ({ oData, tag }) => {
-  SaleLineChart.propTypes = {
-    oData: PropTypes.object,
-    tag: PropTypes.string,
-  };
+const SaleLineChart = ({ show }) => {
+  const [tag, setTag] = useState(show);
+  const oRecords = useSelector((state) => state?.overviewSlice.oRecords);
+
   const [data, setData] = useState();
-
   useEffect(() => {
-    graphHandler();
+    setData(oRecords);
   }, []);
+  //console.log("oRecords", oRecords);
 
   useEffect(() => {
-    graphHandler();
-  }, [tag]);
+    setData(oRecords);
+  }, [oRecords]);
 
-  function graphHandler() {
-    if (tag === "weekly") {
-      const data = oData?.total_sales;
-      setData(data);
-    } else if (tag === "monthly") {
-      const data = oData?.total_sales;
-      setData(data);
-    } else if (tag === "yearly") {
-      const data = oData?.total_sales;
-      setData(data);
-    }
-  }
+  useEffect(() => {
+    setTag(show);
+  }, [show]);
+  console.log("show", tag);
 
   return (
     <div style={{ width: "100%" }} className=" w-full">
@@ -54,19 +46,9 @@ const SaleLineChart = ({ oData, tag }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          {tag === "weeekly" ? (
-            <XAxis
-            // dataKey="sale_date"
-            />
-          ) : tag === "monthly" ? (
-            <XAxis
-            // dataKey='sale_date'
-            />
-          ) : tag === "yearly" ? (
-            <XAxis
-            // dataKey="sale_date"
-            />
-          ) : null}
+     
+          {tag === "year" || tag==='week' ? <XAxis dataKey="sale_date" /> : <XAxis />}
+
           <YAxis dataKey="total" />
           <Tooltip />
           <Line
