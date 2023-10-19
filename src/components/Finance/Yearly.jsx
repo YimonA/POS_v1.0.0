@@ -24,7 +24,7 @@ const Yearly = () => {
   // const [year, setYear] = useState(new Date().getFullYear());
   const [yRecords, setYRecords] = useState();
   const [yearTag, setYearTag] = useState(null);
-  const [exportValue, setExportValue] = useState();
+  // const [exportValue, setExportValue] = useState();
 
   // const tableRef = useRef(null);
 
@@ -67,17 +67,6 @@ const Yearly = () => {
     const ydata = JSON.parse(data);
     setYRecords(ydata);
     setYearTag(ydata.yearly_sale_overviews[0].year);
-  };
-
-  const next = () => {
-    if (yRecords?.next_page_url) {
-      pageChange(yRecords?.next_page_url);
-    }
-  };
-  const prev = () => {
-    if (yRecords?.prev_page_url) {
-      pageChange(yRecords?.prev_page_url);
-    }
   };
 
   return (
@@ -193,13 +182,13 @@ const Yearly = () => {
         </thead>
 
         <tbody>
-          {yRecords?.length > 0 ? (
-            yRecords?.map((record, index) => {
+          {yRecords?.data?.length > 0 ? (
+            yRecords?.data?.map((record, index) => {
               return (
                 <tr key={record?.id} className=" ">
                   <td className="px-1 text-center  py-4">{index + 1}</td>
                   <td className="px-1 text-end py-4">
-                    {record?.total_vouchers}
+                    {record?.vouchers}
                   </td>
                   <td className="px-1 text-end py-4">{record?.total_cash}</td>
                   <td className="px-1 py-4 text-end">{record?.total_tax}</td>
@@ -231,7 +220,7 @@ const Yearly = () => {
               Total Months
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total_month}
+              {yRecords?.data?.length}
             </p>
           </div>
           <div
@@ -241,7 +230,7 @@ const Yearly = () => {
               Total Voucher
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total_vouchers}
+              {yRecords?.total?.total_voucher}
             </p>
           </div>
 
@@ -252,7 +241,7 @@ const Yearly = () => {
               Total Cash
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total_cash}
+              {yRecords?.total?.total_cash}
             </p>
           </div>
           <div
@@ -262,8 +251,8 @@ const Yearly = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?.total_tax
-                ? Math.round(yRecords?.yearly_total_sale_overview?.total_tax)
+              {yRecords?.total?.total_tax
+                ? Math.round(yRecords?.total?.total_tax)
                 : null}
             </p>
           </div>
@@ -274,42 +263,12 @@ const Yearly = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {yRecords?.yearly_total_sale_overview?Math.round(yRecords?.yearly_total_sale_overview?.total):""}
+              {yRecords?.total?Math.round(yRecords?.total?.total):""}
             </p>
           </div>
         </div>
         {/* total calculate end*/}
 
-        {/* pagination start*/}
-        {/* <div>
-          <Button.Group className=" pt-10 flex justify-end">
-            <Button
-              onClick={prev}
-              variant="default"
-              className={`
-                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-            >
-              <MdArrowBackIosNew />
-            </Button>
-            <Button
-              variant="default"
-              className={`text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-            >
-              page {yRecords?.yearly_sale_overviews?.current_page} /{" "}
-              {yRecords?.yearly_sale_overviews?.last_page}
-            </Button>
-
-            <Button
-              onClick={next}
-              variant="default"
-              className={`
-                 text-[--secondary-color] hover:text-[--font-color] hover:bg-transparent`}
-            >
-              <MdArrowForwardIos />
-            </Button>
-          </Button.Group>
-        </div> */}
-        {/* pagination end*/}
       </div>
     </div>
   );

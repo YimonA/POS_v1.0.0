@@ -8,12 +8,11 @@ import ModalSaleClose from "./ModalSaleClose";
 import Modal from "./Modal";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const TodaySaleOverview = () => {
   const token = Cookies.get("token");
   const { showModal, setShowModal, sidebarActived } = useContextCustom();
-  const [sortValue, setSortValue] = useState();
+  // const [sortValue, setSortValue] = useState();
   const [vouchers, setVouchers] = useState();
 
   useEffect(() => {
