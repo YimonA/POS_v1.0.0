@@ -17,15 +17,16 @@ import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import TodaySaleOverview from "./TodaySaleOverview";
 import { useGetOverviewQuery } from "../redux/api/overviewApi";
-import { addOverview } from "../redux/services/overviewSlice";
+import { addORecords, addOverview } from "../redux/services/overviewSlice";
 
 const Home = () => {
-  const [show, setShow] = useState("monthly");
+  const [show, setShow] = useState("month");
   const { liHandler } = useContextCustom();
   const token = Cookies.get("token");
-  const { data: overviewData } = useGetOverviewQuery(token);
+  const { data: overviewData, refetch } = useGetOverviewQuery({ token, show });
   const { data } = useGetPhotoQuery(token);
   const oData = useSelector((state) => state?.overviewSlice.oData);
+  const oRecords = useSelector((state) => state?.overviewSlice.oRecords);
 
   // console.log("photos", data);
   // console.log("overviewData", overviewData);
@@ -36,8 +37,13 @@ const Home = () => {
   }, [data]);
 
   useEffect(() => {
+    refetch();
+  }, [show]);
+
+  useEffect(() => {
     dispatch(addOverview({ oData: overviewData }));
-    // console.log("oData", oData);
+    dispatch(addORecords( overviewData?.total_sales));
+    console.log("{oRecords?.total_sales", oRecords);
   }, [overviewData]);
 
   return (
@@ -145,16 +151,16 @@ const Home = () => {
         <div className=" basis-9/12 ">
           {/* Breadcrumb start */}
           <div className="flex justify-between items-center  mb-10 rounded-[3px]">
-            <p className="breadcrumb-title w-fit">Monthly Sales</p>
+            <p className="breadcrumb-title w-fit">{show.toUpperCase()} Sales</p>
 
             {/* btn group start */}
 
             <Button.Group className=" border-[--border-color] flex justify-end basis-1/3">
               <Button
-                onClick={() => setShow("yearly")}
+                onClick={() => setShow("year")}
                 variant="default"
                 className={`${
-                  show === "yearly"
+                  show === "year"
                     ? " text-[--font-color]"
                     : " text-[--secondary-color]"
                 } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
@@ -162,10 +168,10 @@ const Home = () => {
                 Year
               </Button>
               <Button
-                onClick={() => setShow("monthly")}
+                onClick={() => setShow("month")}
                 variant="default"
                 className={`${
-                  show === "monthly"
+                  show === "month"
                     ? " text-[--font-color]"
                     : " text-[--secondary-color]"
                 } hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
@@ -173,10 +179,10 @@ const Home = () => {
                 Month
               </Button>
               <Button
-                onClick={() => setShow("weekly")}
+                onClick={() => setShow("week")}
                 variant="default"
                 className={`${
-                  show === "weekly"
+                  show === "week"
                     ? " text-[--font-color]"
                     : " text-[--secondary-color]"
                 }  text-[--font-color] hover:text-[--font-color] hover:bg-transparent rounded-[5px]`}
@@ -187,7 +193,7 @@ const Home = () => {
             {/* btn group end */}
           </div>
           {/* Breadcrumgbend */}
-          <SaleLineChart oData={oData} tag={show} />
+          <SaleLineChart show={show}/>
         </div>
         <div className=" basis-3/12 px-5">
           <p className=" text-[24px] text-[var(--secondary-color)] mb-3">
@@ -230,9 +236,8 @@ const Home = () => {
             />
             <div>
               <p className="font-normal text-[16px] text-[var(--secondary-color)]">
-              {oData?.total_expense
-                  ? Math.round(oData?.total_expense)
-                  : ""}{" "}              </p>
+                {oData?.total_expense ? Math.round(oData?.total_expense) : ""}{" "}
+              </p>
               <p className="font-normal text-[12px] text-[var(--gray-color)]">
                 Total Expense
               </p>
