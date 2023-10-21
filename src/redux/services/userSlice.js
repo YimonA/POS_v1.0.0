@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const initialState = {
   searchTerm: "",
@@ -24,6 +23,7 @@ export const userSlice = createSlice({
   reducers: {
     addUsers: (state, { payload }) => {
       state.users = payload;
+      // Cookies.set("users", JSON.stringify(state.users));
     },
     addSingleUser: (state, { payload }) => {
       state.singleUser = payload;

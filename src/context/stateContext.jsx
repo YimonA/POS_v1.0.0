@@ -78,7 +78,7 @@ const[addBrandPhoto,setAddBrandPhoto]=useState();
     uName,setUName,uDOB,setUDOB,uGender,setUGender,uAddress,setUAddress,uPosition,setUPosition,uEmail,setUEmail,uPhone,setUPhone,uPassword,setUPassword,uConfirmPassword,setUConfirmPassword,uPhoto,setUPhoto,
 
     showBrandAdd,setShowBrandAdd,showBrandModal,setShowBrandModal,
-    // brandPgNum,setBrandPgNum
+
     addBrandPhoto,setAddBrandPhoto,editBrandPhoto,setEditBrandPhoto,
 
     stockProductID,setStockProductID,
