@@ -1,33 +1,19 @@
-import React, { useRef } from "react";
-
 import { Link } from "react-router-dom";
 import { useContextCustom } from "../../context/stateContext";
 import { BsSearch } from "react-icons/bs";
 import { useState } from "react";
-import { Button } from "@mantine/core";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useEffect } from "react";
-
-// import ReactTOPdf from "react-to-pdf";
-// import { DownloadTableExcel } from "react-export-table-to-excel";
-
-// const ref = React.createRef();
 
 const Yearly = () => {
   const token = Cookies.get("token");
   const { liHandler } = useContextCustom();
   const [year, setYear] = useState(null);
   const [allYear, setAllYear] = useState();
-  // const [year, setYear] = useState(new Date().getFullYear());
   const [yRecords, setYRecords] = useState();
   const [yearTag, setYearTag] = useState(null);
-  // const [exportValue, setExportValue] = useState();
-
-  // const tableRef = useRef(null);
-
+  
   useEffect(() => {
     fetchYearData();
   }, []);
@@ -54,19 +40,6 @@ const Yearly = () => {
     });
     const ydata = JSON.parse(data);
     setAllYear(ydata);
-  };
-
-  const pageChange = async (link) => {
-    const { data } = await axios({
-      method: "get",
-      url: link,
-      headers: { authorization: `Bearer ${token}` },
-      responseType: "finance",
-    });
-    // const dd=await data.json();
-    const ydata = JSON.parse(data);
-    setYRecords(ydata);
-    setYearTag(ydata.yearly_sale_overviews[0].year);
   };
 
   return (
@@ -96,31 +69,6 @@ const Yearly = () => {
         </p>
         <div className=" flex items-baseline gap-4">
           <div className=" flex justify-start items-baseline gap-2">
-            {/* <button
-              onClick={exportHandler}
-              className="w-[100px] h-[30px] font-semibold text-[16px] myBlueBtn flex justify-center items-center"
-            >
-              Export
-            </button>
-            <select
-              name="sort"
-              value={exportValue}
-              onChange={(e) => setExportValue(e.target.value)}
-              className="recent-dropdown "
-            >
-              <option value="" className="recent-dropdown hidden">
-                Export
-              </option>
-              <option value="PDF" className="recent-dropdown">
-                PDF
-              </option>
-              <option value="print" className="recent-dropdown">
-                Print
-              </option>
-              <option value="Excel" className="recent-dropdown">
-                Excel
-              </option>
-            </select> */}
           </div>
           <div className=" flex justify-start items-baseline gap-2">
             <select
@@ -212,7 +160,7 @@ const Yearly = () => {
 
       <div className="w-full flex justify-between items-end h-[60px] gap-5">
         {/* total calculate start*/}
-        <div className=" flex justify-start items-center basis-2/3">
+        <div className=" flex justify-start items-center basis-9/12">
           <div
             className={`text-[var(--secondary-color)] btn-border-table-grid px-5 py-3 flex flex-col justify-end basis-1/4`}
           >

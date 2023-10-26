@@ -42,8 +42,8 @@ const MyAccount = () => {
       password: changePassword,
       password_confirmation: confirmPassword,
     };
-    // console.log("pw", newData);
-    changeProfilePW({ newData, token });
+    const res=changeProfilePW({ newData, token });
+    console.log("res", res);
     logoutHandler();
   };
   return (

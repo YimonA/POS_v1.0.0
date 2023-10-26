@@ -51,7 +51,7 @@ const Login = () => {
               try {
                 const data = await login(values);
                 // console.log(data?.data?.user?.id);
-                // console.log(data);
+                console.log(data);
 
                 dispatch(addUser({user: data?.data?.user, token: data?.data?.token }));
                 setUID(data?.data?.user?.id)

@@ -10,9 +10,9 @@ const Dashboard = ({ view }) => {
   };
   return (
     <Routeguard>
-      <div className=" container-fluid min-h-screen bg-[--base-color]">
+      <div className=" container-fluid min-h-screen bg-[var(--base-color)]">
         <Navbar />
-        <div className=" h-full bg-[--sidebar-color] flex justify-start items-stretch">
+        <div className=" min-h-full bg-[var(--sidebar-color)] flex items-stretch">
           <Sidebar />
           {view}
         </div>

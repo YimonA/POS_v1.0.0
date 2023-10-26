@@ -30,8 +30,52 @@ const Cashier = () => {
     (state) => state.cashierSlice
   );
   const user = useSelector((state) => state.authSlice.user);
+  const sampleData = [
+    {
+      id: 3,
+      name: "nisi",
+      actual_price: 275,
+      sale_price: 325,
+      total_stock: 383,
+      brand_name: "iste",
+      unit: "dozen",
+      more_information:
+        "Quas non ad quas aspernatur ducimus eos cupiditate et. Sapiente et et officiis incidunt. Aut consectetur quo nihil.",
+      photo: null,
+      create_at: "19-10-23",
+      update_at: "19-10-23",
+    },
+    {
+      id: 4,
+      name: "consequatur",
+      actual_price: 976,
+      sale_price: 1026,
+      total_stock: 318,
+      brand_name: "velit",
+      unit: "single",
+      more_information:
+        "Dignissimos aliquid vero tenetur quisquam. Qui culpa ut nostrum omnis et sunt quia. Accusantium id modi quia veritatis repudiandae accusamus sed. Odio dolorum non voluptate enim.",
+      photo: null,
+      create_at: "19-10-23",
+      update_at: "19-10-23",
+    },
+    {
+      id: 5,
+      name: "omnis",
+      actual_price: 396,
+      sale_price: 446,
+      total_stock: 363,
+      brand_name: "quo",
+      unit: "single",
+      more_information:
+        "Nulla quas quo laborum. Necessitatibus cupiditate esse fuga illum repellat qui. Officia natus pariatur quo ut unde rerum. Odio in quia maiores porro illum debitis voluptatem architecto.",
+      photo: null,
+      create_at: "19-10-23",
+      update_at: "19-10-23",
+    },
+  ];
+  console.log("sampleData",sampleData);
 
-  // console.log("cartItems", cartItems);
   // console.log("currentItem", currentItem);
   // console.log("currentQty", currentQty);
   // console.log("totalCost", totalCost);
@@ -163,6 +207,35 @@ const Cashier = () => {
                   );
                 })
               )}
+
+              {sampleData?.map((product) => {
+                  return (
+                    <div
+                      key={product?.id}
+                      onClick={() => cartItemsHandler(product)}
+                      className="w-[170px] h-[200px] flex flex-col border-[1px] border-[var(--border-color)] rounded-[5px] cursor-pointer"
+                    >
+                      <img
+                        // src={product?.photo}
+                        src={`https://h.mmsdev.site/storage/photos/FR9QfU5OmbZlybJUSXFZjaipeVZqxBU7Cr3CKiyw.jpg`}
+                        className="w-[170px] h-[120px] object-cover object-center"
+                        alt=""
+                      />
+                      <div className=" pt-2">
+                        <p className=" text-[14px] text-[var(--secondary-color)] px-5 font-normal text-right">
+                          {product?.name}
+                        </p>
+                        <p className=" text-[14px] text-white opacity-70 px-5 font-normal text-right">
+                          {product?.sale_price} Ks
+                        </p>
+                        <p className=" text-[14px] text-red-500 opacity-70 px-5 font-bold text-right">
+                          {product?.total_stock <= 0 ? "Out of Stock" : ""}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              }
               {/* product card end*/}
             </div>
           </div>

@@ -13,6 +13,8 @@
   --border-color: #3f4245;
   --logo-font: "Genos", sans-serif;
   --base-font: "Montserrat", serif;
+  --min-height: calc(100vh - 45px);
+
 }
 
 .get-h{

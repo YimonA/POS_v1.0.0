@@ -102,7 +102,6 @@ const Brand = () => {
       </div>
       {/* <Breadcrumb breadcrumbItems={breadcrumbItems} /> */}
       <p className="breadcrumb-title mb-5">Brands Overview</p>
-
       <div className=" flex justify-between items-center mb-[30px]">
         <div className="basis-1/3 h-[34px] border-gray-700 rounded border flex items-center px-2 py-1">
           <BsSearch className=" text-gray-400 me-3" />
@@ -306,11 +305,9 @@ const Brand = () => {
         </Button.Group>
       </div>
       {/* pagination end*/}
-
       {/* add brand start */}
       <BrandAdd />
       {/* add brand end */}
-
       {/* modal */}
       {showBrandModal === "image" ? (
         <Modal title={"Select Brand Image"} modalView={<AddBrandSelectImg />} />

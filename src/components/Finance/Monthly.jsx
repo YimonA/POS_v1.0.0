@@ -87,7 +87,7 @@ const Monthly = () => {
   };
 
   return (
-    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
+    <div className={`container mx-auto py-4 px-5 bg-[--base-color] pb-20`}>
       {/* Breadcrumg start */}
       <div className=" flex justify-between items-center mb-10">
         <div>
@@ -216,7 +216,7 @@ const Monthly = () => {
                   <td className="px-1 text-end py-4">{record?.vouchers}</td>
                   <td className="px-1 text-end py-4">{record?.cash}</td>
                   <td className="px-1 py-4 text-end">{record?.tax}</td>
-                  <td className="px-1 py-4 text-end">{record?.total}</td>
+                  <td className="px-1 py-4 text-end">{record?.total?Math.round(record?.total):''}</td>
                   <td className="px-1 py-4 text-end">{record?.date}</td>
                 </tr>
               );
@@ -234,7 +234,7 @@ const Monthly = () => {
 
       <div className="w-full flex justify-between items-end h-[60px] gap-5">
         {/* total calculate start*/}
-        <div className=" flex justify-start items-center basis-2/3">
+        <div className=" flex justify-start items-center basis-9/12">
           <div
             className={`text-[var(--secondary-color)] btn-border-table-grid px-5 py-3 flex flex-col justify-end basis-1/4`}
           >

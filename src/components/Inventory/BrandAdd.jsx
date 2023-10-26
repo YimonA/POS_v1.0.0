@@ -3,7 +3,6 @@ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { AiOutlineClose } from "react-icons/ai";
 import Cookies from "js-cookie";
-import { addBrands } from "../../redux/services/logoSlice";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useCreateBrandMutation } from "../../redux/api/logoApi";
@@ -12,7 +11,7 @@ import { Loader } from "@mantine/core";
 
 const BrandAdd = () => {
   const token = Cookies.get("token");
-  const [createBrand,{isLoading}] = useCreateBrandMutation();
+  const [createBrand, { isLoading }] = useCreateBrandMutation();
   const {
     showBrandAdd,
     setShowBrandAdd,
@@ -31,31 +30,31 @@ const BrandAdd = () => {
 
   const createBrandHandler = async (e) => {
     e.preventDefault();
-    try{
-    const newBrand = {
-      name: brandName,
-      company: companyName,
-      user_id: userID,
-      agent: agentName,
-      phone_no: phoneNo,
-      photo: addBrandPhoto,
-      description: desc,
-    };
-    const response = await createBrand({ newBrand, token });
-    console.log("response", response);
-    setShowBrandAdd(false);
-    setBrandName();
-    setCompanyName();
-    setDesc();
-    setAgentName();
-    setPhoneNo();
-    setAddBrandPhoto();
-    nav("/brand");
+    try {
+      const newBrand = {
+        name: brandName,
+        company: companyName,
+        user_id: userID,
+        agent: agentName,
+        phone_no: phoneNo,
+        photo: addBrandPhoto,
+        description: desc,
+      };
+      const response = await createBrand({ newBrand, token });
+      console.log("response", response);
+      setShowBrandAdd(false);
+      setBrandName();
+      setCompanyName();
+      setDesc();
+      setAgentName();
+      setPhoneNo();
+      setAddBrandPhoto();
+      nav("/brand");
 
-    setShowModal(true);
-  }catch(err){
-    console.log('err',err)
-  }
+      setShowModal(true);
+    } catch (err) {
+      console.log("err", err);
+    }
   };
 
   const showImgHandler = () => {
@@ -70,7 +69,7 @@ const BrandAdd = () => {
   return (
     <div className={`${showBrandAdd ? "" : "delay-[3000ms] hidden"}`}>
       <div
-        className={`sidebar-height bg-[var(--base-color)] p-5 z-20 w-[320px] mt-[45px] absolute top-0 border-[3px] border-[var(--border-color)] ease-in-out duration-1000 ${
+        className={`h-full bg-[var(--base-color)] p-5 z-20 w-[320px] mt-[45px] absolute top-0 border-[3px] border-[var(--border-color)] ease-in-out duration-1000 ${
           showBrandAdd ? "right-0 " : "-right-[100%]"
         }`}
       >

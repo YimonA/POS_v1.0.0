@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useContextCustom } from "../../context/stateContext";
 import { Loader } from "@mantine/core";
+import { useSelector } from "react-redux";
 
 const StockEdit = () => {
   const [qty, setQty] = useState();
@@ -17,8 +18,6 @@ const StockEdit = () => {
   const { id } = useParams();
   const { data } = useGetSingleStocksQuery({ id, token });
 
-  // const userID = useSelector((state) => state.authSlice.user.id);
-  // console.log("id", UID);
   const nav = useNavigate();
   const [addStock, { isLoading }] = useAddStockMutation();
 
