@@ -47,7 +47,6 @@ import BrandEdit from "../components/Inventory/BrandEdit";
 
 const Path = () => {
   return (
-    <div>
       <Routes>
         {/* <Route
           path="/"
@@ -171,7 +170,6 @@ const Path = () => {
 
         <Route path="/login" element={<Login />} />
       </Routes>
-    </div>
   );
 };
 

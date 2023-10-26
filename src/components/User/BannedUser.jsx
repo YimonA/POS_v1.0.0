@@ -73,7 +73,7 @@ const BannedUser = () => {
   });
 
   return (
-    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20">
+    <div className="container mx-auto py-4 px-5 bg-[--base-color] pb-20 ">
       <div className=" flex justify-between items-center mb-5">
         <div>
           <p className="breadcrumb-title	">Banned Staff </p>
