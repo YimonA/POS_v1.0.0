@@ -54,7 +54,7 @@ const MyAccount = () => {
           <p className="breadcrumb-title	">Profile</p>
           <p className=" text-[14px] text-white opacity-70  select-none">
             Profile / My Account / Information
-          </p>{" "}
+          </p>
         </div>
         {/* <Link to={"/profile-edit"}>
           <button

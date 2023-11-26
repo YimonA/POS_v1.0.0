@@ -196,7 +196,7 @@ const TodaySaleOverview = () => {
               Total Tax
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {Math.floor(vouchers?.totalTax)}
+              {vouchers?.totalTax ? Math.floor(vouchers?.totalTax) :''}
             </p>
           </div>
           <div
@@ -206,7 +206,7 @@ const TodaySaleOverview = () => {
               Total
             </p>
             <p className=" text-[var(--secondary-color)] text-end text-[22px] font-semibold">
-              {Math.floor(vouchers?.total)}
+              {vouchers?.total ? Math.floor(vouchers?.total) :null}
             </p>
           </div>
         </div>
