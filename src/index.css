@@ -132,7 +132,7 @@ body {
     @apply rounded-[5px] border border-[#7E7F80];
   }
   .li-bg {
-    @apply h-[56px] py-2 bg-[var(--sidebar-color)] flex justify-start items-center px-5 select-none border-[1px] border-[--border-color];
+    @apply h-[56px] py-2 bg-[var(--sidebar-color)] flex justify-start items-center px-5 select-none border-[1px] border-[--border-color] transition duration-300 hover:bg-[var(--base-color)];
   }
   .li-bg:hover {
     background-color: var(--base-color);
@@ -157,7 +157,7 @@ body {
     @apply bg-[var(--font-color)] text-[var(--base-color)] border-[1px] border-[var(--border-color)] rounded-[5px];
   }
   .accordion-bg {
-    @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)] select-none;
+    @apply bg-[var(--sidebar-color)]  text-[var(--secondary-color)] transition duration-500 ease-in-out select-none;
   }
 
   .media-img {
